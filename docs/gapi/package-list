@@ -1,0 +1,6 @@
+DefaultPackage
+grails-app.conf
+grails-app.controllers
+grails-app.services.grails.plugin.pdf
+src.groovy.grails.plugin.pdf
+test.integration.grails.plugin.pdf
