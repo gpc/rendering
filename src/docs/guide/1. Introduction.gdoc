@@ -12,4 +12,4 @@ Or via the @renderPdf()@ method added to controllers ...
 renderPdf(template: "/pdfs/report", model: [report: reportObject], filename: reportObject.name)
 {code}
 
-The plugin is released under the "Apache License 2.0":http://www.apache.org/licenses/LICENSE-2.0.html .
+The plugin is released under the "Apache License 2.0":http://www.apache.org/licenses/LICENSE-2.0.html and was contributed to the Grails community by the good people at "Software Projects":http://sp.com.au/ .
