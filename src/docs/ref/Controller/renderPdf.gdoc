@@ -3,19 +3,26 @@ h1. renderPdf
 
 h2. Purpose
 
-
+Renders a GSP template as a PDF to the _response_ , setting the appropriate headers such as @ Content-Type: application/pdf @ .
 
 h2. Examples
 
 {code:java}
-foo.renderPdf(map)
+class MyController {
+    def report = {
+        def reportObject = reportService.getReport(params)
+        renderPdf(template: "/pdfs/report", model: [report: reportObject], filename: reportObject.name)
+    }
+}
 {code}
 
 h2. Description
 
+Parameters:
 
+* @template@ - The template to render
+* @model@ (optional) - The model to use in rendering
+* @plugin@ (optional) - The plug-in to look for the template in
+* @filename@ (optional) - if set, a @Content-Disposition@ header is sent with @"attachment; filename=$filename;"@, instructing the browser to download the file.
 
-Arguments:
-
-[* @map@
-]
+The rules for template resolution are the same as they are for the standard @render()@ method.

@@ -1,0 +1,20 @@
+There are a few things that you do need to be aware of when writing GSPs to be rendered as PDF.
+
+h3. Links must be absolute
+
+All links to resources (e.g. images, css) must be absolute and accessible by the application. This is due to the XHTML being parsed by the Flying Saucer library and not a browser, therefore relative links cannot be resolved.
+
+The standard Grails @resource@  and @createLink@ tags support creating absolute links by specifying @absolute: true@ .
+
+h3. Must be well formed
+
+The GSP must render to well formed, valid, XHTML. If it does not, a @grails.plugin.pdf.XmlParseException@ will be thrown.
+
+h3. Must declare DOCTYPE
+
+Without a doctype, you are likely to get parse failures due to unresolvable entity references. Be sure to declare the XHTML doctype at the start of your GSP like so ...
+
+{code:lang=xml}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{code}
