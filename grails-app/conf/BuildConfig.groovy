@@ -18,3 +18,5 @@ grails.project.dependency.resolution = {
 		}
 	}
 }
+
+grails.plugin.location.'pdf-plugin-test' = "plugins/pdf-plugin-test"
