@@ -6,7 +6,7 @@ import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 import org.codehaus.groovy.grails.commons.GrailsResourceUtils
 import org.codehaus.groovy.grails.commons.GrailsClassUtils as GCU
 
-import javax.xml.parsers.DocumentBuilderFactory
+import org.xhtmlrenderer.resource.XMLResource
 import org.xml.sax.InputSource
 
 import groovy.text.Template
@@ -34,13 +34,10 @@ class PdfRenderingService {
 		if (log.debugEnabled) {
 			log.debug("xhtml for $args -- \n ${xhtml}")
 		}
-
-		def builder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
-		def xhtmlInputSource = new InputSource(new StringReader(xhtml))
 		
 		def doc
 		try {
-			doc = builder.parse(xhtmlInputSource)
+			doc = XMLResource.load(new InputSource(new StringReader(xhtml))).document
 		} catch (Exception e) {
 			if (log.errorEnabled) {
 				log.error("xml parse exception for $xhtml", e)
