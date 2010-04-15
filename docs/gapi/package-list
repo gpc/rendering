@@ -4,6 +4,5 @@ grails-app.controllers
 grails-app.services.grails.plugin.pdf
 plugins.pdf-plugin-test
 plugins.pdf-plugin-test.grails-app.conf
-plugins.pdf-plugin-test.scripts
 src.groovy.grails.plugin.pdf
 test.integration.grails.plugin.pdf
