@@ -1,6 +1,6 @@
 class PdfGrailsPlugin {
 
-	def version = "0.4"
+	def version = "0.5-SNAPSHOT"
 	def grailsVersion = "1.2.0 > *"
 	def dependsOn = [:]
 	
