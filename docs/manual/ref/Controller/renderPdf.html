@@ -6,7 +6,17 @@
      </head>
 	<body class="body">
 		
-<h1>renderPdf</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/><p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>foo.renderPdf(map)</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/><p class="paragraph"/>Arguments:<p class="paragraph"/>* <code>map</code>
-
+<h1>renderPdf</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders a GSP template as a PDF to the <em class="italic">response</em> , setting the appropriate headers such as <code> Content-Type: application/pdf </code> .<p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>class MyController &#123;
+    def report = &#123;
+        def reportObject = reportService.getReport(params)
+        renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/>Parameters:
+<ul class="star">
+<li><code>template</code> - The template to render</li>
+<li><code>model</code> (optional) - The model to use in rendering</li>
+<li><code>plugin</code> (optional) - The plug-in to look for the template in</li>
+<li><code>filename</code> (optional) - if set, a <code>Content-Disposition</code> header is sent with <code>"attachment; filename=$filename;"</code>, instructing the browser to download the file.</li>
+</ul><p class="paragraph"/>The rules for template resolution are the same as they are for the standard <code>render()</code> method.
 	</body>
 </html>

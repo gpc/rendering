@@ -1,0 +1,11 @@
+<html>
+     <head>
+     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     	<title>2. Writing PDF GSPs</title>
+     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
+     </head>
+	<body class="body">
+		<h1><a name="2. Writing PDF GSPs">2. Writing PDF GSPs</a></h1>There are a few things that you do need to be aware of when writing GSPs to be rendered as PDF.<p class="paragraph"/><h3>Links must be absolute</h3><p class="paragraph"/>All links to resources (e.g. images, css) must be absolute and accessible by the application. This is due to the XHTML being parsed by the Flying Saucer library and not a browser, therefore relative links cannot be resolved.<p class="paragraph"/>The standard Grails <code>resource</code>  and <code>createLink</code> tags support creating absolute links by specifying <code>absolute: true</code> .<p class="paragraph"/><h3>Must be well formed</h3><p class="paragraph"/>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugin.pdf.XmlParseException</code> will be thrown.<p class="paragraph"/><h3>Must declare DOCTYPE</h3><p class="paragraph"/>Without a doctype, you are likely to get parse failures due to unresolvable entity references. Be sure to declare the XHTML doctype at the start of your GSP like so ...<p class="paragraph"/><div class="code"><pre>&#60;!DOCTYPE html PUBLIC <span class="java&#45;quote">"&#45;//W3C//DTD XHTML 1.0 Strict//EN"</span>
+ <span class="java&#45;quote">"http://www.w3.org/TR/xhtml1/DTD/xhtml1&#45;strict.dtd"</span>&#62;</pre></div>
+	</body>
+</html>
