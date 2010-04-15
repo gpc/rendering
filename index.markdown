@@ -1,4 +1,4 @@
 ---
 layout: main
-title: My Grails Plugin
+title: Grails PDF Plugin
 ---
