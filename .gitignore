@@ -2,3 +2,4 @@ target
 plugin.xml
 docs
 *.log
+*.zip
