@@ -18,11 +18,11 @@ class PdfGrailsPlugin {
 		"controllers"
 	]
 
-	def author = "Randall Dietz"
-	def authorEmail = "rdietz@sp.com.au"
+	def author = "Luke Daley & Randall Dietz "
+	def authorEmail = "ld@ldaley.com & rdietz@sp.com.au"
 	def title = "Grails PDF rendering"
-	def description = 'Add a renderPdf method to all controller classes'
-	def documentation = "http://doc.sp.com.au/plugin/pdf"
+	def description = 'Provides the ability to render GSPs as PDFs'
+	def documentation = "http://grails.org/plugin/pdf"
 
 	def addRenderPdf(pdfRenderingService, clazz) {
 		clazz.metaClass.renderPdf = { Map args ->
