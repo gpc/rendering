@@ -7,7 +7,7 @@ grails {
 		alias {
 			pdfRendering = "3. Rendering PDFs"
 			imageRendering = "4. Rendering Images"
-			renderingToHttpResponse = "5. Rendering To The HTTP response"
+			renderingToTheHttpResponse = "5. Rendering To The HTTP response"
 		}
 	}
 }
