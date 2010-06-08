@@ -51,7 +51,7 @@ class PdfRenderingService {
 	}
 
 	OutputStream render(Map args, HttpServletResponse response) {
-		writeToWithType(args, render(args), "application/pdf", response)
+		writeToResponse(args, render(args), "application/pdf", response)
 	}
 
 	BufferedImage image(Map args) {
@@ -89,7 +89,6 @@ class PdfRenderingService {
 			}
 		}
 
-		log.error("clipWidth: $clipWidth, clipHeight: $clipHeight, imageWidth: $imageWidth, imageHeight: $imageHeight")
 		def image = new BufferedImage(imageWidth, imageHeight, bufferedImageType)
 		def graphics = image.graphics
 		renderer.render(graphics)
@@ -103,7 +102,6 @@ class PdfRenderingService {
 	}
 	
 	protected scale(image, Map scaleArgs, bufferedImageType) {
-		println  "in scale"
 		def width = scaleArgs.width?.toInteger()
 		def height = scaleArgs.height?.toInteger()
 		
@@ -119,7 +117,7 @@ class PdfRenderingService {
 			def scaledWidth = (image.width * (height / image.height)).toInteger()
 			scale(image, scaledWidth, height, bufferedImageType)
 		} else {
-			throw new IllegalStateException("asdfasd")
+			throw new IllegalStateException("Unhandled scale height/width combination")
 		}
 	}
 	
@@ -129,7 +127,7 @@ class PdfRenderingService {
 		def heightScaleFactor = height / image.height
 		
 		def graphics = scaled.createGraphics()
-		println "widthScaleFactor: $widthScaleFactor, heightScaleFactor: $heightScaleFactor"
+		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
  		def transform = AffineTransform.getScaleInstance(widthScaleFactor, heightScaleFactor)
 		graphics.drawRenderedImage(image, transform)
 		graphics.dispose()
@@ -146,9 +144,12 @@ class PdfRenderingService {
 	}
 	
 	protected image(Map args, String type, String contentType, HttpServletResponse response) {
+		writeToResponse(args, image(args, type), contentType, response)
+	}
+	
+	protected writeToResponse(Map args, ByteArrayOutputStream bytes, String contentType, HttpServletResponse response) {
 		setFilename(args, response)
 		response.setContentType(contentType)
-		def bytes = image(args, type)
 		response.setContentLength(bytes.size())
 		bytes.writeTo(response.outputStream)
 		bytes
