@@ -24,22 +24,46 @@ class PdfGrailsPlugin {
 	def description = 'Provides the ability to render GSPs as PDFs'
 	def documentation = "http://grails.org/plugin/pdf"
 
-	def addRenderPdf(pdfRenderingService, clazz) {
-		clazz.metaClass.renderPdf = { Map args ->
-			pdfRenderingService.render(args, delegate.response)
-			false
+	def addRenderMethods(pdfRenderingService, clazz) {
+		clazz.metaClass.with {
+			
+			renderPdf = { Map args ->
+				pdfRenderingService.render(args, delegate.response)
+				false
+			}
+
+			renderPdfImage = { Map args, String imageType, String contentType ->
+				pdfRenderingService.image(args, imageType, contentType, delegate.response)
+				false
+			}
+
+			renderPdfJpeg = { Map args ->
+				pdfRenderingService.jpeg(args, delegate.response)
+				false
+			}
+
+			renderPdfGif = { Map args ->
+				pdfRenderingService.gif(args, delegate.response)
+				false
+			}
+
+			renderPdfPng = { Map args ->
+				pdfRenderingService.png(args, delegate.response)
+				false
+			}
+			
 		}
 	}
 
 	def doWithDynamicMethods = { ctx ->
 		application.controllerClasses.each {
-			addRenderPdf(ctx.pdfRenderingService, it.clazz)
+			addRenderMethods(ctx.pdfRenderingService, it.clazz)
 		}
 	}
 	
 	def onChange = { event ->
 		if (application.isControllerClass(event.source)) {
-			addRenderPdf(event.ctx.pdfRenderingService, event.source)
+			addRenderMethods(event.ctx.pdfRenderingService, event.source)
 		}
 	}
 }

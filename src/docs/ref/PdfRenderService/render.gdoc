@@ -1,4 +1,3 @@
-
 h1. render
 
 h2. Purpose
@@ -40,14 +39,11 @@ h2. Description
 OutputStream render(Map renderArgs, OutputStream destination = new ByteArrayOutputStream())
 {code}
 
-Parameters (renderArgs):
+Parameters:
 
-* @template@ - The template to render
-* @model@ (optional) - The model to use in rendering
-* @plugin@ (optional) - The plug-in to look for the template in
+* @renderArgs@ - See [Rendering PDFs|guide:renderingPdfs]
+* @destination@ - the output stream to write the pdf to
 
 Return Value:
 
 * The _destination_ argument is always returned.
-
-The rules for template resolution are the same as they are for the standard @render()@ method.

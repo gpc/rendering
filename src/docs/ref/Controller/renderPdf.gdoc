@@ -1,4 +1,3 @@
-
 h1. renderPdf
 
 h2. Purpose
@@ -18,11 +17,11 @@ class MyController {
 
 h2. Description
 
+{code}
+OutputStream renderPdf(Map renderArgs, HttpServletResponse response)
+{code}
+
 Parameters:
 
-* @template@ - The template to render
-* @model@ (optional) - The model to use in rendering
-* @plugin@ (optional) - The plug-in to look for the template in
-* @filename@ (optional) - if set, a @Content-Disposition@ header is sent with @"attachment; filename=$filename;"@, instructing the browser to download the file.
-
-The rules for template resolution are the same as they are for the standard @render()@ method.
+* @renderArgs@ - See [Rendering To The HTTP Response|guide:renderingToTheHttpResponse]
+* @response@ - The response to render to

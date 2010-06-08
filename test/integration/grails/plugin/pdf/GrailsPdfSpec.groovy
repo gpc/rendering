@@ -6,7 +6,11 @@ import org.apache.pdfbox.pdmodel.PDDocument
 
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
+import org.springframework.mock.web.MockHttpServletResponse
+
 import grails.plugin.spock.*
+
+import spock.lang.*
 
 class GrailsPdfSpec extends IntegrationSpec {
 
@@ -42,6 +46,38 @@ class GrailsPdfSpec extends IntegrationSpec {
 		pdfRenderingService.render(template: "asdfasdfasd")
 		then:
 		thrown(UnknownTemplateException)
+	}
+	
+	def renderImageWithHeight() {
+		when:
+		def image = pdfRenderingService.image(getSimpleTemplate(width: 200, height: 200))
+		then:
+		image.height == 200
+		image.width == 200
+	}
+	
+	def renderImageWithAutoHeight() {
+		when:
+		def image = pdfRenderingService.image(getSimpleTemplate(width: 200))
+		then:
+		image.width == 200
+		image.height == 90 // just checking that it's something is all we can do
+	}
+
+	// Excercises the normal non http response code as well
+	@Unroll("render #type to http response")
+	def renderImagesToHttpResponse() {
+		given:
+		def response = new MockHttpServletResponse()
+		def filename = "test.$type"
+		when:
+		pdfRenderingService."$type"(getSimpleTemplate(filename: filename, width: 200), response)
+		then:
+		response.contentAsByteArray.size() > 0
+		response.contentType == "image/$type"
+		response.getHeader("Content-Disposition") == "attachment; filename=\"$filename\";"
+		where:
+		type << ["jpeg", "gif", "png"]
 	}
 
 	def renderViaController() {
@@ -114,12 +150,12 @@ class GrailsPdfSpec extends IntegrationSpec {
 		parser.getPDDocument()
 	}
 	
-	protected getSimpleTemplate() {
-		[template: '/pdf', model: [var: 1]]
+	protected getSimpleTemplate(Map args = [:]) {
+		[template: '/pdf', model: [var: 1]] + args
 	}
 
-	protected getPluginTemplate() {
-		[template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]]
+	protected getPluginTemplate(Map args = [:]) {
+		[template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
 	}
 
 }
