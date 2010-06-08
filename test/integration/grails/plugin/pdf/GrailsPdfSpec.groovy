@@ -70,37 +70,37 @@ class GrailsPdfSpec extends IntegrationSpec {
 		controller.doit() == false // false from the return of renderPdf
 	}
 
-	def badXmlThrowsXmlParseException() {
+	protected badXmlThrowsXmlParseException() {
 		when:
 		pdfRenderingService.render(template: "/bad-xml")
 		then:
 		thrown(XmlParseException)
 	}
 
-	def createController() {
+	protected createController() {
 		grailsApplication.mainContext['PdfTestController']
 	}
 
-	def getControllerClass() {
+	protected getControllerClass() {
 		// Have to do this because it's in the root package
 		this.class.classLoader.loadClass('PdfTestController')
 	}
 	
-	def extractTextLines(Map renderArgs) {
+	protected extractTextLines(Map renderArgs) {
 		extractTextLines(createPdf(renderArgs))
 	}
 	
-	def extractTextLines(byte[] bytes) {
+	protected extractTextLines(byte[] bytes) {
 		extractTextLines(createPdf(new ByteArrayInputStream(bytes)))
 	}
 	
-	def extractTextLines(PDDocument pdf) {
-		def lines = new PDFTextStripper().getText(pdf).readLines()
+	protected extractTextLines(PDDocument pdf) {
+		protected lines = new PDFTextStripper().getText(pdf).readLines()
 		pdf.close()
 		lines
 	}
 
-	def createPdf(Map renderArgs) {
+	protected createPdf(Map renderArgs) {
 		def inStream = new PipedInputStream()
 		def outStream = new PipedOutputStream(inStream)
 		pdfRenderingService.render(renderArgs, outStream)
@@ -108,7 +108,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 		createPdf(inStream)
 	}
 	
-	def createPdf(InputStream inputStream) {
+	protected createPdf(InputStream inputStream) {
 		def parser = new PDFParser(inputStream)
 		parser.parse()
 		parser.getPDDocument()
