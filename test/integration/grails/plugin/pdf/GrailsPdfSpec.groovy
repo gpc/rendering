@@ -16,7 +16,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 	
 	def simpleRender() {
 		when:
-		def lines = extractTextLines(template: '/pdf', model: [var: 1])
+		def lines = extractTextLines(simpleTemplate)
 		then:
 		lines[0] == 'This is a PDF!'
 		lines[1] == '1'
@@ -24,7 +24,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 	
 	def renderTemplateInPlugin() {
 		when:
-		def lines = extractTextLines(template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1])
+		def lines = extractTextLines(pluginTemplate)
 		then:
 		lines[0] == 'This is a PDF from a plugin!'
 		lines[1] == '1'
@@ -43,7 +43,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 		then:
 		thrown(UnknownTemplateException)
 	}
-	
+
 	def renderViaController() {
 		given:
 		def controller = createController()
@@ -113,4 +113,13 @@ class GrailsPdfSpec extends IntegrationSpec {
 		parser.parse()
 		parser.getPDDocument()
 	}
+	
+	protected getSimpleTemplate() {
+		[template: '/pdf', model: [var: 1]]
+	}
+
+	protected getPluginTemplate() {
+		[template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]]
+	}
+
 }
