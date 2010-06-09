@@ -43,7 +43,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 
 	def renderWithUnknownTemplateThrowsException() {
 		when:
-		pdfRenderingService.render(template: "asdfasdfasd")
+		pdfRenderingService.render(template: "/asdfasdfasd")
 		then:
 		thrown(UnknownTemplateException)
 	}
@@ -177,11 +177,11 @@ class GrailsPdfSpec extends IntegrationSpec {
 	}
 	
 	protected getSimpleTemplate(Map args = [:]) {
-		[template: 'pdf', model: [var: 1]] + args
+		[template: '/pdf', model: [var: 1]] + args
 	}
 
 	protected getPluginTemplate(Map args = [:]) {
-		[template: 'plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
+		[template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
 	}
 
 }

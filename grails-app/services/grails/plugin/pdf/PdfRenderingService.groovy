@@ -31,6 +31,7 @@ class PdfRenderingService {
 	static DEFAULT_BUFFERED_IMAGE_TYPE = BufferedImage.TYPE_INT_ARGB
 	
 	def groovyPagesTemplateEngine
+	def groovyPagesUriService
 	
 	OutputStream render(Map args, OutputStream outputStream = new ByteArrayOutputStream()) {
 		def doc = generateDoc(args)
@@ -247,35 +248,49 @@ class PdfRenderingService {
 	}
 
 	protected createTemplate(args) {
-		groovyPagesTemplateEngine.createTemplate(resolveGspTemplateResource(args))
-	}
-		
-	protected resolveGspTemplateResource(Map args) {
 		assertTemplateArgumentProvided(args)
+		def templateName = args.template
 		
-		def resource = groovyPagesTemplateEngine.getResourceForUri('_' + args.template)
-		if (!resource || !resource.exists()) {
-			if (args.plugin) {
-				def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(args.plugin)
-				if (!plugin) {
-					throw new IllegalArgumentException("No plugin named '$args.plugin' is installed")
-				}
-				def pathToTemplate = '/plugins/'+GCU.getScriptName(plugin.name)+'-'+plugin.version+'/'+GrailsResourceUtils.GRAILS_APP_DIR+'/views/'
-				def uri = GrailsResourceUtils.WEB_INF +pathToTemplate + args.template + ".gsp"
-				resource = groovyPagesTemplateEngine.getResourceForUri(uri)
+		if (templateName.startsWith("/")) {
+			if (!args.controller) {
+				args.controller = ""
+			}
+		} else {
+			if (!args.controller) {
+				throw new IllegalArgumentException("template names must start with '/' if controller is not provided")
 			}
 		}
 		
-		if (!resource || !resource.exists()) {
+		def contextPath = getContextPath(args)
+		def controllerName = args.controller instanceof CharSequence ? args.controller : groovyPagesUriService.getLogicalControllerName(args.controller)
+		def templateUri = groovyPagesUriService.getTemplateURI(controllerName, templateName)
+		def uris = ["$contextPath/$templateUri", "$contextPath/grails-app/views/$templateUri"] as String[]
+		def template = groovyPagesTemplateEngine.createTemplateForUri(uris)
+		
+		if (!template) {
 			throwUnknownTemplateError(args)
 		}
 		
-		resource
+		template
+	}
+	
+	protected getContextPath(args) {
+		def contextPath = args.contextPath?.toString() ?: ""
+		def pluginName = args.plugin
+		
+		if (pluginName) {
+			def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(pluginName)
+			if (plugin && !plugin.isBasePlugin()) {
+				contextPath = plugin.pluginPath
+			}
+		}
+		
+		contextPath
 	}
 	
 	protected assertTemplateArgumentProvided(Map args) {
 		if (!args.template) {
-			throw new IllegalArgumentException("The 'templatew' argument must be specified")
+			throw new IllegalArgumentException("The 'template' argument must be specified")
 		}
 	}
 
