@@ -1,4 +1,4 @@
-package grails.plugin.pdf
+package grails.plugin.rendering
 
 import org.apache.pdfbox.util.PDFTextStripper
 import org.apache.pdfbox.pdfparser.PDFParser

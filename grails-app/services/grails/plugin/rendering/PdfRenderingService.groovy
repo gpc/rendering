@@ -1,4 +1,4 @@
-package grails.plugin.pdf
+package grails.plugin.rendering
 
 import org.xhtmlrenderer.pdf.ITextRenderer
 import org.xhtmlrenderer.simple.Graphics2DRenderer

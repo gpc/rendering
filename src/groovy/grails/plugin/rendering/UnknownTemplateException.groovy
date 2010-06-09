@@ -1,4 +1,4 @@
-package grails.plugin.pdf
+package grails.plugin.rendering
 
 class UnknownTemplateException extends GrailsPdfException {
 

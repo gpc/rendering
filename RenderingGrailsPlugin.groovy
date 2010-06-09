@@ -1,4 +1,4 @@
-class PdfGrailsPlugin {
+class RenderingGrailsPlugin {
 
 	def version = "0.5-SNAPSHOT"
 	def grailsVersion = "1.2.0 > *"
@@ -18,7 +18,7 @@ class PdfGrailsPlugin {
 		"controllers"
 	]
 
-	def author = "Luke Daley & Randall Dietz "
+	def author = "Luke Daley & Randall Dietz"
 	def authorEmail = "ld@ldaley.com & rdietz@sp.com.au"
 	def title = "Grails PDF rendering"
 	def description = 'Provides the ability to render GSPs as PDFs'
