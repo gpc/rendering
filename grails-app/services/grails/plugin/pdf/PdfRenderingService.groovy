@@ -57,11 +57,11 @@ class PdfRenderingService {
 	BufferedImage image(Map args) {
 		def bufferedImageType = args.bufferedImageType ?: DEFAULT_BUFFERED_IMAGE_TYPE
 		
-		def renderWidth = args.renderWidth?.toInteger() ?: 10
-		def renderHeight = args.renderHeight?.toInteger()
+		def renderWidth = args.render?.width?.toInteger() ?: 10
+		def renderHeight = args.render?.height?.toInteger()
 		
-		def clipWidth = args.clipWidth == null || args.clipWidth == true
-		def clipHeight = args.clipHeight == null || args.clipHeight == true
+		def clipWidth = args.clip?.width == null || args.clip?.width == true
+		def clipHeight = args.clip?.height == null || args.clip?.height == true
 		
 		def doc = generateDoc(args)
 		
@@ -70,6 +70,7 @@ class PdfRenderingService {
 		
 		def imageWidth = renderWidth
 		def imageHeight = renderHeight
+		def needsLayout = true
 		
 		if (!renderHeight || clipWidth || clipHeight) {
 			def tempRenderHeight = renderHeight ?: 10000
@@ -79,6 +80,7 @@ class PdfRenderingService {
 			def tempImage = new BufferedImage(dim.width.intValue(), dim.height.intValue(), bufferedImageType)
 			def tempGraphics = tempImage.graphics
 			renderer.layout(tempGraphics, dim)
+			needsLayout = false
 			tempGraphics.dispose()
 			
 			if (clipWidth) {
@@ -91,11 +93,16 @@ class PdfRenderingService {
 
 		def image = new BufferedImage(imageWidth, imageHeight, bufferedImageType)
 		def graphics = image.graphics
+		if (needsLayout) {
+			renderer.layout(graphics, new Dimension(imageWidth, imageHeight))
+		}
 		renderer.render(graphics)
 		graphics.dispose()
 		
 		if (args.scale) {
 			scale(image, args.scale, bufferedImageType)
+		} else if (args.resize) {
+			resize(image, args.resize, bufferedImageType)
 		} else {
 			image
 		}
@@ -105,30 +112,54 @@ class PdfRenderingService {
 		def width = scaleArgs.width?.toInteger()
 		def height = scaleArgs.height?.toInteger()
 		
-		def getWidthFactor = { it / image.width }
-		def getHeightFactor = { it / image.height }
-		
 		if (width && height) {
 			scale(image, width, height, bufferedImageType)
 		} else if (width && !height) {
-			def scaledHeight = (image.height * (width / image.width)).toInteger()
-			scale(image, width, scaledHeight, bufferedImageType)
+			scale(image, width, width, bufferedImageType)
 		} else if (!width && height) {
-			def scaledWidth = (image.width * (height / image.height)).toInteger()
-			scale(image, scaledWidth, height, bufferedImageType)
+			scale(image, height, height, bufferedImageType)
 		} else {
 			throw new IllegalStateException("Unhandled scale height/width combination")
 		}
 	}
 	
-	protected scale(image, width, height, bufferedImageType) {
+	protected resize(image, Map resizeArgs, bufferedImageType) {
+		def width = resizeArgs.width?.toInteger()
+		def height = resizeArgs.height?.toInteger()
+		
+		if (width && height) {
+			resize(image, width, height, bufferedImageType)
+		} else if (width && !height) {
+			height = (image.height * (width / image.width)).toInteger()
+			resize(image, width, height, bufferedImageType)
+		} else if (!width && height) {
+			width = (image.width * (height / image.height)).toInteger()
+			resize(image, width, height, bufferedImageType)
+		} else {
+			throw new IllegalStateException("Unhandled resize height/width combination")
+		}
+	}
+	
+	protected resize(image, width, height, bufferedImageType) {
+		def widthScale = width / image.width
+		def heightScale = height / image.height
+		
+		doScaleTransform(image, width, height, widthScale, heightScale, bufferedImageType)
+	}
+	
+	protected scale(image, widthScale, heightScale, bufferedImageType) {
+		def width = image.width * widthScale
+		def height = image.height * heightScale
+		
+		doScaleTransform(image, width, height, widthScale, heightScale, bufferedImageType)
+	}
+	
+	protected doScaleTransform(image, width, height, widthScale, heightScale, bufferedImageType) {
 		def scaled = new BufferedImage(width, height, bufferedImageType)
-		def widthScaleFactor = (width / image.width)
-		def heightScaleFactor = height / image.height
 		
 		def graphics = scaled.createGraphics()
 		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC)
- 		def transform = AffineTransform.getScaleInstance(widthScaleFactor, heightScaleFactor)
+ 		def transform = AffineTransform.getScaleInstance(widthScale, heightScale)
 		graphics.drawRenderedImage(image, transform)
 		graphics.dispose()
 		
@@ -181,7 +212,7 @@ class PdfRenderingService {
 	
 	protected generateXhtml(Map args) {
 		def xhtmlWriter = new StringWriter()
-		createTemplate(args).make(args.model).writeTo(xhtmlWriter)
+		createView(args).make(args.model).writeTo(xhtmlWriter)
 		def xhtml = xhtmlWriter.toString()
 		xhtmlWriter.close()
 
@@ -215,40 +246,40 @@ class PdfRenderingService {
 		doc
 	}
 
-	protected createTemplate(args) {
-		groovyPagesTemplateEngine.createTemplate(resolveGspTemplateResource(args))
+	protected createView(args) {
+		groovyPagesTemplateEngine.createTemplate(resolveGspViewResource(args))
 	}
 		
-	protected resolveGspTemplateResource(Map args) {
-		assertTemplateArgumentProvided(args)
+	protected resolveGspViewResource(Map args) {
+		assertViewArgumentProvided(args)
 		
-		def resource = groovyPagesTemplateEngine.getResourceForUri(args.template)
+		def resource = groovyPagesTemplateEngine.getResourceForUri(args.view)
 		if (!resource || !resource.exists()) {
 			if (args.plugin) {
 				def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(args.plugin)
 				if (!plugin) {
 					throw new IllegalArgumentException("No plugin named '$args.plugin' is installed")
 				}
-				def pathToView = '/plugins/'+GCU.getScriptName(plugin.name)+'-'+plugin.version+'/'+GrailsResourceUtils.GRAILS_APP_DIR+'/views'
-				def uri = GrailsResourceUtils.WEB_INF +pathToView + args.template+".gsp";
+				def pathToView = '/plugins/'+GCU.getScriptName(plugin.name)+'-'+plugin.version+'/'+GrailsResourceUtils.GRAILS_APP_DIR+'/views/'
+				def uri = GrailsResourceUtils.WEB_INF +pathToView + args.view+".gsp";
 				resource = groovyPagesTemplateEngine.getResourceForUri(uri)
 			}
 		}
 		
 		if (!resource || !resource.exists()) {
-			throwUnknownTemplateError(args)
+			throwUnknownViewError(args)
 		}
 		
 		resource
 	}
 	
-	protected assertTemplateArgumentProvided(Map args) {
-		if (!args.template) {
-			throw new IllegalArgumentException("The 'template' argument must be specified")
+	protected assertViewArgumentProvided(Map args) {
+		if (!args.view) {
+			throw new IllegalArgumentException("The 'view' argument must be specified")
 		}
 	}
 
-	protected throwUnknownTemplateError(Map args) {
-		throw new UnknownTemplateException(args.template, args.plugin)
+	protected throwUnknownViewError(Map args) {
+		throw new UnknownViewException(args.view, args.plugin)
 	}
 }
