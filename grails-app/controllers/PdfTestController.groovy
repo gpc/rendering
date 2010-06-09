@@ -9,7 +9,7 @@ class PdfTestController {
 	}
 
 	def gif = {
-		renderPdfGif(template + [scale: [width: 100]])
+		renderPdfGif(template + [render: [width: 600, height: 200], clip: [height: true, width: true], resize: [width: 600, height: 200]])
 	}
 
 	def png = {
@@ -17,6 +17,6 @@ class PdfTestController {
 	}
 	
 	protected getTemplate() {
-		[template: '/pdf', model: [var: params.id]]
+		[view: 'pdf', model: [var: params.id]]
 	}
 }
