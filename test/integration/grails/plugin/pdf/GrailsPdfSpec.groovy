@@ -50,7 +50,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 	
 	def renderImageWithHeight() {
 		when:
-		def image = pdfRenderingService.image(getSimpleView(render: [width: 200, height: 100], clip: [width: false, height: false]))
+		def image = pdfRenderingService.image(getSimpleView(render: [width: 200, height: 100], autosize: [width: false, height: false]))
 		then:
 		image.height == 100
 		image.width == 200

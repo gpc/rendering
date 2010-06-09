@@ -60,8 +60,8 @@ class PdfRenderingService {
 		def renderWidth = args.render?.width?.toInteger() ?: 10
 		def renderHeight = args.render?.height?.toInteger()
 		
-		def clipWidth = args.clip?.width == null || args.clip?.width == true
-		def clipHeight = args.clip?.height == null || args.clip?.height == true
+		def autosizeWidth = args.autosize?.width == null || args.autosize?.width == true
+		def autosizeHeight = args.autosize?.height == null || args.autosize?.height == true
 		
 		def doc = generateDoc(args)
 		
@@ -72,7 +72,7 @@ class PdfRenderingService {
 		def imageHeight = renderHeight
 		def needsLayout = true
 		
-		if (!renderHeight || clipWidth || clipHeight) {
+		if (!renderHeight || autosizeWidth || autosizeHeight) {
 			def tempRenderHeight = renderHeight ?: 10000
 			def dim = new Dimension(renderWidth, tempRenderHeight)
 			
@@ -83,10 +83,10 @@ class PdfRenderingService {
 			needsLayout = false
 			tempGraphics.dispose()
 			
-			if (clipWidth) {
+			if (autosizeWidth) {
 				imageWidth = renderer.minimumSize.width.intValue()
 			} 
-			if (!renderHeight || clipHeight) {
+			if (!renderHeight || autosizeHeight) {
 				imageHeight = renderer.minimumSize.height.intValue()
 			}
 		}
