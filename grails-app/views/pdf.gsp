@@ -2,10 +2,17 @@
     <head>
       <style type="text/css" media="screen">
         body {
+          color: white;
           background-color: blue;
-          border: 1px solid #999;
-          width: 300px;
-          height: 200px;
+/*          width: 400px;
+*/          height: 200px;
+          margin: 0px;
+          padding-top: 0px;
+          text-align: center;
+        }
+        p {
+          margin: 0px;
+          padding: 0px;
         }
       </style>
     </head>
