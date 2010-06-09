@@ -20,37 +20,37 @@ class GrailsPdfSpec extends IntegrationSpec {
 	
 	def simpleRender() {
 		when:
-		def lines = extractTextLines(simpleView)
+		def lines = extractTextLines(simpleTemplate)
 		then:
 		lines[0] == 'This is a PDF!'
 		lines[1] == '1'
 	}
 	
-	def renderViewInPlugin() {
+	def renderTemplateInPlugin() {
 		when:
-		def lines = extractTextLines(pluginView)
+		def lines = extractTextLines(pluginTemplate)
 		then:
 		lines[0] == 'This is a PDF from a plugin!'
 		lines[1] == '1'
 	}
 	
-	def renderWithNoViewThrowsException() {
+	def renderWithNoTemplateThrowsException() {
 		when:
 		pdfRenderingService.render([:])
 		then:
 		thrown(IllegalArgumentException)
 	}
 
-	def renderWithUnknownViewThrowsException() {
+	def renderWithUnknownTemplateThrowsException() {
 		when:
-		pdfRenderingService.render(view: "asdfasdfasd")
+		pdfRenderingService.render(template: "asdfasdfasd")
 		then:
-		thrown(UnknownViewException)
+		thrown(UnknownTemplateException)
 	}
 	
 	def renderImageWithHeight() {
 		when:
-		def image = pdfRenderingService.image(getSimpleView(render: [width: 200, height: 100], autosize: [width: false, height: false]))
+		def image = pdfRenderingService.image(getSimpleTemplate(render: [width: 200, height: 100], autosize: [width: false, height: false]))
 		then:
 		image.height == 100
 		image.width == 200
@@ -58,7 +58,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 	
 	def renderImageWithAutoHeight() {
 		when:
-		def image = pdfRenderingService.image(getSimpleView(render: [width: 200, height: 400]))
+		def image = pdfRenderingService.image(getSimpleTemplate(render: [width: 200, height: 400]))
 		then:
 		image.width == 200
 		image.height == 200
@@ -66,7 +66,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 
 	def imageResize() {
 		when:
-		def image = pdfRenderingService.image(getSimpleView(render: [width: 200], resize: resize))
+		def image = pdfRenderingService.image(getSimpleTemplate(render: [width: 200], resize: resize))
 		then:
 		image.width == width
 		image.height == height
@@ -79,7 +79,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 
 	def imageScale() {
 		when:
-		def image = pdfRenderingService.image(getSimpleView(render: [width: 200], scale: scale))
+		def image = pdfRenderingService.image(getSimpleTemplate(render: [width: 200], scale: scale))
 		then:
 		image.width == width
 		image.height == height
@@ -97,7 +97,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 		def response = new MockHttpServletResponse()
 		def filename = "test.$type"
 		when:
-		pdfRenderingService."$type"(getSimpleView(filename: filename, width: 200), response)
+		pdfRenderingService."$type"(getSimpleTemplate(filename: filename, width: 200), response)
 		then:
 		response.contentAsByteArray.size() > 0
 		response.contentType == "image/$type"
@@ -134,7 +134,7 @@ class GrailsPdfSpec extends IntegrationSpec {
 
 	protected badXmlThrowsXmlParseException() {
 		when:
-		pdfRenderingService.render(view: "/bad-xml")
+		pdfRenderingService.render(template: "/bad-xml")
 		then:
 		thrown(XmlParseException)
 	}
@@ -176,12 +176,12 @@ class GrailsPdfSpec extends IntegrationSpec {
 		parser.getPDDocument()
 	}
 	
-	protected getSimpleView(Map args = [:]) {
-		[view: 'pdf', model: [var: 1]] + args
+	protected getSimpleTemplate(Map args = [:]) {
+		[template: 'pdf', model: [var: 1]] + args
 	}
 
-	protected getPluginView(Map args = [:]) {
-		[view: 'plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
+	protected getPluginTemplate(Map args = [:]) {
+		[template: 'plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
 	}
 
 }

@@ -17,6 +17,6 @@ class PdfTestController {
 	}
 	
 	protected getTemplate() {
-		[view: 'pdf', model: [var: params.id]]
+		[template: 'pdf', model: [var: params.id]]
 	}
 }

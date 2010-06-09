@@ -212,7 +212,7 @@ class PdfRenderingService {
 	
 	protected generateXhtml(Map args) {
 		def xhtmlWriter = new StringWriter()
-		createView(args).make(args.model).writeTo(xhtmlWriter)
+		createTemplate(args).make(args.model).writeTo(xhtmlWriter)
 		def xhtml = xhtmlWriter.toString()
 		xhtmlWriter.close()
 
@@ -246,40 +246,40 @@ class PdfRenderingService {
 		doc
 	}
 
-	protected createView(args) {
-		groovyPagesTemplateEngine.createTemplate(resolveGspViewResource(args))
+	protected createTemplate(args) {
+		groovyPagesTemplateEngine.createTemplate(resolveGspTemplateResource(args))
 	}
 		
-	protected resolveGspViewResource(Map args) {
-		assertViewArgumentProvided(args)
+	protected resolveGspTemplateResource(Map args) {
+		assertTemplateArgumentProvided(args)
 		
-		def resource = groovyPagesTemplateEngine.getResourceForUri(args.view)
+		def resource = groovyPagesTemplateEngine.getResourceForUri('_' + args.template)
 		if (!resource || !resource.exists()) {
 			if (args.plugin) {
 				def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(args.plugin)
 				if (!plugin) {
 					throw new IllegalArgumentException("No plugin named '$args.plugin' is installed")
 				}
-				def pathToView = '/plugins/'+GCU.getScriptName(plugin.name)+'-'+plugin.version+'/'+GrailsResourceUtils.GRAILS_APP_DIR+'/views/'
-				def uri = GrailsResourceUtils.WEB_INF +pathToView + args.view+".gsp";
+				def pathToTemplate = '/plugins/'+GCU.getScriptName(plugin.name)+'-'+plugin.version+'/'+GrailsResourceUtils.GRAILS_APP_DIR+'/views/'
+				def uri = GrailsResourceUtils.WEB_INF +pathToTemplate + args.template + ".gsp"
 				resource = groovyPagesTemplateEngine.getResourceForUri(uri)
 			}
 		}
 		
 		if (!resource || !resource.exists()) {
-			throwUnknownViewError(args)
+			throwUnknownTemplateError(args)
 		}
 		
 		resource
 	}
 	
-	protected assertViewArgumentProvided(Map args) {
-		if (!args.view) {
-			throw new IllegalArgumentException("The 'view' argument must be specified")
+	protected assertTemplateArgumentProvided(Map args) {
+		if (!args.template) {
+			throw new IllegalArgumentException("The 'templatew' argument must be specified")
 		}
 	}
 
-	protected throwUnknownViewError(Map args) {
-		throw new UnknownViewException(args.view, args.plugin)
+	protected throwUnknownTemplateError(Map args) {
+		throw new UnknownTemplateException(args.template, args.plugin)
 	}
 }
