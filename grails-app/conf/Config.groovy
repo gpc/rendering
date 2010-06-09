@@ -5,9 +5,9 @@ log4j = {
 grails {
 	doc {
 		alias {
-			pdfRendering = "3. Rendering PDFs"
-			imageRendering = "4. Rendering Images"
-			renderingToTheHttpResponse = "5. Rendering To The HTTP response"
+			renderingPdfs = "3. Rendering PDFs"
+			renderingImages = "4. Rendering Images"
+			renderingFromControllers = "5. Rendering From Controllers"
 		}
 	}
 }
