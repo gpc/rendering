@@ -1,6 +1,6 @@
 <html>
 	<head>
-		  <title>pdf 0.5-SNAPSHOT - Reference Documentation</title>
+		  <title>rendering 0.1-SNAPSHOT - Reference Documentation</title>
 		  <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8">	
 	</head>
     <body class="body">
@@ -12,20 +12,48 @@
                      <a alt="SpringSource - A Division of VMware" href="http://springsource.com" target="_blank"><img src="../img/springsource-logo.png" border="0"></a>					
 					</span>					
 				</div>
-				<div class="message">pdf</div>
-				<h1>pdf - Reference Documentation</h1>
+				<div class="message">rendering</div>
+				<h1>rendering - Reference Documentation</h1>
 				<p><strong>Authors:</strong> </p>
-				<p><strong>Version:</strong> 0.5-SNAPSHOT</p>				
+				<p><strong>Version:</strong> 0.1-SNAPSHOT</p>				
 				<em></em>
 		</div>                       
 		
 		<div id="toc">  
 			<h2>Table of Contents</h2>
-			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. Writing PDF GSPs">2. Writing PDF GSPs</a></div>
+			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. Writing PDF GSPs">2. Writing PDF GSPs</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Rendering PDFs">3. Rendering PDFs</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Rendering Images">4. Rendering Images</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Rendering From Controllers">5. Rendering From Controllers</a></div>
 		</div>     
 		<div id="content">
 			<h1><a name="1. Introduction">1. Introduction</a></h1>This plugin adds PDF rendering facilities to Grails applications via the <a href="https://xhtmlrenderer.dev.java.net/">Flying Saucer XHTML Renderer</a> library.<p class="paragraph"/>Rendering is either done directly via the <code>pdfRenderingService</code> ...<p class="paragraph"/><div class="code"><pre>ByteArrayOutputStream bytes = pdfRenderingService.render(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;data: data&#93;)</pre></div><p class="paragraph"/>Or via the <code>renderPdf()</code> method added to controllers ...<p class="paragraph"/><div class="code"><pre>renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)</pre></div><p class="paragraph"/>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="blank">Apache License 2.0</a> and was contributed to the Grails community by the good people at <a href="http://sp.com.au/" target="blank">Software Projects</a> .<h1><a name="2. Writing PDF GSPs">2. Writing PDF GSPs</a></h1>There are a few things that you do need to be aware of when writing GSPs to be rendered as PDF.<p class="paragraph"/><h3>Links must be absolute</h3><p class="paragraph"/>All links to resources (e.g. images, css) must be absolute and accessible by the application. This is due to the XHTML being parsed by the Flying Saucer library and not a browser, therefore relative links cannot be resolved.<p class="paragraph"/>The standard Grails <code>resource</code>  and <code>createLink</code> tags support creating absolute links by specifying <code>absolute: true</code> .<p class="paragraph"/><h3>Must be well formed</h3><p class="paragraph"/>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugin.pdf.XmlParseException</code> will be thrown.<p class="paragraph"/><h3>Must declare DOCTYPE</h3><p class="paragraph"/>Without a doctype, you are likely to get parse failures due to unresolvable entity references. Be sure to declare the XHTML doctype at the start of your GSP like so ...<p class="paragraph"/><div class="code"><pre>&#60;!DOCTYPE html PUBLIC <span class="java&#45;quote">"&#45;//W3C//DTD XHTML 1.0 Strict//EN"</span>
- <span class="java&#45;quote">"http://www.w3.org/TR/xhtml1/DTD/xhtml1&#45;strict.dtd"</span>&#62;</pre></div>         			
+ <span class="java&#45;quote">"http://www.w3.org/TR/xhtml1/DTD/xhtml1&#45;strict.dtd"</span>&#62;</pre></div><h1><a name="3. Rendering PDFs">3. Rendering PDFs</a></h1>All PDF rendering methods on the <code>pdfRenderingService</code> take a <code>Map</code> argument that specifies which template to render and the model to use.<p class="paragraph"/>The following map arguments are common to all pdf rendering methods:
+<ul class="star">
+<li><code>template</code> (required) - The template to render</li>
+<li><code>model</code> (optional) - The model to use</li>
+<li><code>plugin</code> (optional) - The plug-in containing the template</li>
+<li><code>controller</code> (optional) - The controller <em class="italic">instance</em> or <em class="italic">name</em> to resolve the template against</li>
+</ul><p class="paragraph"/><h3>Template Resolution</h3><p class="paragraph"/>The pdf plugin uses the same resolution strategy as the <code>render()</code> method in Grails controllers and taglibs.<p class="paragraph"/>That is,
+<ul class="star">
+<li>template files must start with an underscore (<code>_template.gsp</code>)</li>
+<li>template paths starting with "/" are resolved relative to the <code>views</code> directory</li>
+<li>template paths NOT starting with "/" are resolved relative to the <code>views/«controller»</code> directory</li>
+</ul><p class="paragraph"/>If the <code>template</code> argument does not start with a "/", the <code>controller</code> argument must be provided. The methods added to controllers (e.g. <code>renderPdf()</code>) automatically pass the <code>controller</code> param for you. See <h1><a name="4. Rendering Images">4. Rendering Images</a></h1>When rendering images, the at least one dimension of the image have to be supplied. These are specified as part of the argument map. If both are provided, the image will scale accordingly. If either is not provided, it will be calculated based on the provided dimension.<p class="paragraph"/>The following map arguments are common to all image rendering methods:
+<ul class="star">
+<li><code>template</code> (required) - The template to render</li>
+<li><code>model</code> (optional) - The model to use in rendering</li>
+<li><code>plugin</code> (optional) - The plug-in to look for the template in</li>
+<li><code>width</code> (optional) - The width of the rendered image</li>
+<li><code>height</code> (optional) - The height of the rendered image</li>
+</ul><p class="paragraph"/><h1><a name="5. Rendering From Controllers">5. Rendering From Controllers</a></h1>This plugin adds the following methods to controllers:
+<ul class="star">
+<li><code>renderPdf(Map renderArgs, HttpServletResponse response)</code></li>
+<li><code>renderPdfJpeg(Map renderArgs, HttpServletResponse response)</code></li>
+<li><code>renderPdfGif(Map renderArgs, HttpServletResponse response)</code></li>
+<li><code>renderPdfPng(Map renderArgs, HttpServletResponse response)</code></li>
+<li><code>renderPdfImage(Map renderArgs, String imageType, HttpServletResponse response)</code></li>
+</ul><p class="paragraph"/>These methods have obvious counterparts on the <code>pdfRenderingService</code>. The <code>renderArgs</code> map takes the same parameters as it's counter part in addition to the following:
+<ul class="star">
+<li><code>filename</code> - If present, sets the content-dispostion header to the given value with the 'attachment' classifier.</li>
+</ul><p class="paragraph"/>         			
 		</div>
 		<div id="footer">
 			  

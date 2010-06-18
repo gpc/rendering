@@ -1,8 +1,14 @@
 DefaultPackage
 grails-app.conf
 grails-app.controllers
-grails-app.services.grails.plugin.pdf
+grails-app.services.grails.plugin.rendering
+grails-app.services.grails.plugin.rendering.document
+grails-app.services.grails.plugin.rendering.image
+grails-app.services.grails.plugin.rendering.pdf
 plugins.pdf-plugin-test
 plugins.pdf-plugin-test.grails-app.conf
-src.groovy.grails.plugin.pdf
-test.integration.grails.plugin.pdf
+src.groovy.grails.plugin.rendering
+src.groovy.grails.plugin.rendering.document
+test.integration.grails.plugin.rendering
+test.integration.grails.plugin.rendering.image
+test.integration.grails.plugin.rendering.pdf

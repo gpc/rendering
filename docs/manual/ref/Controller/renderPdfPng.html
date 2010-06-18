@@ -1,0 +1,18 @@
+<html>
+     <head>
+     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     	<title>rendering 0.1-SNAPSHOT - Reference Documentation</title>
+     	<link rel="stylesheet" href="../../css/ref.css" type="text/css" media="screen" title="Ref" charset="utf-8">
+     </head>
+	<body class="body">
+		<h1>renderPdfPng</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders a GSP template as a PDF, then renders it as a PNG image to the http response, setting the content-type to <code>image/png</code><p class="paragraph"/><h2>Examples</h2><p class="paragraph"/><div class="code"><pre>class MyController &#123;
+    def report = &#123;
+        def reportObject = reportService.getReport(params)
+        renderPdfPng(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name, width: 200)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h2>Description</h2><p class="paragraph"/><div class="code"><pre>OutputStream renderPdfPng(Map renderArgs)</pre></div><p class="paragraph"/>Parameters:
+<ul class="star">
+<li><code>renderArgs</code> - See guide:renderingToTheHttpResponse</li>
+</ul><p class="paragraph"/>
+	</body>
+</html>
