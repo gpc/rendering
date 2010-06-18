@@ -19,7 +19,7 @@ class CouponDocumentService {
 }
 {code}
 
-All of the render methods can take a @document@ property instead of the usual @template@/@model@ properties.
+All of the render methods can take a @document@ parameter instead of the usual @template@/@model@ properties.
 
 {code}
 class CouponController {
@@ -30,7 +30,7 @@ class CouponController {
         def serial = params.id
         def document = couponDocumentService.getDocument(serial)
         
-        renderGif(document: document, filename: "${serial}.gif")
+        renderGif(filename: "${serial}.gif", document)
     }
 }
 {code}
@@ -49,7 +49,7 @@ class CouponGifService {
     
     def getGif(serial) {
         def document = couponDocumentService.getDocument(serial)
-        def byteArrayOutputStream = gifRenderingService(document: document)
+        def byteArrayOutputStream = gifRenderingService.gif([:], document)
         byteArrayOutputStream.toByteArray()
     }
 }
