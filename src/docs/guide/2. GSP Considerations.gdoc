@@ -1,0 +1,20 @@
+There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.
+
+h3. Link resources must be resolvable
+
+All links to resources (e.g. images, css) must be _accessible by the application_ . This is due to the linked resources being accessed by _application_ and not a browser. Depending on your network config in production, this may require some special consideration. 
+
+The rendering engine resolves all relative links relative to the @grails.serverURL@ config property.
+
+h3. Must be well formed
+
+The GSP must render to well formed, valid, XHTML. If it does not, a @grails.plugin.rendering.document.XmlParseException@ will be thrown.
+
+h3. Must declare DOCTYPE
+
+Without a doctype, you are likely to get parse failures due to unresolvable entity references (e.g. @&nbsp;@). Be sure to declare the XHTML doctype at the start of your GSP like so ...
+
+{code:lang=xml}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+{code}

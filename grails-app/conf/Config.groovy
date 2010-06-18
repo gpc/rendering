@@ -26,9 +26,10 @@ grails {
 		footer = "Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>"
 		
 		alias {
-			renderingPdfs = "3. Rendering PDFs"
-			renderingImages = "4. Rendering Images"
-			renderingFromControllers = "5. Rendering From Controllers"
+			considerations = "2. GPS Considerations"
+			pdfs = "3. Rendering PDFs"
+			images = "4. Rendering Images"
+			controllers = "5. Rendering From Controllers"
 		}
 	}
 }
