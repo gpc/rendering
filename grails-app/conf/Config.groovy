@@ -19,6 +19,12 @@ log4j = {
 
 grails {
 	doc {
+		title = "Grails Rendering Plugin"
+		subtitle = "Render GSPs as PDFs, JPEGs, GIFs and PNGs"
+		authors = "Grails Plugin Collective"
+		copyright = "Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically."
+		footer = "Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>"
+		
 		alias {
 			renderingPdfs = "3. Rendering PDFs"
 			renderingImages = "4. Rendering Images"
