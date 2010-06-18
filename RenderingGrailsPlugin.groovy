@@ -23,6 +23,7 @@ class RenderingGrailsPlugin {
 		"grails-app/views/**/*",
 		"grails-app/controllers/**/*",
 		"plugins/**/*",
+		"web-app/**/*"
 	]
 	
 	def observe = [
