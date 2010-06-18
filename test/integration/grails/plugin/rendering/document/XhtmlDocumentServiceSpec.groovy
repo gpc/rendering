@@ -23,7 +23,7 @@ import grails.plugin.spock.*
  */
 class XhtmlDocumentServiceSpec extends IntegrationSpec {
 
-	xhtmlDocumentService
+	def xhtmlDocumentService
 	
 	def emptyScenario() {
 		
