@@ -1,0 +1,36 @@
+There are four methods added to all controllers for rendering:
+
+* renderPdf(Map args)
+* renderGif(Map args)
+* renderPng(Map args)
+* renderJpeg(Map args)
+
+Each of the methods is equivalent to…
+
+{code}
+«format»RenderingService.render(args + [controller: this], response)
+{code}
+
+All methods take all of the arguments that their respective service's @render()@ method take, plus some extras.
+
+h3. Extra Render Arguments
+
+All rendering methods take a @Map@ argument that specifies which template to render and the model to use (in most cases).
+
+The following map arguments are common to all rendering methods:
+
+* @filename@ (option) - sets the @Content-Disposition@ header with @attachment; filename="$filename";@ (asking the browser to download the file with the given filename)
+* @contentType@ (optional) - the @Content-Type@ header value (see Content Type Defaults below)
+
+h3. Default Content Types
+
+The default content types are…
+
+* application/pdf
+* image/gif
+* image/png
+* image/jpeg
+
+h3. Large Files/Renders
+
+See the section on [caching and performance|guide:6. Caching And Performance] for some other arguments that can help with large renders.
