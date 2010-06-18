@@ -1,4 +1,4 @@
 ---
 layout: main
-title: Grails PDF Plugin
+title: Grails Rendering Plugin
 ---
