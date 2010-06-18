@@ -1,15 +1,15 @@
-This plugin adds PDF rendering facilities to Grails applications via the "Flying Saucer XHTML Renderer":https://xhtmlrenderer.dev.java.net/ library.
+This plugin adds additional rendering capabilities to Grails applications via the "XHTML Renderer":https://xhtmlrenderer.dev.java.net/ library.
 
-Rendering is either done directly via the @pdfRenderingService@ ...
+Rendering is either done directly via @«format»RenderingService@ services ...
 
 {code}
 ByteArrayOutputStream bytes = pdfRenderingService.render(template: "/pdfs/report", model: [data: data])
 {code}
 
-Or via the @renderPdf()@ method added to controllers ...
+Or via the @render«format»()@ methods added to controllers ...
 
 {code}
 renderPdf(template: "/pdfs/report", model: [report: reportObject], filename: reportObject.name)
 {code}
 
-The plugin is released under the "Apache License 2.0":http://www.apache.org/licenses/LICENSE-2.0.html and was contributed to the Grails community by the good people at "Software Projects":http://sp.com.au/ .
+The plugin is released under the "Apache License 2.0":http://www.apache.org/licenses/LICENSE-2.0.html license and is produced under the "Grails Plugin Collective":http://gpc.github.com/ .
