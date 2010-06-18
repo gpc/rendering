@@ -9,6 +9,8 @@ plugins.pdf-plugin-test
 plugins.pdf-plugin-test.grails-app.conf
 src.groovy.grails.plugin.rendering
 src.groovy.grails.plugin.rendering.document
+test.functional.grails.plugin.rendering
 test.integration.grails.plugin.rendering
+test.integration.grails.plugin.rendering.document
 test.integration.grails.plugin.rendering.image
 test.integration.grails.plugin.rendering.pdf
