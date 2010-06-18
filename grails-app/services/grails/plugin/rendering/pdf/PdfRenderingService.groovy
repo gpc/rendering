@@ -25,7 +25,7 @@ class PdfRenderingService extends RenderingService {
 	
 	protected doRender(Map args, Document document, OutputStream outputStream) {
 		def renderer = new ITextRenderer()
-		renderer.setDocument(document, null)
+		renderer.setDocument(document, args.base)
 		renderer.layout()
 		renderer.createPDF(outputStream)
 	}

@@ -40,7 +40,9 @@ class RenderingGrailsPlugin {
 	def documentation = "http://gpc.github.com/grails-rendering"
 
 	def renderMethodTemplate = { ctx, rendererName, Map args ->
-		ctx[rendererName].render(args, delegate.response)
+		def adjustedArgs = [controller: delegate]
+		adjustedArgs.putAll(args)
+		ctx[rendererName].render(adjustedArgs, delegate.response)
 		false
 	}
 	

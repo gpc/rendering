@@ -13,30 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RenderingController {
+package grails.plugin.rendering
 
-	def pdf = { 
-		renderPdf(template)
+import grails.plugin.spock.*
+
+class ControllerRelativeTemplateSpec extends FunctionalSpec {
+
+	def accessingControllerRelativeTemplateWorks() {
+		when:
+		get "/rendering/relative"
+		then:
+		response.statusCode == 200
 	}
 
-	def jpeg = {
-		renderJpeg(template + [width: 200])
-	}
-
-	def gif = {
-		renderGif(template + [render: [width: 600, height: 200], clip: [height: true, width: true], resize: [width: 600, height: 200]])
-	}
-
-	def png = {
-		renderPng(template + [width: 100])
-	}
-
-	def relative = {
-		renderGif(template: 'relative')
-/*		render(template: 'relative')*/
-	}
-
-	protected getTemplate() {
-		[template: '/simple', model: [var: params.id]]
-	}
 }

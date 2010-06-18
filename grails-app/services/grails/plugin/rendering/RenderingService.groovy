@@ -23,6 +23,7 @@ abstract class RenderingService {
 	static transactional = false
 
 	def xhtmlDocumentService
+	def grailsApplication
 	
 	abstract protected doRender(Map args, Document document, OutputStream outputStream)
 	
@@ -35,6 +36,7 @@ abstract class RenderingService {
 
 	OutputStream render(Map args, Document document, OutputStream outputStream = new ByteArrayOutputStream()) {
 		try {
+			processArgs(args)
 			doRender(args, document, outputStream)
 			outputStream
 		} catch (Exception e) {
@@ -46,6 +48,7 @@ abstract class RenderingService {
 	}
 	
 	boolean render(Map args, HttpServletResponse response) {
+		processArgs(args)
 		if (args.bytes) {
 			writeToResponse(args, response, args.bytes)
 		} else if (args.input) {
@@ -94,4 +97,9 @@ abstract class RenderingService {
 		}
 	}
 
+	protected processArgs(Map args) {
+		if (!args.base) {
+			args.base = grailsApplication.config.grails.serverURL ?: null
+		}
+	}
 }

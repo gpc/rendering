@@ -18,6 +18,7 @@ log4j = {
 }
 
 grails {
+	serverURL = "http://localhost:8080/${appName}"
 	doc {
 		title = "Grails Rendering Plugin"
 		subtitle = "Render GSPs as PDFs, JPEGs, GIFs and PNGs"
