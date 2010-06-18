@@ -3,3 +3,4 @@ plugin.xml
 docs
 *.log
 *.zip
+.DS_Store
