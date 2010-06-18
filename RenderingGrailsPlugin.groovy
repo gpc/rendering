@@ -36,7 +36,7 @@ class RenderingGrailsPlugin {
 	def author = "Grails Plugin Collective"
 	def authorEmail = "grails.plugin.collective@gmail.com"
 	def title = "Grails Rendering"
-	def description = 'Provides rendering of GSPs as PDFs, JPEGs, GIFs and PNGs'
+	def description = 'Render GSPs as PDFs, JPEGs, GIFs and PNGs'
 	def documentation = "http://gpc.github.com/grails-rendering"
 
 	def renderMethodTemplate = { ctx, rendererName, Map args ->
