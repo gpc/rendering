@@ -1,6 +1,6 @@
 class RenderingGrailsPlugin {
 
-	def version = "0.5-SNAPSHOT"
+	def version = "0.1-SNAPSHOT"
 	def grailsVersion = "1.2.0 > *"
 	def dependsOn = [:]
 	
@@ -18,52 +18,35 @@ class RenderingGrailsPlugin {
 		"controllers"
 	]
 
-	def author = "Luke Daley & Randall Dietz"
-	def authorEmail = "ld@ldaley.com & rdietz@sp.com.au"
-	def title = "Grails PDF rendering"
-	def description = 'Provides the ability to render GSPs as PDFs'
-	def documentation = "http://grails.org/plugin/pdf"
+	def author = "Grails Plugin Collective"
+	def authorEmail = "grails.plugin.collective@gmail.com"
+	def title = "Grails Rendering"
+	def description = 'Provides rendering of GSPs as PDFs, JPEGs, GIFs and PNGs'
+	def documentation = "http://gpc.github.com/grails-rendering"
 
-	def addRenderMethods(pdfRenderingService, clazz) {
+	def renderMethodTemplate = { ctx, rendererName, Map args ->
+		ctx[rendererName].render(args, delegate.response)
+		false
+	}
+	
+	def addRenderMethods(ctx, clazz) {
 		clazz.metaClass.with {
-			
-			renderPdf = { Map args ->
-				pdfRenderingService.render(args, delegate.response)
-				false
-			}
-
-			renderPdfImage = { Map args, String imageType, String contentType ->
-				pdfRenderingService.image(args, imageType, contentType, delegate.response)
-				false
-			}
-
-			renderPdfJpeg = { Map args ->
-				pdfRenderingService.jpeg(args, delegate.response)
-				false
-			}
-
-			renderPdfGif = { Map args ->
-				pdfRenderingService.gif(args, delegate.response)
-				false
-			}
-
-			renderPdfPng = { Map args ->
-				pdfRenderingService.png(args, delegate.response)
-				false
-			}
-			
+			renderPdf = this.renderMethodTemplate.curry(ctx, 'pdfRenderingService')
+			renderJpeg = this.renderMethodTemplate.curry(ctx, 'jpegRenderingService')
+			renderGif = this.renderMethodTemplate.curry(ctx, 'gifRenderingService')
+			renderPng = this.renderMethodTemplate.curry(ctx, 'pngRenderingService')
 		}
 	}
 
 	def doWithDynamicMethods = { ctx ->
 		application.controllerClasses.each {
-			addRenderMethods(ctx.pdfRenderingService, it.clazz)
+			addRenderMethods(ctx, it.clazz)
 		}
 	}
 	
 	def onChange = { event ->
 		if (application.isControllerClass(event.source)) {
-			addRenderMethods(event.ctx.pdfRenderingService, event.source)
+			addRenderMethods(event.ctx, event.source)
 		}
 	}
 }

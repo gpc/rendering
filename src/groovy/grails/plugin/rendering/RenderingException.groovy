@@ -1,9 +1,9 @@
 package grails.plugin.rendering
 
-class RenderingException extends GrailsPdfException {
+class RenderingException extends GrailsRenderingException {
 
-	RenderingException(xml, cause) {
-		super("Failed to render: $xml", cause)
+	RenderingException(cause) {
+		super("Render failure", cause)
 	}
 
 }

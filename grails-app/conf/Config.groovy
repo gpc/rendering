@@ -1,5 +1,5 @@
 log4j = {
-    debug  'grails.plugin.pdf'
+	debug  'grails.plugin.rendering'
 }
 
 grails {
