@@ -17,6 +17,7 @@ package grails.plugin.rendering
 
 import javax.servlet.http.HttpServletResponse
 import org.w3c.dom.Document
+import grails.util.GrailsUtil
 
 abstract class RenderingService {
 
@@ -41,6 +42,7 @@ abstract class RenderingService {
 			outputStream
 		} catch (Exception e) {
 			if (log.errorEnabled) {
+				GrailsUtil.deepSanitize(e)
 				log.error("Rendering exception", e)
 			}
 			throw new RenderingException(e)
