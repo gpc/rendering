@@ -27,6 +27,7 @@ grails.project.dependency.resolution = {
 	}
 	dependencies {
 		compile("org.xhtmlrenderer:core-renderer:R8")
+		compile("com.lowagie:itext:2.1.0")
 		test("org.apache.pdfbox:pdfbox:1.0.0") {
 			exclude 'jempbox'
 			exported = false
