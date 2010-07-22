@@ -5,6 +5,7 @@ grails-app.services.grails.plugin.rendering
 grails-app.services.grails.plugin.rendering.document
 grails-app.services.grails.plugin.rendering.image
 grails-app.services.grails.plugin.rendering.pdf
+grails-app.services.grails.plugin.rendering.test
 plugins.pdf-plugin-test
 plugins.pdf-plugin-test.grails-app.conf
 src.groovy.grails.plugin.rendering
