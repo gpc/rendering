@@ -22,6 +22,8 @@ class RenderingGrailsPlugin {
 	def pluginExcludes = [
 		"grails-app/views/**/*",
 		"grails-app/controllers/**/*",
+		"grails-app/services/grails/plugin/rendering/test/**/*",
+		"src/groovy/grails/plugin/rendering/test/**/*",
 		"plugins/**/*",
 		"web-app/**/*"
 	]

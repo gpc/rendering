@@ -19,9 +19,11 @@ import org.w3c.dom.Document
 import org.xml.sax.InputSource
 import org.xhtmlrenderer.resource.XMLResource
 import groovy.text.Template
-
+import org.springframework.web.context.request.RequestContextHolder
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
+import org.springframework.web.context.support.WebApplicationContextUtils
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-
+import grails.util.GrailsWebUtil
 import grails.util.GrailsUtil
 
 class XhtmlDocumentService {
@@ -60,8 +62,28 @@ class XhtmlDocumentService {
 	}
 
 	protected generateXhtml(Map args) {
+		def requestAttributes = RequestContextHolder.getRequestAttributes()
+		def unbindRequest = false
+
+		// outside of an executing request, establish a mock version
+		if (!requestAttributes) {
+			def applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletContextHolder.getServletContext())
+			requestAttributes = GrailsWebUtil.bindMockWebRequest(applicationContext)
+			unbindRequest = true
+		}
+		
+		def servletContext = requestAttributes.request.servletContext
+		def request = requestAttributes.request
+		
 		def xhtmlWriter = new StringWriter()
-		createTemplate(args).make(args.model).writeTo(xhtmlWriter)
+		try {
+			createTemplate(args).make(args.model).writeTo(xhtmlWriter)
+		} finally {
+			if (unbindRequest) {
+				RequestContextHolder.setRequestAttributes(null)
+			}
+		}
+		
 		def xhtml = xhtmlWriter.toString()
 		xhtmlWriter.close()
 
