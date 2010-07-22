@@ -15,7 +15,7 @@
  */
 class RenderingGrailsPlugin {
 
-	def version = "0.3"
+	def version = "0.4-SNAPSHOT"
 	def grailsVersion = "1.2.0 > *"
 	def dependsOn = [:]
 	
