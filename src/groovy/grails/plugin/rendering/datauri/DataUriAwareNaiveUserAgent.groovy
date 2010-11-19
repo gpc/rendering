@@ -13,38 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RenderingController {
 
-	def pdf = { 
-		renderPdf(template)
+package grails.plugin.rendering.datauri
+
+import grails.plugin.rendering.datauri.DataUri
+import org.xhtmlrenderer.swing.NaiveUserAgent
+
+import org.slf4j.LoggerFactory
+
+class DataUriAwareNaiveUserAgent extends NaiveUserAgent {
+
+	static private log = LoggerFactory.getLogger(DataUriAwareNaiveUserAgent)
+	
+	protected InputStream resolveAndOpenStream(String uri) {
+		if (DataUri.isDataUri(uri)) {
+			new DataUri(uri).inputStream
+		} else {
+			super.resolveAndOpenStream(uri)
+		}
 	}
 
-	def jpeg = {
-		renderJpeg(template + [width: 200])
-	}
-
-	def gif = {
-		renderGif(template + [render: [width: 600, height: 200], clip: [height: true, width: true], resize: [width: 600, height: 200]])
-	}
-
-	def png = {
-		renderPng(template + [width: 100])
-	}
-
-	def relative = {
-		renderGif(template: 'relative')
-/*		render(template: 'relative')*/
-	}
-
-	def dataUriPdf = {
-		renderPdf(template: '/datauri')
-	}
-
-	def dataUriImg = {
-		renderGif(template: '/datauri')
-	}
-
-	protected getTemplate() {
-		[template: '/simple', model: [var: params.id]]
+	String resolveURI(String uri) { 
+		if (DataUri.isDataUri(uri)) {
+			uri
+		} else {
+			super.resolveURI(uri)
+		}
 	}
 }

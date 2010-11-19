@@ -25,6 +25,7 @@ import javax.imageio.ImageIO
 import org.xhtmlrenderer.simple.Graphics2DRenderer
 
 import grails.plugin.rendering.RenderingService
+import grails.plugin.rendering.datauri.DataUriAwareNaiveUserAgent
 
 abstract class ImageRenderingService extends RenderingService {
 
@@ -33,6 +34,10 @@ abstract class ImageRenderingService extends RenderingService {
 	static DEFAULT_BUFFERED_IMAGE_TYPE = BufferedImage.TYPE_INT_ARGB
 	
 	abstract protected getImageType()
+	
+	protected configureRenderer(Graphics2DRenderer renderer) {
+		renderer.sharedContext.userAgentCallback = new DataUriAwareNaiveUserAgent()
+	}
 	
 	protected doRender(Map args, Document document, OutputStream outputStream) {
 		convert(args, createBufferedImage(args, document), outputStream)
@@ -55,6 +60,7 @@ abstract class ImageRenderingService extends RenderingService {
 		def autosizeHeight = args.autosize?.height == null || args.autosize?.height == true
 		
 		def renderer = new Graphics2DRenderer()
+		configureRenderer(renderer)
 		renderer.setDocument(document, args.base)
 		
 		def imageWidth = renderWidth

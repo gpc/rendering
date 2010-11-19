@@ -94,6 +94,13 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 		thrown(XmlParseException)
 	}
 
+	def "can handle data uris"() {
+		when:
+		renderer.render(dataUriTemplate)
+		then:
+		notThrown(Exception)
+	}
+	
 	protected createController() {
 		grailsApplication.mainContext['RenderingController']
 	}
@@ -104,6 +111,10 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 
 	protected getPluginTemplate(Map args = [:]) {
 		[template: '/plugin-pdf', plugin: 'pdf-plugin-test', model: [var: 1]] + args
+	}
+
+	protected getDataUriTemplate() {
+		[template: '/datauri']
 	}
 
 	protected createMockResponse() {
