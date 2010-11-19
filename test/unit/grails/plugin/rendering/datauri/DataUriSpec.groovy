@@ -27,7 +27,7 @@ class DataUriSpec extends UnitSpec {
 	def "encoding base64 round trip"() {
 		given:
 		def bytes = getRedDotBytes()
-		def base64 = new String(new Base64().encode(bytes))
+		def base64 = new String(new Base64().encode(bytes), "UTF-8")
 		
 		when:
 		def dataUri = new DataUri("data:base64,$base64")

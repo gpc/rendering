@@ -22,7 +22,7 @@ import org.xhtmlrenderer.resource.ImageResource
 import com.lowagie.text.Image
 
 import grails.plugin.rendering.datauri.DataUri
-
+import grails.util.GrailsUtil
 import org.slf4j.LoggerFactory
 
 class DataUriAwareITextUserAgent extends ITextUserAgent {
