@@ -35,4 +35,6 @@ grails.project.dependency.resolution = {
 	}
 }
 
-grails.plugin.location.'pdf-plugin-test' = "plugins/pdf-plugin-test"
+if (appName == "grails-rendering") {
+	grails.plugin.location.'pdf-plugin-test' = "plugins/pdf-plugin-test"
+}
