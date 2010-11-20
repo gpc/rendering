@@ -22,6 +22,7 @@ import org.w3c.dom.Document
 import grails.plugin.rendering.datauri.DataUriAwareITextUserAgent
 
 import org.springframework.util.ReflectionUtils
+import com.lowagie.text.pdf.BaseFont
 
 class PdfRenderingService extends RenderingService {
 

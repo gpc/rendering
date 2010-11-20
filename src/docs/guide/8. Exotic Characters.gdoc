@@ -1,0 +1,18 @@
+In most cases, there are no issues with dealing with exotic Unicode characters. However, certain characters will not render in PDF documents without some extra work (the same problem does not exist when rendering images). This is a quirk with the way iText works, which is the library underpinning the PDF generation.
+
+This "thread":http://www.mail-archive.com/itext-questions@lists.sourceforge.net/msg48788.html explains the issue.
+
+The solution is to register the font to use with a particular encoding. Because we are using XHTMLRenderer we can specify this in CSS as opposed to programatically registering.
+
+{code}
+    @font-face {
+      src: url(path/to/arial.ttf);
+      -fs-pdf-font-embed: embed;
+      -fs-pdf-font-encoding: cp1250;
+    }
+    body {
+      font-family: "Arial Unicode MS", Arial, sans-serif;
+    }
+{code}
+
+See "this page":http://pigeonholdings.com/projects/flyingsaucer/R8/doc/guide/users-guide-R8.html#xil_44 for details on these CSS directives.

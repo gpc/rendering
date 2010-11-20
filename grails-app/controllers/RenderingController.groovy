@@ -44,6 +44,10 @@ class RenderingController {
 		renderGif(template: '/datauri')
 	}
 
+	def encodingTest = {
+		renderPdf(template: "/encoding-test")
+	}
+	
 	protected getTemplate() {
 		[template: '/simple', model: [var: params.id]]
 	}

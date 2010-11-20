@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 log4j = {
-	debug  'grails.plugin.rendering'
+	debug  'grails.plugin.rendering', "org.xhtmlrenderer"
 }
 
 grails {
@@ -27,3 +27,5 @@ grails {
 		footer = "Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>"
 	}
 }
+
+grails.views.gsp.encoding = "UTF-8"
