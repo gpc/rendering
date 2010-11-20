@@ -1,0 +1,21 @@
+
+h1. renderPdf
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.renderPdf(map)
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[* @map@
+]

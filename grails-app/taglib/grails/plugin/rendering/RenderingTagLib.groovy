@@ -51,7 +51,6 @@ class RenderingTagLib {
 	}
 	
 	def inlinePng = {
-		println "inlinePng: $it"
 		it.mimeType = "image/png"
 		out << inlineImage(it)
 	}
