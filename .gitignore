@@ -2,3 +2,4 @@
 plugin.xml
 target
 *.log
+.DS_Store
