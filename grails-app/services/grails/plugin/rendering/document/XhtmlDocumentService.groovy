@@ -32,6 +32,7 @@ class XhtmlDocumentService {
 
 	def groovyPagesTemplateEngine
 	def groovyPagesUriService
+	def grailsApplication
 	
 	Document createDocument(Map args) {
 		createDocument(generateXhtml(args))
@@ -62,26 +63,10 @@ class XhtmlDocumentService {
 	}
 
 	protected generateXhtml(Map args) {
-		def requestAttributes = RequestContextHolder.getRequestAttributes()
-		def unbindRequest = false
-
-		// outside of an executing request, establish a mock version
-		if (!requestAttributes) {
-			def applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(ServletContextHolder.getServletContext())
-			requestAttributes = GrailsWebUtil.bindMockWebRequest(applicationContext)
-			unbindRequest = true
-		}
-		
-		def servletContext = requestAttributes.request.servletContext
-		def request = requestAttributes.request
-		
 		def xhtmlWriter = new StringWriter()
-		try {
+
+		RenderEnvironment.with(grailsApplication.mainContext, xhtmlWriter) {
 			createTemplate(args).make(args.model).writeTo(xhtmlWriter)
-		} finally {
-			if (unbindRequest) {
-				RequestContextHolder.setRequestAttributes(null)
-			}
 		}
 		
 		def xhtml = xhtmlWriter.toString()
