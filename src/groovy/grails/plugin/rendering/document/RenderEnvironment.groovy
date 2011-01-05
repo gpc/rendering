@@ -8,6 +8,8 @@ import org.springframework.web.servlet.i18n.FixedLocaleResolver
 
 import org.springframework.context.ApplicationContext
 
+import grails.util.GrailsWebUtil
+
 class RenderEnvironment {
 
 	final Writer out
@@ -46,6 +48,16 @@ class RenderEnvironment {
 		WrappedResponseHolder.wrappedResponse = originalRequestAttributes?.currentResponse
 	}
 	
+	/**
+	 * Establish an environment inheriting the locale of the current request if there is one
+	 */
+	static with(ApplicationContext applicationContext, Writer out, Closure block) {
+		with(applicationContext, out, null, block)
+	}
+	
+	/**
+	 * Establish an environment with a specific locale
+	 */
 	static with(ApplicationContext applicationContext, Writer out, Locale locale, Closure block) {
 		def env = new RenderEnvironment(applicationContext, out, locale)
 		env.init()
