@@ -15,6 +15,8 @@
  */
 package grails.plugin.rendering.image
 
+import java.awt.image.BufferedImage
+
 class JpegRenderingService extends ImageRenderingService {
 
 	protected getImageType() {
@@ -23,6 +25,10 @@ class JpegRenderingService extends ImageRenderingService {
 
 	protected getDefaultContentType() {
 		"image/jpeg"
+	}
+	
+	protected getDefaultBufferedImageType() {
+		BufferedImage.TYPE_INT_RGB
 	}
 	
 }

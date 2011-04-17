@@ -50,8 +50,12 @@ abstract class ImageRenderingService extends RenderingService {
 		}
 	}
 	
+	protected getDefaultBufferedImageType() {
+		DEFAULT_BUFFERED_IMAGE_TYPE
+	}
+	
 	protected BufferedImage createBufferedImage(Map args, Document document) {
-		def bufferedImageType = args.bufferedImageType ?: DEFAULT_BUFFERED_IMAGE_TYPE
+		def bufferedImageType = args.bufferedImageType ?: getDefaultBufferedImageType()
 		
 		def renderWidth = args.render?.width?.toInteger() ?: 10
 		def renderHeight = args.render?.height?.toInteger()
