@@ -33,6 +33,14 @@ grails.project.dependency.resolution = {
 			exported = false
 		}
 	}
+	plugins {
+		compile(":spring-events:1.0", ":tomcat:$grailsVersion", ":hibernate:$grailsVersion") {
+			exported = false
+		}
+		test(":spock:0.5-groovy-1.7") {
+			exported = false
+		}
+	}
 }
 
 if (appName == "grails-rendering") {
