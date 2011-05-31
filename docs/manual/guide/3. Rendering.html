@@ -1,11 +1,11 @@
 <html>
-     <head>
-     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
-     	<title>3. Rendering</title>
-     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
-     </head>
-	<body class="body">
-		<h1><a name="3. Rendering">3. Rendering</a></h1>There are four services available for rendering:
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>3. Rendering</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h1><a name="3. Rendering">3. Rendering</a></h1>There are four services available for rendering:
 <ul class="star">
 <li>pdfRenderingService</li>
 <li>gifRenderingService</li>
@@ -27,5 +27,5 @@ def bytes = gifRenderingService.render(template: '/images/coupon', model: &#91;s
 <li>template paths starting with "/" are resolved relative to the <code>views</code> directory</li>
 <li>template paths NOT starting with "/" are resolved relative to the <code>views/«controller»</code> directory</li>
 </ul><p class="paragraph"/>If the <code>template</code> argument does not start with a "/", the <code>controller</code> argument must be provided. The methods added to controllers (e.g. <code>renderPdf()</code>) automatically pass the <code>controller</code> param for you.
-	</body>
+    </body>
 </html>

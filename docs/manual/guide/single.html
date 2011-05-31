@@ -1,30 +1,31 @@
 <html>
-	<head>
-		  <title>Grails Rendering Plugin 0.3 - Reference Documentation</title>
-		  <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8">	
-	</head>
+    <head>
+        <title>Grails Rendering Plugin 0.4.3 - Reference Documentation</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Style" charset="utf-8"/>
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    </head>
     <body class="body">
-		<div id="header">
-				<div class="images"><br><br>
-				   <a href="http://grails.org"  target="_blank"><img alt="The Grails Framework" src="../img/grails.png" border="0"></a>
-				   <span style="right:30px; top:20px; position:absolute;">
-					<a href="../index.html" target="_top">Frames</a> | <a href="index.html" target="_top">No Frames</a><br><br>
-                     <a alt="SpringSource - A Division of VMware" href="http://springsource.com" target="_blank"><img src="../img/springsource-logo.png" border="0"></a>					
-					</span>					
-				</div>
-				<div class="message">Render GSPs as PDFs, JPEGs, GIFs and PNGs</div>
-				<h1>Grails Rendering Plugin - Reference Documentation</h1>
-				<p><strong>Authors:</strong> Grails Plugin Collective</p>
-				<p><strong>Version:</strong> 0.3</p>				
-				<em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em>
-		</div>                       
-		
-		<div id="toc">  
-			<h2>Table of Contents</h2>
-			<div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. GSP Considerations">2. GSP Considerations</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Rendering">3. Rendering</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Sizing">4. Sizing</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Rendering To The Response">5. Rendering To The Response</a></div><div class="tocItem" style="margin-left:0px"><a href="#6. Caching And Performance">6. Caching And Performance</a></div>
-		</div>     
-		<div id="content">
-			<h1><a name="1. Introduction">1. Introduction</a></h1>This plugin adds additional rendering capabilities to Grails applications via the <a href="https://xhtmlrenderer.dev.java.net/">XHTML Renderer</a> library.<p class="paragraph"/>Rendering is either done directly via <code>«format»RenderingService</code> services ...<p class="paragraph"/><div class="code"><pre>ByteArrayOutputStream bytes = pdfRenderingService.render(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;data: data&#93;)</pre></div><p class="paragraph"/>Or via the <code>render«format»()</code> methods added to controllers ...<p class="paragraph"/><div class="code"><pre>renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)</pre></div><p class="paragraph"/>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="blank">Apache License 2.0</a> license and is produced under the <a href="http://gpc.github.com/" target="blank">Grails Plugin Collective</a> .<h1><a name="2. GSP Considerations">2. GSP Considerations</a></h1>There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.<p class="paragraph"/><h3>Link resources must be resolvable</h3><p class="paragraph"/>All links to resources (e.g. images, css) must be <em class="italic">accessible by the application</em> . This is due to the linked resources being accessed by <em class="italic">application</em> and not a browser. Depending on your network config in production, this may require some special consideration.<p class="paragraph"/>The rendering engine resolves all relative links relative to the <code>grails.serverURL</code> config property.<p class="paragraph"/><h3>Must be well formed</h3><p class="paragraph"/>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugin.rendering.document.XmlParseException</code> will be thrown.<p class="paragraph"/><h3>Must declare DOCTYPE</h3><p class="paragraph"/>Without a doctype, you are likely to get parse failures due to unresolvable entity references (e.g. <code>&#38;nbsp;</code>). Be sure to declare the XHTML doctype at the start of your GSP like so ...<p class="paragraph"/><div class="code"><pre>&#60;!DOCTYPE html PUBLIC <span class="java&#45;quote">"&#45;//W3C//DTD XHTML 1.0 Strict//EN"</span>
+        <div id="header">
+            <div class="images"><br/><br/>
+                <a href="http://grails.org" target="_blank"><img alt="The Grails Framework" src="../img/grails.png" border="0"/></a>
+                <span style="right:30px; top:20px; position:absolute;">
+                    <a href="../index.html" target="_top">Frames</a> | <a href="index.html" target="_top">No Frames</a><br/><br/>
+                    <a href="http://springsource.com" target="_blank"><img alt="SpringSource - A Division of VMware" src="../img/springsource-logo.png" border="0"/></a>
+                </span>
+            </div>
+            <div class="message">Render GSPs as PDFs, JPEGs, GIFs and PNGs</div>
+            <h1>Grails Rendering Plugin - Reference Documentation</h1>
+            <p><strong>Authors:</strong> Grails Plugin Collective</p>
+            <p><strong>Version:</strong> 0.4.3</p>
+            <em>Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.</em>
+        </div>
+
+        <div id="toc">
+            <h2>Table of Contents</h2>
+            <div class="tocItem" style="margin-left:0px"><a href="#1. Introduction">1. Introduction</a></div><div class="tocItem" style="margin-left:0px"><a href="#2. GSP Considerations">2. GSP Considerations</a></div><div class="tocItem" style="margin-left:0px"><a href="#3. Rendering">3. Rendering</a></div><div class="tocItem" style="margin-left:0px"><a href="#4. Sizing">4. Sizing</a></div><div class="tocItem" style="margin-left:0px"><a href="#5. Rendering To The Response">5. Rendering To The Response</a></div><div class="tocItem" style="margin-left:0px"><a href="#6. Caching And Performance">6. Caching And Performance</a></div><div class="tocItem" style="margin-left:0px"><a href="#7. Inline Images">7. Inline Images</a></div><div class="tocItem" style="margin-left:0px"><a href="#8. Exotic Characters">8. Exotic Characters</a></div>
+        </div>
+        <div id="content">
+            <h1><a name="1. Introduction">1. Introduction</a></h1>This plugin adds additional rendering capabilities to Grails applications via the <a href="https://xhtmlrenderer.dev.java.net/" target="blank">XHTML Renderer</a> library.<p class="paragraph"/>Rendering is either done directly via <code>«format»RenderingService</code> services ...<p class="paragraph"/><div class="code"><pre>ByteArrayOutputStream bytes = pdfRenderingService.render(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;data: data&#93;)</pre></div><p class="paragraph"/>Or via the <code>render«format»()</code> methods added to controllers ...<p class="paragraph"/><div class="code"><pre>renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)</pre></div><p class="paragraph"/>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="blank">Apache License 2.0</a> license and is produced under the <a href="http://gpc.github.com/" target="blank">Grails Plugin Collective</a> .<h1><a name="2. GSP Considerations">2. GSP Considerations</a></h1>There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.<p class="paragraph"/><h3>Link resources must be resolvable</h3><p class="paragraph"/>All links to resources (e.g. images, css) must be <em class="italic">accessible by the application</em> . This is due to the linked resources being accessed by <em class="italic">application</em> and not a browser. Depending on your network config in production, this may require some special consideration.<p class="paragraph"/>The rendering engine resolves all relative links relative to the <code>grails.serverURL</code> config property.<p class="paragraph"/><h3>Must be well formed</h3><p class="paragraph"/>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugin.rendering.document.XmlParseException</code> will be thrown.<p class="paragraph"/><h3>Must declare DOCTYPE</h3><p class="paragraph"/>Without a doctype, you are likely to get parse failures due to unresolvable entity references (e.g. <code>&#38;nbsp;</code>). Be sure to declare the XHTML doctype at the start of your GSP like so ...<p class="paragraph"/><div class="code"><pre>&#60;!DOCTYPE html PUBLIC <span class="java&#45;quote">"&#45;//W3C//DTD XHTML 1.0 Strict//EN"</span>
  <span class="java&#45;quote">"http://www.w3.org/TR/xhtml1/DTD/xhtml1&#45;strict.dtd"</span>&#62;</pre></div><h1><a name="3. Rendering">3. Rendering</a></h1>There are four services available for rendering:
 <ul class="star">
 <li>pdfRenderingService</li>
@@ -86,10 +87,27 @@ def bytes = gifRenderingService.render(template: '/images/coupon', model: &#91;s
         def serial = params.id
         def bytes = couponGifService.getGif(serial)<p class="paragraph"/>        renderGif(bytes: bytes, filename: <span class="java&#45;quote">"$&#123;serial&#125;.gif"</span>)
     &#125;
-&#125;</pre></div><p class="paragraph"/><h3>Avoiding Byte Copying</h3><p class="paragraph"/>When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the <code>Content-Length</code> header set (this also applies when passing the <code>bytes</code> directly).<p class="paragraph"/>This copy can be avoided and the render (or bytes) can be written directly to the response output stream. This means that the <code>Content-Length</code> header will not be set unless you manually specify the length via the <code>contentLength</code> property to the render method.         			
-		</div>
-		<div id="footer">
-			  Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
-		</div>	
-	</body>
+&#125;</pre></div><p class="paragraph"/><h3>Avoiding Byte Copying</h3><p class="paragraph"/>When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the <code>Content-Length</code> header set (this also applies when passing the <code>bytes</code> directly).<p class="paragraph"/>This copy can be avoided and the render (or bytes) can be written directly to the response output stream. This means that the <code>Content-Length</code> header will not be set unless you manually specify the length via the <code>contentLength</code> property to the render method.<h1><a name="7. Inline Images">7. Inline Images</a></h1>This plugin adds support for inline images via <a href="http://en.wikipedia.org/wiki/Data_URI_scheme." target="blank">data uris</a> This is useful for situations where the images you need to imbed in a rendered PDF or image are generated by the application itself.<p class="paragraph"/>For example, your application may generate barcodes that you don't necessarily want to expose but want to include in your generated PDFs or images. Using inline images, you can include the image bytes in the document to be rendered.<p class="paragraph"/>To make this easier, the plugin provides tags to render byte arrays as common image formats (i.e. gif, png and jpeg).<p class="paragraph"/>The tags are under the namespace <code>rendering</code> and are called <code>inlinePng</code>, <code>inlineGif</code> and <code>inlineJpeg</code>. They all take a single argument, <code>bytes</code>, which is a <code>byte</code> containing the raw bytes of the images. This will result in an <code>img</code> tag with a <code>src</code> attribute of a suitable data uri. Any other parameters passed to the tag will be expressed as attributes of the resultant <code>img</code> tag.<p class="paragraph"/>Here is an example of how this could be used to include a local (i.e. from the filesystem) image in a generated pdf/image.<p class="paragraph"/><div class="code"><pre>class SomeController &#123;<p class="paragraph"/>    def generate = &#123;
+        def file = <span class="java&#45;keyword">new</span> File(<span class="java&#45;quote">"path/to/image.png"</span>)
+        renderPng(template: <span class="java&#45;quote">"thing"</span>, model: &#91;imageBytes: file.bytes&#93;)
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>In the view…<p class="paragraph"/><div class="code"><pre>&#60;html&#62;
+    &#60;head&#62;&#60;/head&#62;
+    &#60;body&#62;
+        &#60;p&#62;Below is an inline image&#60;/p&#62;
+        &#60;rendering:inlinePng bytes=<span class="java&#45;quote">"$&#123;imageBytes&#125;"</span> class=<span class="java&#45;quote">"some&#45;class"</span> /&#62;
+    &#60;/body&#62;
+&#60;/html&#62;</pre></div>
+<h1><a name="8. Exotic Characters">8. Exotic Characters</a></h1>In most cases, there are no issues with dealing with exotic Unicode characters. However, certain characters will not render in PDF documents without some extra work (the same problem does not exist when rendering images). This is a quirk with the way iText works, which is the library underpinning the PDF generation.<p class="paragraph"/>This <a href="http://www.mail-archive.com/itext-questions@lists.sourceforge.net/msg48788.html" target="blank">thread</a> explains the issue.<p class="paragraph"/>The solution is to register the font to use with a particular encoding. Because we are using XHTMLRenderer we can specify this in CSS as opposed to programatically registering.<p class="paragraph"/><div class="code"><pre>@font&#45;face &#123;
+      src: url(path/to/arial.ttf);
+      &#45;fs&#45;pdf&#45;font&#45;embed: embed;
+      &#45;fs&#45;pdf&#45;font&#45;encoding: cp1250;
+    &#125;
+    body &#123;
+      font&#45;family: <span class="java&#45;quote">"Arial Unicode MS"</span>, Arial, sans&#45;serif;
+    &#125;</pre></div><p class="paragraph"/>See <a href="http://pigeonholdings.com/projects/flyingsaucer/R8/doc/guide/users-guide-R8.html#xil_44" target="blank">this page</a> for details on these CSS directives.
+        </div>
+        <div id="footer">
+             Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+        </div>
+    </body>
 </html>
