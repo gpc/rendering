@@ -1,4 +1,4 @@
-There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.
+The rendering plugin does render images and CSS. The following needs to be considered for resources to be rendered successfully.
 
 h3. Link resources must be resolvable
 
@@ -18,3 +18,34 @@ Without a doctype, you are likely to get parse failures due to unresolvable enti
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 {code}
+
+h3. CSS Images
+
+It is recommended that CSS images be rendered inline. Standard CSS has a feature that allows images that are converted to base64. For example:
+
+{code}
+base64 -w0 image.gif > image.b64
+
+{code}
+
+To be displayed inline:
+
+{code:css}
+body {
+    background: transparent url(data:image/gif;base64,R0lGODlhJwTPAPcAAP ... Ds=) no-repeat;
+}
+{code}
+
+
+h3. Grails Config
+
+The value of app in @Config.groovy@ needs to match the running instance. The serverURL value is passed to the renderer and used to resolve relative paths. The port number must also match.
+
+{code}
+grails.serverURL = "http://localhost:8084/${appName}"
+{code}
+
+
+h3. Relative Images
+
+Seems to be a bug where I have to put @appName@ at the start of each resource.
