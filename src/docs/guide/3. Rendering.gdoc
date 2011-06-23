@@ -21,7 +21,7 @@ def bytes = gifRenderingService.render(template: '/images/coupon', model: [seria
 
 // Render to a file
 new File("coupon.jpg").withOutputStream { outputStream ->
-    jpegRenderingService.render(template: '/images/coupon', model: [serial: 12345])
+    jpegRenderingService.render([template: '/images/coupon', model: [serial: 12345]], outputStream)
 }
 {code}
 
