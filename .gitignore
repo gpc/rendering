@@ -4,4 +4,6 @@ docs
 *.log
 *.zip
 .DS_Store
+.idea
+*.iml
 grails-rendering-*
