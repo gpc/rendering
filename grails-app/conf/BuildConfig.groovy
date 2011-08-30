@@ -17,32 +17,33 @@ grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.dependency.resolution = {
-	inherits( "global" )
-	log "warn"
-	repositories {
-		grailsPlugins()
-		grailsHome()
-		mavenCentral()
-		mavenRepo "http://download.java.net/maven/2/"
-	}
-	dependencies {
-		compile("org.xhtmlrenderer:core-renderer:R8")
-		compile("com.lowagie:itext:2.1.0")
-		test("org.apache.pdfbox:pdfbox:1.0.0") {
-			exclude 'jempbox'
-			exported = false
-		}
-	}
-	plugins {
-		compile(":spring-events:1.0", ":tomcat:$grailsVersion", ":hibernate:$grailsVersion") {
-			exported = false
-		}
-		test(":spock:0.5-groovy-1.7") {
-			exported = false
-		}
-	}
+    inherits("global")
+    log "warn"
+    repositories {
+        grailsPlugins()
+        grailsHome()
+        grailsCentral()
+        mavenCentral()
+        mavenRepo "http://download.java.net/maven/2/"
+    }
+    dependencies {
+        compile("org.xhtmlrenderer:core-renderer:R8")
+        compile("com.lowagie:itext:2.1.7")
+        test("org.apache.pdfbox:pdfbox:1.0.0") {
+            exclude 'jempbox'
+            exported = false
+        }
+    }
+    plugins {
+        compile(":spring-events:1.1", ":tomcat:$grailsVersion", ":hibernate:$grailsVersion") {
+            exported = false
+        }
+        test(":spock:0.5-groovy-1.7") {
+            exported = false
+        }
+    }
 }
 
 if (appName == "grails-rendering") {
-	grails.plugin.location.'pdf-plugin-test' = "plugins/pdf-plugin-test"
+    grails.plugin.location.'pdf-plugin-test' = "plugins/pdf-plugin-test"
 }

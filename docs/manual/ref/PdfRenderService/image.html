@@ -1,0 +1,24 @@
+<html>
+     <head>
+     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     	<title>Grails Rendering Plugin 0.1-SNAPSHOT - Reference Documentation</title>
+     	<link rel="stylesheet" href="../../css/ref.css" type="text/css" media="screen" title="Ref" charset="utf-8">
+     </head>
+	<body class="body">
+		<h1>image</h1><p class="paragraph"/><h2>Purpose</h2><p class="paragraph"/>Renders a GSP template as a PDF, then renders it to a <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/BufferedImage.html" target="blank">BufferedImage</a> or as particular format into an output stream.<p class="paragraph"/><h4>Examples</h4><p class="paragraph"/><div class="code"><pre>def bufferedImage = pdfRenderingService.image(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: report&#93;)</pre></div><p class="paragraph"/><div class="code"><pre>def jpegBytes = pdfRenderingService.image(<span class="java&#45;quote">"jpeg"</span>, template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: report&#93;)</pre></div><p class="paragraph"/><h4>Description</h4><p class="paragraph"/><div class="code"><pre>BufferedImage render(Map renderArgs)</pre></div><p class="paragraph"/>Parameters:
+<ul class="star">
+<li><code>renderArgs</code> - See guide:renderingImages</li>
+</ul><p class="paragraph"/>Return Value:
+<ul class="star">
+<li>The BufferedImage that the pdf was rendered into.</li>
+</ul><p class="paragraph"/><div class="code"><pre>OutputStream image(Map renderArgs, <span class="java&#45;object">String</span> imageType, OutputStream destination = <span class="java&#45;keyword">new</span> ByteArrayOutputStream())</pre></div><p class="paragraph"/>Parameters:
+<ul class="star">
+<li><code>renderArgs</code> - See guide:renderingImages</li>
+<li><code>imageType</code> - The format name (suitable for the <a href="http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/ImageIO.html#write(java.awt.image.RenderedImage,%20java.lang.String,%20java.io.OutputStream)" target="blank">ImageIO.write()</a> method)</li>
+<li><code>destination</code> - The output stream to write the image to</li>
+</ul><p class="paragraph"/>Return Value:
+<ul class="star">
+<li>The <em class="italic">destination</em> argument is always returned.</li>
+</ul><p class="paragraph"/>
+	</body>
+</html>

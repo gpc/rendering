@@ -1,0 +1,21 @@
+<html>
+     <head>
+     	<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+     	<title>3. Rendering PDFs</title>
+     	<link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8">
+     </head>
+	<body class="body">
+		<h1><a name="3. Rendering PDFs">3. Rendering PDFs</a></h1>All PDF rendering methods on the <code>pdfRenderingService</code> take a <code>Map</code> argument that specifies which template to render and the model to use.<p class="paragraph"/>The following map arguments are common to all pdf rendering methods:
+<ul class="star">
+<li><code>template</code> (required) - The template to render</li>
+<li><code>model</code> (optional) - The model to use</li>
+<li><code>plugin</code> (optional) - The plug-in containing the template</li>
+<li><code>controller</code> (optional) - The controller <em class="italic">instance</em> or <em class="italic">name</em> to resolve the template against</li>
+</ul><p class="paragraph"/><h3>Template Resolution</h3><p class="paragraph"/>The pdf plugin uses the same resolution strategy as the <code>render()</code> method in Grails controllers and taglibs.<p class="paragraph"/>That is,
+<ul class="star">
+<li>template files must start with an underscore (<code>_template.gsp</code>)</li>
+<li>template paths starting with "/" are resolved relative to the <code>views</code> directory</li>
+<li>template paths NOT starting with "/" are resolved relative to the <code>views/«controller»</code> directory</li>
+</ul><p class="paragraph"/>If the <code>template</code> argument does not start with a "/", the <code>controller</code> argument must be provided. The methods added to controllers (e.g. <code>renderPdf()</code>) automatically pass the <code>controller</code> param for you. See 
+	</body>
+</html>

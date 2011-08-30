@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>5. Rendering To The Response</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h1><a name="5. Rendering To The Response">5. Rendering To The Response</a></h1>There are four methods added to all controllers for rendering:
+<ul class="star">
+<li>renderPdf(Map args)</li>
+<li>renderGif(Map args)</li>
+<li>renderPng(Map args)</li>
+<li>renderJpeg(Map args)</li>
+</ul><p class="paragraph"/>Each of the methods is equivalent to…<p class="paragraph"/><div class="code"><pre>«format»RenderingService.render(args + &#91;controller: <span class="java&#45;keyword">this</span>&#93;, response)</pre></div><p class="paragraph"/>All methods take all of the arguments that their respective service's <code>render()</code> method take, plus some extras.<p class="paragraph"/><h3>Extra Render Arguments</h3><p class="paragraph"/>All rendering methods take a <code>Map</code> argument that specifies which template to render and the model to use (in most cases).<p class="paragraph"/>The following map arguments are common to all rendering methods:
+<ul class="star">
+<li><code>filename</code> (option) - sets the <code>Content-Disposition</code> header with <code>attachment; filename="$filename";</code> (asking the browser to download the file with the given filename)</li>
+<li><code>contentType</code> (optional) - the <code>Content-Type</code> header value (see Content Type Defaults below)</li>
+</ul><p class="paragraph"/><h3>Default Content Types</h3><p class="paragraph"/>The default content types are…
+<ul class="star">
+<li>application/pdf</li>
+<li>image/gif</li>
+<li>image/png</li>
+<li>image/jpeg</li>
+</ul><p class="paragraph"/><h3>Large Files/Renders</h3><p class="paragraph"/>See the section on <a href="../guide/single.html#6. Caching And Performance" class="guide">caching and performance</a> for some other arguments that can help with large renders.
+    </body>
+</html>

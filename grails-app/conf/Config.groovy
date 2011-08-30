@@ -29,3 +29,4 @@ grails {
 }
 
 grails.views.gsp.encoding = "UTF-8"
+grails.views.default.codec="none" // none, html, base64

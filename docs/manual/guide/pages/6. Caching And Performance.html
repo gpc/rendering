@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>6. Caching And Performance</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h3>Caching</h3><p class="paragraph"/>Rendering can be an expensive operation so you may need to implement caching (using the excellent <a href="spring-cache:http://grails.org/plugin/springcache" target="blank"></a> plugin)<p class="paragraph"/><h4>Document Caching</h4><p class="paragraph"/>Rendering works internally by creating a <code>org.w3c.dom.Document</code> instance from the GSP page via the <code>xhtmlDocumentService</code>. If you plan to render the same GSP as different output formats, you may want to cache the document.<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> grails.plugin.springcache.annotations.Cacheable<p class="paragraph"/>class CouponDocumentService &#123;
+    def xhmlDocumentService<p class="paragraph"/>    <code>Cacheable('couponDocumentCache')</code>
+    class getDocument(serial) &#123;
+        xhmlDocumentService.createDocument(template: '/coupon', model: &#91;serial: serial&#93;)
+    &#125;
+&#125;</pre></div><p class="paragraph"/>All of the render methods can take a <code>document</code> parameter instead of the usual <code>template</code>/<code>model</code> properties.<p class="paragraph"/><div class="code"><pre>class CouponController &#123;<p class="paragraph"/>    def couponDocumentService<p class="paragraph"/>    def gif = &#123;
+        def serial = params.id
+        def document = couponDocumentService.getDocument(serial)<p class="paragraph"/>        renderGif(filename: <span class="java&#45;quote">"$&#123;serial&#125;.gif"</span>, document)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h4>Byte Caching</h4><p class="paragraph"/>You can take things further and actually cache the rendered bytes.<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> grails.plugin.springcache.annotations.Cacheable<p class="paragraph"/>class CouponGifService &#123;<p class="paragraph"/>    def couponDocumentService
+    def gifRenderingService<p class="paragraph"/>    def getGif(serial) &#123;
+        def document = couponDocumentService.getDocument(serial)
+        def byteArrayOutputStream = gifRenderingService.gif(&#91;:&#93;, document)
+        byteArrayOutputStream.toByteArray()
+    &#125;
+&#125;</pre></div><p class="paragraph"/><div class="code"><pre>class CouponController &#123;<p class="paragraph"/>    def couponGifService<p class="paragraph"/>    def gif = &#123;
+        def serial = params.id
+        def bytes = couponGifService.getGif(serial)<p class="paragraph"/>        renderGif(bytes: bytes, filename: <span class="java&#45;quote">"$&#123;serial&#125;.gif"</span>)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h3>Avoiding Byte Copying</h3><p class="paragraph"/>When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the <code>Content-Length</code> header set (this also applies when passing the <code>bytes</code> directly).<p class="paragraph"/>This copy can be avoided and the render (or bytes) can be written directly to the response output stream. This means that the <code>Content-Length</code> header will not be set unless you manually specify the length via the <code>contentLength</code> property to the render method.
+    </body>
+</html>

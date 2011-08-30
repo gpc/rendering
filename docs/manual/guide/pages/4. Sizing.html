@@ -1,0 +1,15 @@
+<html>
+    <head>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+        <title>4. Sizing</title>
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen" title="Ref" charset="utf-8"/>
+    </head>
+    <body class="body">
+    <h3>Documents</h3><p class="paragraph"/>When rendering PDF documents, you can specify the page size via CSS…<p class="paragraph"/><div class="code"><pre>&#60;style  type=<span class="java&#45;quote">"text/css"</span>&#62;
+  @page &#123;
+    size: 210mm 297mm;
+  &#125;
+&#60;/style&#62;</pre></div><p class="paragraph"/><h3>Images</h3><p class="paragraph"/>The image rendering methods take extra arguments to control the size of the rendered image. The extra arguments are maps containing <code>width</code> or <code>height</code> keys, or both.<p class="paragraph"/><h4>render</h4><p class="paragraph"/>The <code>render</code> argument is the size of the view port that the document is rendered into. This is equivalent to the dimensions of the browser window for html rendering.<p class="paragraph"/>The default value for <code>render</code> is <code>width: 10, height: 10000</code> (i.e. 10 pixels wide by 10000 pixels high).<p class="paragraph"/><h4>autosize</h4><p class="paragraph"/>The <code>autosize</code> argument specifies whether to adjust the size of the image to exactly be the rendered content.<p class="paragraph"/>The default value for <code>autosize</code> is <code>width: true, height: true</code>.<p class="paragraph"/><h4>scale</h4><p class="paragraph"/>The <code>scale</code> argument specifies  the factor to scale the image by after initial rendering. For example, the value <code>width: 0.5, height: 0.5</code> produces an image half the size of the original render.<p class="paragraph"/>The default value for <code>autosize</code> is null.<p class="paragraph"/><h4>resize</h4><p class="paragraph"/>The <code>resize</code> argument specifies the adjusted  mage after initial rendering. For example, the value <code>width: 200, height: 400</code> will resize the image to 200 pixels X 400 pixels regardless of the original render size.<p class="paragraph"/>(note that <code>resize</code> &#38; <code>scale</code> are mutually exclusive with <code>scale</code> taking precedence).<p class="paragraph"/>The default value for <code>resize</code> is null.
+
+    </body>
+</html>

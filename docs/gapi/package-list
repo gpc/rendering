@@ -1,0 +1,5 @@
+DefaultPackage
+grails.plugin.rendering
+grails.plugin.rendering.datauri
+grails.plugin.rendering.document
+grails.plugin.rendering.image
