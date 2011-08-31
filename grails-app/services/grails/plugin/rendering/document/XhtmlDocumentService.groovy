@@ -17,25 +17,13 @@ package grails.plugin.rendering.document
 
 import org.w3c.dom.Document
 import org.xml.sax.InputSource
-import org.xhtmlrenderer.resource.XMLResource
-import groovy.text.Template
-import org.springframework.web.context.request.RequestContextHolder
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.springframework.web.context.support.WebApplicationContextUtils
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-import grails.util.GrailsWebUtil
 import grails.util.GrailsUtil
-import org.xml.sax.XMLReader
 import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.transform.dom.DOMResult
-import javax.xml.transform.TransformerFactory
-import javax.xml.transform.Transformer
+
 import org.xml.sax.EntityResolver
 import org.xml.sax.SAXException
-import javax.xml.parsers.SAXParserFactory
-import javax.xml.parsers.SAXParser
-import javax.xml.transform.Source
-import javax.xml.transform.sax.SAXSource
+
 
 class XhtmlDocumentService {
 
@@ -49,7 +37,7 @@ class XhtmlDocumentService {
         createDocument(generateXhtml(args))
     }
 
-    protected createDocument(String xhtml) {
+    protected Document createDocument(String xhtml) {
         try {
             createDocument(new InputSource(new StringReader(xhtml)))
         } catch (XmlParseException e) {
@@ -63,26 +51,15 @@ class XhtmlDocumentService {
 
     protected Document createDocument(InputSource xhtml) {
         try {
-            //xmlReader.setFeature("http://xml.org/sax/features/namespaces", true);
-            //  XMLReader xmlReader = XMLResource.newXMLReader().setFeature("http://xml.org/sax/features/namespaces", false)
-
-
-
-     //       XMLResource.load(xhtml).document
-
-            SAXParserFactory factory = SAXParserFactory.newInstance();
-            SAXParser saxParser = factory.newSAXParser();
-
-            XMLReader xmlReader = saxParser.getXMLReader();
-            xmlReader.setFeature("http://xml.org/sax/features/validation", false);
-            xmlReader.setFeature("http://xml.org/sax/features/namespaces", false)
-            xmlReader.setEntityResolver(new MyResolver());
-
+            // Don't do stupid things like grab DTD from the internet.
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setNamespaceAware(true);
+            dbf.setNamespaceAware(false);
             dbf.setValidating(false);
-            Document document = dbf.newDocumentBuilder().parse(xhtml)
-            return document
+            dbf.setFeature("http://xml.org/sax/features/namespaces", false);
+            dbf.setFeature("http://xml.org/sax/features/validation", false);
+            dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-dtd-grammar", false);
+            dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+            return dbf.newDocumentBuilder().parse(xhtml)
 
         } catch (Exception e) {
             if (log.errorEnabled) {
@@ -93,14 +70,14 @@ class XhtmlDocumentService {
         }
     }
 
-    protected generateXhtml(Map args) {
+    protected String generateXhtml(Map args) {
         def xhtmlWriter = new StringWriter()
 
         RenderEnvironment.with(grailsApplication.mainContext, xhtmlWriter) {
             createTemplate(args).make(args.model).writeTo(xhtmlWriter)
         }
 
-        def xhtml = xhtmlWriter.toString()
+        String xhtml = xhtmlWriter.toString()
         xhtmlWriter.close()
 
         if (log.debugEnabled) {
@@ -153,6 +130,7 @@ class XhtmlDocumentService {
         contextPath
     }
 
+    // Does flying saucer have its own version of this?   TODO - not used.
     public static class MyResolver implements EntityResolver {
         public InputSource resolveEntity(String publicId, String systemID)
         throws SAXException {

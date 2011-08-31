@@ -31,7 +31,7 @@ abstract class RenderingService {
 	abstract protected getDefaultContentType()
 
 	OutputStream render(Map args, OutputStream outputStream = new ByteArrayOutputStream()) {
-		def document = args.document ?: xhtmlDocumentService.createDocument(args)
+		Document document = args.document ?: xhtmlDocumentService.createDocument(args)
 		render(args, document, outputStream)
 	}
 
