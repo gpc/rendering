@@ -42,7 +42,7 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 		then:
 		notThrown(Exception)
 	}
-	
+
 	def renderTemplateInPlugin() {
 		when:
 		renderer.render(pluginTemplate)
@@ -63,7 +63,7 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 		then:
 		thrown(UnknownTemplateException)
 	}
-	
+
 
 	def renderToResponse() {
 		given:

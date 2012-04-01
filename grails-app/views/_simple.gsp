@@ -19,5 +19,6 @@
     <body>
         <p>This is a PDF!</p>
         <p>${var}</p>
+        <p>Locale specific content: ${message(code: 'label')}</p>
     </body>
 </html>
