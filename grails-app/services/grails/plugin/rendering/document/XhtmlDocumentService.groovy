@@ -65,7 +65,7 @@ class XhtmlDocumentService {
 	protected generateXhtml(Map args) {
 		def xhtmlWriter = new StringWriter()
 
-		RenderEnvironment.with(grailsApplication.mainContext, xhtmlWriter) {
+		RenderEnvironment.with(grailsApplication.mainContext, xhtmlWriter, args.locale) {
 			createTemplate(args).make(args.model).writeTo(xhtmlWriter)
 		}
 		

@@ -32,6 +32,16 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 	def getRenderer() {
 		pdfRenderingService
 	}
+
+	def renderWithLocaleArgument(){
+		given:
+		def response = createMockResponse()
+		when:
+		renderer.render(getSimpleTemplate([locale: Locale.FRENCH]), response)
+		def matcher = new PDFTextStripper().getText(PDDocument.load(new ByteArrayInputStream(response.contentAsByteArray))) =~ /french/
+		then:
+		matcher.size() == 1
+	}
 	
 	protected extractTextLines(Map renderArgs) {
 		extractTextLines(createPdf(renderArgs))
