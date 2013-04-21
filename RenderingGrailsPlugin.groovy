@@ -15,7 +15,7 @@
  */
 class RenderingGrailsPlugin {
 
-	def version = "0.4.3"
+	def version = "0.4.4"
 	def grailsVersion = "1.3.0 > *"
 
 	def pluginExcludes = [
