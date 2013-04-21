@@ -17,24 +17,18 @@ class RenderingGrailsPlugin {
 
 	def version = "0.4.3"
 	def grailsVersion = "1.3.0 > *"
-	def dependsOn = [:]
-	
+
 	def pluginExcludes = [
-		"grails-app/views/**/*",
-		"grails-app/controllers/**/*",
-		"grails-app/services/grails/plugin/rendering/test/**/*",
-		"src/groovy/grails/plugin/rendering/test/**/*",
-		"plugins/**/*",
-		"web-app/**/*"
+		"grails-app/views/**",
+		"grails-app/controllers/**",
+		"grails-app/services/grails/plugin/rendering/test/**",
+		"src/groovy/grails/plugin/rendering/test/**",
+		"plugins/**",
+		"web-app/**"
 	]
-	
-	def observe = [
-		"controllers"
-	]
-	
-	def loadAfter = [
-		"controllers"
-	]
+
+	def observe = ["controllers"]
+	def loadAfter = ["controllers"]
 
 	def author = "Grails Plugin Collective"
 	def authorEmail = "grails.plugin.collective@gmail.com"
@@ -42,31 +36,31 @@ class RenderingGrailsPlugin {
 	def description = 'Render GSPs as PDFs, JPEGs, GIFs and PNGs'
 	def documentation = "http://gpc.github.com/grails-rendering"
 
-	def renderMethodTemplate = { ctx, rendererName, Map args ->
-		def adjustedArgs = [controller: delegate]
-		adjustedArgs.putAll(args)
-		ctx[rendererName].render(adjustedArgs, delegate.response)
-		false
-	}
-	
-	def addRenderMethods(ctx, clazz) {
-		clazz.metaClass.with {
-			renderPdf = this.renderMethodTemplate.curry(ctx, 'pdfRenderingService')
-			renderJpeg = this.renderMethodTemplate.curry(ctx, 'jpegRenderingService')
-			renderGif = this.renderMethodTemplate.curry(ctx, 'gifRenderingService')
-			renderPng = this.renderMethodTemplate.curry(ctx, 'pngRenderingService')
-		}
-	}
-
 	def doWithDynamicMethods = { ctx ->
 		application.controllerClasses.each {
 			addRenderMethods(ctx, it.clazz)
 		}
 	}
-	
+
 	def onChange = { event ->
 		if (application.isControllerClass(event.source)) {
 			addRenderMethods(event.ctx, event.source)
+		}
+	}
+
+	private renderMethodTemplate = { ctx, rendererName, Map args ->
+		def adjustedArgs = [controller: delegate]
+		adjustedArgs.putAll(args)
+		ctx[rendererName].render(adjustedArgs, delegate.response)
+		false
+	}
+
+	private addRenderMethods(ctx, clazz) {
+		clazz.metaClass.with {
+			renderPdf = this.renderMethodTemplate.curry(ctx, 'pdfRenderingService')
+			renderJpeg = this.renderMethodTemplate.curry(ctx, 'jpegRenderingService')
+			renderGif = this.renderMethodTemplate.curry(ctx, 'gifRenderingService')
+			renderPng = this.renderMethodTemplate.curry(ctx, 'pngRenderingService')
 		}
 	}
 }

@@ -16,22 +16,20 @@
 package grails.plugin.rendering.pdf
 
 import grails.plugin.rendering.RenderingService
-import org.xhtmlrenderer.pdf.ITextRenderer
-import org.w3c.dom.Document
-
 import grails.plugin.rendering.datauri.DataUriAwareITextUserAgent
 
 import org.springframework.util.ReflectionUtils
-import com.lowagie.text.pdf.BaseFont
+import org.w3c.dom.Document
+import org.xhtmlrenderer.pdf.ITextRenderer
 
 class PdfRenderingService extends RenderingService {
 
 	static transactional = false
-	
+
 	PdfRenderingService() {
 		ReflectionUtils.makeAccessible(ITextRenderer.getDeclaredField("_outputDevice"))
 	}
-	
+
 	protected doRender(Map args, Document document, OutputStream outputStream) {
 		def renderer = new ITextRenderer()
 		configureRenderer(renderer)
@@ -43,12 +41,12 @@ class PdfRenderingService extends RenderingService {
 	protected getDefaultContentType() {
 		"application/pdf"
 	}
-	
+
 	protected configureRenderer(ITextRenderer renderer) {
 		def outputDevice = renderer.@_outputDevice
 		def userAgent = new DataUriAwareITextUserAgent(outputDevice)
 		def sharedContext = renderer.sharedContext
-		
+
 		sharedContext.userAgentCallback = userAgent
 		userAgent.sharedContext = sharedContext
 	}

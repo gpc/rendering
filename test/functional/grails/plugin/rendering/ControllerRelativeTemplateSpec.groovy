@@ -15,7 +15,7 @@
  */
 package grails.plugin.rendering
 
-import grails.plugin.spock.*
+import grails.plugin.spock.FunctionalSpec
 
 class ControllerRelativeTemplateSpec extends FunctionalSpec {
 
@@ -25,5 +25,4 @@ class ControllerRelativeTemplateSpec extends FunctionalSpec {
 		then:
 		response.statusCode == 200
 	}
-
 }

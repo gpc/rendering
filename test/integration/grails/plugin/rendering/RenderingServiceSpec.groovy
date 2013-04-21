@@ -17,39 +17,31 @@ package grails.plugin.rendering
 
 import grails.plugin.rendering.document.UnknownTemplateException
 import grails.plugin.rendering.document.XmlParseException
+import grails.plugin.spock.IntegrationSpec
 
-import org.apache.pdfbox.util.PDFTextStripper
-import org.apache.pdfbox.pdfparser.PDFParser
-import org.apache.pdfbox.pdmodel.PDDocument
-
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 import org.springframework.mock.web.MockHttpServletResponse
-
-import grails.plugin.spock.*
-
-import spock.lang.*
 
 abstract class RenderingServiceSpec extends IntegrationSpec {
 
 	def grailsApplication
 	def pluginManager
-	
+
 	abstract getRenderer()
-	
+
 	def simpleRender() {
 		when:
 		renderer.render(simpleTemplate)
 		then:
 		notThrown(Exception)
 	}
-	
+
 	def renderTemplateInPlugin() {
 		when:
 		renderer.render(pluginTemplate)
 		then:
 		notThrown(Exception)
 	}
-	
+
 	def renderWithNoTemplateThrowsException() {
 		when:
 		renderer.render([:])
@@ -63,7 +55,6 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 		then:
 		thrown(UnknownTemplateException)
 	}
-	
 
 	def renderToResponse() {
 		given:
@@ -100,11 +91,11 @@ abstract class RenderingServiceSpec extends IntegrationSpec {
 		then:
 		notThrown(Exception)
 	}
-	
+
 	protected createController() {
 		grailsApplication.mainContext['RenderingController']
 	}
-	
+
 	protected getSimpleTemplate(Map args = [:]) {
 		[template: '/simple', model: [var: 1]] + args
 	}

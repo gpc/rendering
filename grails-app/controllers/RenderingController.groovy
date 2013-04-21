@@ -15,7 +15,7 @@
  */
 class RenderingController {
 
-	def pdf = { 
+	def pdf = {
 		renderPdf(template)
 	}
 
@@ -47,7 +47,7 @@ class RenderingController {
 	def encodingTest = {
 		renderPdf(template: "/encoding-test")
 	}
-	
+
 	protected getTemplate() {
 		[template: '/simple', model: [var: params.id]]
 	}

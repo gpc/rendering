@@ -1,66 +1,65 @@
 package grails.plugin.rendering.document
 
-import org.codehaus.groovy.grails.web.servlet.WrappedResponseHolder
+import grails.util.GrailsWebUtil
 
+import org.codehaus.groovy.grails.web.servlet.WrappedResponseHolder
+import org.springframework.context.ApplicationContext
 import org.springframework.web.context.request.RequestContextHolder
-import org.springframework.web.servlet.support.RequestContextUtils
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
-
-import org.springframework.context.ApplicationContext
-
-import grails.util.GrailsWebUtil
+import org.springframework.web.servlet.support.RequestContextUtils
 
 class RenderEnvironment {
 
 	final Writer out
 	final Locale locale
 	final ApplicationContext applicationContext
-	
-	private originalRequestAttributes = null
+
+	private originalRequestAttributes
 	private renderRequestAttributes
-	
-	private originalOut = null
-	
+
+	private originalOut
+
 	RenderEnvironment(ApplicationContext applicationContext, Writer out, Locale locale = null) {
 		this.out = out
 		this.locale = locale
 		this.applicationContext = applicationContext
 	}
-	
+
 	private init() {
 		originalRequestAttributes = RequestContextHolder.getRequestAttributes()
 		renderRequestAttributes = GrailsWebUtil.bindMockWebRequest(applicationContext)
-		
+
 		if (originalRequestAttributes) {
 			renderRequestAttributes.controllerName = originalRequestAttributes.controllerName
 		}
-		
+
 		def renderLocale
 		if (locale) {
 			renderLocale = locale
 		} else if (originalRequestAttributes) {
 			renderLocale = RequestContextUtils.getLocale(originalRequestAttributes.request)
 		}
-		
-		renderRequestAttributes.request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(defaultLocale: renderLocale))
-		
+
+		renderRequestAttributes.request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,
+			new FixedLocaleResolver(defaultLocale: renderLocale))
+
 		renderRequestAttributes.setOut(out)
 		WrappedResponseHolder.wrappedResponse = renderRequestAttributes.currentResponse
 	}
-	
+
 	private close() {
 		RequestContextHolder.setRequestAttributes(originalRequestAttributes) // null ok
 		WrappedResponseHolder.wrappedResponse = originalRequestAttributes?.currentResponse
 	}
-	
+
 	/**
 	 * Establish an environment inheriting the locale of the current request if there is one
 	 */
 	static with(ApplicationContext applicationContext, Writer out, Closure block) {
 		with(applicationContext, out, null, block)
 	}
-	
+
 	/**
 	 * Establish an environment with a specific locale
 	 */
@@ -73,9 +72,8 @@ class RenderEnvironment {
 			env.close()
 		}
 	}
-	
+
 	String getControllerName() {
 		renderRequestAttributes.controllerName
 	}
-	
 }

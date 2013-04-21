@@ -17,7 +17,6 @@
 package grails.plugin.rendering.datauri
 
 import org.apache.commons.codec.binary.Base64
-import java.net.URLDecoder
 
 class DataUri {
 
@@ -25,30 +24,30 @@ class DataUri {
 	private String mimeType = "text/plain"
 	private String charset = "US-ASCII"
 	private boolean base64 = false
-	
+
 	private String data
-	
+
 	DataUri(String uri) {
-		if (isDataUri(uri)) {
-			determineParts(uri.substring(5))
-		} else {
+		if (!isDataUri(uri)) {
 			throw new IllegalArgumentException("uri does not start with 'data:' - $uri")
 		}
+
+		determineParts(uri.substring(5))
 	}
-	
+
 	protected void determineParts(String value) {
 		if (!value.contains(",")) {
-			throw new IllegalArgumentException("data url does not contain a ',' delimiter: " + value);
+			throw new IllegalArgumentException("data url does not contain a ',' delimiter: " + value)
 		}
-	
+
 		def (metadata, data) = value.split(",", 2)
 		if (metadata != "") {
 			processMetadata(metadata.split(';'))
 		}
-		
-		this.data = data;
+
+		this.data = data
 	}
-	
+
 	protected void processMetadata(String[] metadataPieces) {
 		for (String metadataPiece in metadataPieces) {
 			if (metadataPiece.contains("/")) {
@@ -62,10 +61,10 @@ class DataUri {
 			}
 		}
 	}
-	
-	InputStream getInputStream() { 
+
+	InputStream getInputStream() {
 		new ByteArrayInputStream(getBytes())
-	} 
+	}
 
 	byte[] getBytes() {
 		if (base64) {
@@ -74,7 +73,7 @@ class DataUri {
 			URLDecoder.decode(data, "ISO-8859-1").getBytes("ISO-8859-1")
 		}
 	}
-	
+
 	static boolean isDataUri(String uri) {
 		uri?.startsWith("data:")
 	}

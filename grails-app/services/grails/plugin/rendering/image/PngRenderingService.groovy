@@ -24,5 +24,4 @@ class PngRenderingService extends ImageRenderingService {
 	protected getDefaultContentType() {
 		"image/png"
 	}
-	
 }

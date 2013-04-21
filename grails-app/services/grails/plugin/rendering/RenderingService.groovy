@@ -15,9 +15,11 @@
  */
 package grails.plugin.rendering
 
-import javax.servlet.http.HttpServletResponse
-import org.w3c.dom.Document
 import grails.util.GrailsUtil
+
+import javax.servlet.http.HttpServletResponse
+
+import org.w3c.dom.Document
 
 abstract class RenderingService {
 
@@ -25,10 +27,10 @@ abstract class RenderingService {
 
 	def xhtmlDocumentService
 	def grailsApplication
-	
-	abstract protected doRender(Map args, Document document, OutputStream outputStream)
-	
-	abstract protected getDefaultContentType()
+
+	protected abstract doRender(Map args, Document document, OutputStream outputStream)
+
+	protected abstract getDefaultContentType()
 
 	OutputStream render(Map args, OutputStream outputStream = new ByteArrayOutputStream()) {
 		def document = args.document ?: xhtmlDocumentService.createDocument(args)
@@ -48,7 +50,7 @@ abstract class RenderingService {
 			throw new RenderingException(e)
 		}
 	}
-	
+
 	boolean render(Map args, HttpServletResponse response) {
 		processArgs(args)
 		if (args.bytes) {
@@ -79,16 +81,16 @@ abstract class RenderingService {
 		response.setContentLength(bytes.size())
 		response.outputStream << bytes
 	}
-	
+
 	protected configureResponse(Map args, HttpServletResponse response) {
 		setContentType(args, response)
 		setResponseHeaders(args, response)
 	}
-	
+
 	protected setResponseHeaders(Map args, HttpServletResponse response) {
 		setContentDisposition(args, response)
 	}
-	
+
 	protected setContentType(Map args, HttpServletResponse response) {
 		response.setContentType(args.contentType ?: getDefaultContentType())
 	}

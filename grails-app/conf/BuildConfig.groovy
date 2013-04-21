@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Grails Plugin Collective
+ * Copyright 2010-2013 Grails Plugin Collective
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,18 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-grails.project.class.dir = "target/classes"
-grails.project.test.class.dir = "target/test-classes"
-grails.project.test.reports.dir = "target/test-reports"
+grails.project.work.dir = 'target'
+
 grails.project.dependency.resolution = {
-	inherits( "global" )
-	log "warn"
+
+	inherits 'global'
+	log 'warn'
+
 	repositories {
-		grailsPlugins()
-		grailsHome()
+		grailsCentral()
+		mavenLocal()
 		mavenCentral()
-		mavenRepo "http://download.java.net/maven/2/"
 	}
+
 	dependencies {
 		compile("org.xhtmlrenderer:core-renderer:R8")
 		compile("com.lowagie:itext:2.1.0")
@@ -35,10 +36,15 @@ grails.project.dependency.resolution = {
 	}
 	plugins {
 		compile(":spring-events:1.0", ":tomcat:$grailsVersion", ":hibernate:$grailsVersion") {
+			export = false
+		}
+
+		test(":spock:0.6") {
 			exported = false
 		}
-		test(":spock:0.5-groovy-1.7") {
-			exported = false
+
+		build ':release:2.2.1', ':rest-client-builder:1.0.3', {
+			export = false
 		}
 	}
 }

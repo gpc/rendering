@@ -26,9 +26,8 @@ class JpegRenderingService extends ImageRenderingService {
 	protected getDefaultContentType() {
 		"image/jpeg"
 	}
-	
+
 	protected getDefaultBufferedImageType() {
 		BufferedImage.TYPE_INT_RGB
 	}
-	
 }

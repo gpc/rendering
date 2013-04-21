@@ -25,39 +25,38 @@ class RenderingTagLib {
 
 	static namespace = "rendering"
 
-	def inlineImage = {
-		def mimeType = it.remove('mimeType')
+	def inlineImage = { attrs ->
+		def mimeType = attrs.remove('mimeType')
 		if (mimeType == null) {
 			throwTagError("'mimeType' is required")
 		}
-		
-		def bytes = it.remove('bytes')
+
+		def bytes = attrs.remove('bytes')
 		if (bytes == null) {
 			throwTagError("'bytes' is required")
 		}
-		
+
 		out << '<img src="data:'
 		out << mimeType
 		out << ';base64,'
 		out << new String(new Base64().encode(bytes), "UTF-8")
 		out << '" '
-		it.each { k,v -> out << "$k=\"${v ? v.encodeAsHTML() : ''}\" " }
+		attrs.each { k,v -> out << "$k=\"${v ? v.encodeAsHTML() : ''}\" " }
 		out << ' />'
 	}
-	
-	def inlineGif = {
-		it.mimeType = "image/gif"
-		out << inlineImage(it)
+
+	def inlineGif = { attrs ->
+		attrs.mimeType = "image/gif"
+		out << inlineImage(attrs)
 	}
-	
-	def inlinePng = {
-		it.mimeType = "image/png"
-		out << inlineImage(it)
+
+	def inlinePng = { attrs ->
+		attrs.mimeType = "image/png"
+		out << inlineImage(attrs)
 	}
-	
-	def inlineJpeg = {
-		it.mimeType = "image/jpeg"
-		out << inlineImage(it)
+
+	def inlineJpeg = { attrs ->
+		attrs.mimeType = "image/jpeg"
+		out << inlineImage(attrs)
 	}
-	
 }

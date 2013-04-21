@@ -15,14 +15,16 @@
  */
 package grails.plugin.rendering
 
-import spock.util.concurrent.BlockingVariable
+import grails.plugin.spock.IntegrationSpec
+
 import java.util.concurrent.TimeUnit
-import grails.plugin.spock.*
+
+import spock.util.concurrent.BlockingVariable
 
 class BackgroundRenderingSpec extends IntegrationSpec {
 
 	def backgroundRenderingService
-	
+
 	def "background render"() {
 		given:
 		def renderError = new BlockingVariable(10, TimeUnit.SECONDS)
@@ -31,5 +33,4 @@ class BackgroundRenderingSpec extends IntegrationSpec {
 		then:
 		renderError.get() == null
 	}
-
 }

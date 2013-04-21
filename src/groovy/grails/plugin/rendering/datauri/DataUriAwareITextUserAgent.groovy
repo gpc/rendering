@@ -16,19 +16,20 @@
 
 package grails.plugin.rendering.datauri
 
-import org.xhtmlrenderer.pdf.*
+import grails.util.GrailsUtil
+
+import org.slf4j.LoggerFactory
+import org.xhtmlrenderer.pdf.ITextFSImage
+import org.xhtmlrenderer.pdf.ITextOutputDevice
+import org.xhtmlrenderer.pdf.ITextUserAgent
 import org.xhtmlrenderer.resource.ImageResource
 
 import com.lowagie.text.Image
 
-import grails.plugin.rendering.datauri.DataUri
-import grails.util.GrailsUtil
-import org.slf4j.LoggerFactory
-
 class DataUriAwareITextUserAgent extends ITextUserAgent {
-	
-	static private log = LoggerFactory.getLogger(DataUriAwareITextUserAgent)
-	
+
+	private static log = LoggerFactory.getLogger(DataUriAwareITextUserAgent)
+
 	DataUriAwareITextUserAgent(ITextOutputDevice outputDevice) {
 		super(outputDevice)
 	}
@@ -38,7 +39,7 @@ class DataUriAwareITextUserAgent extends ITextUserAgent {
 		if (resource) {
 			return resource
 		}
-		
+
 		if (DataUri.isDataUri(uri)) {
 			def dataUri = new DataUri(uri)
 			if (dataUri.mimeType.startsWith("image/")) {
@@ -62,5 +63,4 @@ class DataUriAwareITextUserAgent extends ITextUserAgent {
 			super.getImageResource(uri)
 		}
 	}
-
 }

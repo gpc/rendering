@@ -16,39 +16,40 @@
 
 package grails.plugin.rendering
 
-import spock.lang.*
-import grails.plugin.spock.*
-
 import grails.plugin.rendering.datauri.DataUri
+import grails.plugin.spock.GroovyPagesSpec
+
 import org.apache.commons.codec.binary.Base64
+
+import spock.lang.Shared
 
 class RenderingTagLibSpec extends GroovyPagesSpec {
 
 	@Shared bytes = [1,2,3] as byte[]
 	@Shared encoded = new String(new Base64().encode(bytes), "UTF-8")
-	
+
 	def setup() {
 		params.bytes = bytes
 	}
-	
+
 	protected getOutputMimeType() {
 		getDataUri().mimeType
 	}
-	
+
 	protected getOutputBytes() {
 		getDataUri().bytes
 	}
-	
+
 	protected getDataUri() {
 		new DataUri(getSrcAttribute())
 	}
-	
+
 	protected getSrcAttribute() {
 		def m = output =~ /^.+src="(.+?)".+$/
 		assert m
 		m[0][1]
 	}
-	
+
 	def "inline image tag"() {
 		given:
 		params.mimeType = 'abc/123'
@@ -59,7 +60,6 @@ class RenderingTagLibSpec extends GroovyPagesSpec {
 		outputBytes == bytes
 		getDataUri().base64 == true
 	}
-	
 
 	def "png tag"() {
 		given:
@@ -87,5 +87,4 @@ class RenderingTagLibSpec extends GroovyPagesSpec {
 		outputMimeType == "image/jpeg"
 		outputBytes == bytes
 	}
-	
 }

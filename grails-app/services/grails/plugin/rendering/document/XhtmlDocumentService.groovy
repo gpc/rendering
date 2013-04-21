@@ -15,16 +15,12 @@
  */
 package grails.plugin.rendering.document
 
-import org.w3c.dom.Document
-import org.xml.sax.InputSource
-import org.xhtmlrenderer.resource.XMLResource
-import groovy.text.Template
-import org.springframework.web.context.request.RequestContextHolder
-import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.springframework.web.context.support.WebApplicationContextUtils
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-import grails.util.GrailsWebUtil
 import grails.util.GrailsUtil
+
+import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import org.w3c.dom.Document
+import org.xhtmlrenderer.resource.XMLResource
+import org.xml.sax.InputSource
 
 class XhtmlDocumentService {
 
@@ -33,11 +29,11 @@ class XhtmlDocumentService {
 	def groovyPagesTemplateEngine
 	def groovyPagesUriService
 	def grailsApplication
-	
+
 	Document createDocument(Map args) {
 		createDocument(generateXhtml(args))
 	}
-	
+
 	protected createDocument(String xhtml) {
 		try {
 			createDocument(new InputSource(new StringReader(xhtml)))
@@ -68,23 +64,23 @@ class XhtmlDocumentService {
 		RenderEnvironment.with(grailsApplication.mainContext, xhtmlWriter) {
 			createTemplate(args).make(args.model).writeTo(xhtmlWriter)
 		}
-		
+
 		def xhtml = xhtmlWriter.toString()
 		xhtmlWriter.close()
 
 		if (log.debugEnabled) {
 			log.debug("xhtml for $args -- \n ${xhtml}")
 		}
-		
+
 		xhtml
 	}
-	
+
 	protected createTemplate(Map args) {
 		if (!args.template) {
 			throw new IllegalArgumentException("The 'template' argument must be specified")
 		}
 		def templateName = args.template
-		
+
 		if (templateName.startsWith("/")) {
 			if (!args.controller) {
 				args.controller = ""
@@ -94,32 +90,31 @@ class XhtmlDocumentService {
 				throw new IllegalArgumentException("template names must start with '/' if controller is not provided")
 			}
 		}
-		
+
 		def contextPath = getContextPath(args)
 		def controllerName = args.controller instanceof CharSequence ? args.controller : groovyPagesUriService.getLogicalControllerName(args.controller)
 		def templateUri = groovyPagesUriService.getTemplateURI(controllerName, templateName)
 		def uris = ["$contextPath/$templateUri", "$contextPath/grails-app/views/$templateUri"] as String[]
 		def template = groovyPagesTemplateEngine.createTemplateForUri(uris)
-		
+
 		if (!template) {
 			throw new UnknownTemplateException(args.template, args.plugin)
 		}
-		
+
 		template
 	}
-	
+
 	protected getContextPath(args) {
 		def contextPath = args.contextPath?.toString() ?: ""
 		def pluginName = args.plugin
-		
+
 		if (pluginName) {
 			def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(pluginName)
 			if (plugin && !plugin.isBasePlugin()) {
 				contextPath = plugin.pluginPath
 			}
 		}
-		
+
 		contextPath
 	}
-
 }

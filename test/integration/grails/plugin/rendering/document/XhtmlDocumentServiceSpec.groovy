@@ -15,7 +15,7 @@
  */
 package grails.plugin.rendering.document
 
-import grails.plugin.spock.*
+import grails.plugin.spock.IntegrationSpec
 
 /**
  * The xhtmlDocumentService is exercised in the rendering
@@ -24,9 +24,7 @@ import grails.plugin.spock.*
 class XhtmlDocumentServiceSpec extends IntegrationSpec {
 
 	def xhtmlDocumentService
-	
-	def emptyScenario() {
-		
-	}
 
+	def emptyScenario() {
+	}
 }

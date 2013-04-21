@@ -16,6 +16,7 @@
 package grails.plugin.rendering.image
 
 import grails.plugin.rendering.RenderingServiceSpec
+
 import javax.imageio.ImageIO
 
 abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
@@ -23,11 +24,11 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 	protected toBufferedImage(baos) {
 		ImageIO.read(new ByteArrayInputStream(baos.toByteArray()))
 	}
-	
+
 	protected image(Map args) {
 		toBufferedImage(renderer.render(args))
 	}
-	
+
 	def renderImageWithHeight() {
 		when:
 		def image = image(getSimpleTemplate(render: [width: 200, height: 100], autosize: [width: false, height: false]))
@@ -35,7 +36,7 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		image.height == 100
 		image.width == 200
 	}
-	
+
 	def renderImageWithAutoHeight() {
 		when:
 		def image = image(getSimpleTemplate(render: [width: 200, height: 400]))
@@ -51,7 +52,7 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		image.width == width
 		image.height == height
 		where:
-		resize | width | height 
+		resize | width | height
 		[width: 400] | 400 | 400
 		[height: 400] | 400 | 400
 		[width: 400, height: 200] | 400 | 200
@@ -64,7 +65,7 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		image.width == width
 		image.height == height
 		where:
-		scale | width | height 
+		scale | width | height
 		[width: 2] | 400 | 400
 		[height: 2] | 400 | 400
 		[width: 4, height: 2] | 800 | 400
@@ -85,6 +86,5 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		where:
 		type << ["jpeg", "gif", "png"]
 	}
-	
 */
 }

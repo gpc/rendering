@@ -15,14 +15,16 @@
  */
 package grails.plugin.rendering
 
+import grails.plugin.spock.IntegrationSpec
+
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
-import grails.plugin.spock.*
-import spock.lang.*
+
+import spock.lang.Unroll
 
 class RenderingGrailsPluginSpec extends IntegrationSpec {
 
 	def grailsApplication
-	
+
 	@Unroll("rendering #action works from controllers and survives a reload")
 	def supportReloadingControllerClasses() {
 		when:
@@ -40,13 +42,12 @@ class RenderingGrailsPluginSpec extends IntegrationSpec {
 		where:
 		action << ['pdf', 'gif', 'png', 'jpeg']
 	}
-	
+
 	protected createController() {
 		grailsApplication.mainContext['RenderingController']
 	}
-	
+
 	protected reloadControllerClass() {
 		grailsApplication.classLoader.reloadClass('RenderingController')
 	}
-
 }

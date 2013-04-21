@@ -24,5 +24,4 @@ class GifRenderingService extends ImageRenderingService {
 	protected getDefaultContentType() {
 		"image/gif"
 	}
-	
 }

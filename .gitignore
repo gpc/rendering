@@ -5,3 +5,4 @@ docs
 *.zip
 .DS_Store
 grails-rendering-*
+.settings

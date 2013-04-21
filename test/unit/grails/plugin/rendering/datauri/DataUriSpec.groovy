@@ -16,10 +16,8 @@
 
 package grails.plugin.rendering.datauri
 
-import spock.lang.*
-import grails.plugin.spock.*
+import grails.plugin.spock.UnitSpec
 
-import java.net.URLEncoder
 import org.apache.commons.codec.binary.Base64
 
 class DataUriSpec extends UnitSpec {
@@ -28,10 +26,10 @@ class DataUriSpec extends UnitSpec {
 		given:
 		def bytes = getRedDotBytes()
 		def base64 = new String(new Base64().encode(bytes), "UTF-8")
-		
+
 		when:
 		def dataUri = new DataUri("data:base64,$base64")
-		
+
 		then:
 		dataUri.bytes == bytes
 	}
@@ -47,9 +45,8 @@ class DataUriSpec extends UnitSpec {
 		then:
 		dataUri.bytes == bytes
 	}
-	
+
 	protected getRedDotBytes() {
 		getClass().getResource("red-dot-5px.png").openStream().bytes
 	}
-
 }

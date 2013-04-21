@@ -15,13 +15,15 @@
  */
 package grails.plugin.rendering.test
 
-import org.springframework.context.ApplicationListener
 import org.springframework.context.ApplicationEvent
+import org.springframework.context.ApplicationListener
 
 class BackgroundRenderingService implements ApplicationListener<RenderEvent> {
 
+	static transactional = false
+
 	def pdfRenderingService
-	
+
 	void onApplicationEvent(RenderEvent event) {
 		try {
 			pdfRenderingService.render(template: '/simple', model: [var: 1])
@@ -30,14 +32,11 @@ class BackgroundRenderingService implements ApplicationListener<RenderEvent> {
 			event.source.set(e)
 		}
 	}
-	
+
 	def fireEvent(errorHolder) {
 		publishEvent(new RenderEvent(errorHolder))
 	}
-
 }
-
-
 
 class RenderEvent extends ApplicationEvent {
 	RenderEvent(renderError) {
