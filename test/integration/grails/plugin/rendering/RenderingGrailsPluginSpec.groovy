@@ -19,12 +19,14 @@ import grails.plugin.spock.IntegrationSpec
 
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
+import spock.lang.Ignore
 import spock.lang.Unroll
 
 class RenderingGrailsPluginSpec extends IntegrationSpec {
 
 	def grailsApplication
 
+	@Ignore
 	@Unroll("rendering #action works from controllers and survives a reload")
 	def supportReloadingControllerClasses() {
 		when:
