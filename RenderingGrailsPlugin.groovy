@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 Grails Plugin Collective
+ * Copyright 2010-2013 Grails Plugin Collective
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
 class RenderingGrailsPlugin {
 
 	def version = "0.4.3"
-	def grailsVersion = "1.2.0 > *"
+	def grailsVersion = "1.3.0 > *"
 	def dependsOn = [:]
 	
 	def pluginExcludes = [
