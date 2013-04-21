@@ -36,6 +36,11 @@ class RenderingGrailsPlugin {
 	def description = 'Render GSPs as PDFs, JPEGs, GIFs and PNGs'
 	def documentation = "http://gpc.github.com/grails-rendering"
 
+	def license = 'APACHE'
+	def organization = [name: 'Grails Plugin Collective', url: 'http://github.com/gpc']
+	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPRENDERING']
+	def scm = [url: 'https://github.com/gpc/grails-rendering']
+
 	def doWithDynamicMethods = { ctx ->
 		application.controllerClasses.each {
 			addRenderMethods(ctx, it.clazz)
