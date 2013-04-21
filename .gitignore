@@ -1,5 +1,7 @@
-*.zip
-plugin.xml
 target
+plugin.xml
 *.log
+*.zip
 .DS_Store
+grails-rendering-*
+.settings

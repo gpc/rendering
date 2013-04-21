@@ -1,0 +1,76 @@
+h3. Caching
+
+Rendering can be an expensive operation so you may need to implement caching (using the excellent [spring-cache:http://grails.org/plugin/springcache] plugin)
+
+h4. Document Caching
+
+Rendering works internally by creating a @org.w3c.dom.Document@ instance from the GSP page via the @xhtmlDocumentService@. If you plan to render the same GSP as different output formats, you may want to cache the document.
+
+{code}
+import grails.plugin.springcache.annotations.Cacheable
+
+class CouponDocumentService {
+    def xhmlDocumentService
+    
+    @Cacheable('couponDocumentCache')@
+    class getDocument(serial) {
+        xhmlDocumentService.createDocument(template: '/coupon', model: [serial: serial])
+    }
+}
+{code}
+
+All of the render methods can take a @document@ parameter instead of the usual @template@/@model@ properties.
+
+{code}
+class CouponController {
+    
+    def couponDocumentService
+    
+    def gif = {
+        def serial = params.id
+        def document = couponDocumentService.getDocument(serial)
+        
+        renderGif(filename: "${serial}.gif", document)
+    }
+}
+{code}
+
+h4. Byte Caching
+
+You can take things further and actually cache the rendered bytes.
+
+{code}
+import grails.plugin.springcache.annotations.Cacheable
+
+class CouponGifService {
+
+    def couponDocumentService
+    def gifRenderingService
+    
+    def getGif(serial) {
+        def document = couponDocumentService.getDocument(serial)
+        def byteArrayOutputStream = gifRenderingService.gif([:], document)
+        byteArrayOutputStream.toByteArray()
+    }
+}
+{code}
+
+{code}
+class CouponController {
+    
+    def couponGifService
+    
+    def gif = {
+        def serial = params.id
+        def bytes = couponGifService.getGif(serial)
+        
+        renderGif(bytes: bytes, filename: "${serial}.gif")
+    }
+}
+{code}
+
+h3. Avoiding Byte Copying
+
+When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the @Content-Length@ header set (this also applies when passing the @bytes@ directly).
+
+This copy can be avoided and the render (or bytes) can be written directly to the response output stream. This means that the @Content-Length@ header will not be set unless you manually specify the length via the @contentLength@ property to the render method.

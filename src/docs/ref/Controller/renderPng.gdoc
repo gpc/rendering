@@ -1,0 +1,21 @@
+
+h1. renderPng
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.renderPng(map)
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[* @map@
+]

@@ -1,0 +1,41 @@
+h3. Documents
+
+When rendering PDF documents, you can specify the page size via CSS…
+
+{code}
+<style  type="text/css">
+  @page {
+    size: 210mm 297mm;
+  }
+</style>
+{code}
+
+h3. Images
+
+The image rendering methods take extra arguments to control the size of the rendered image. The extra arguments are maps containing @width@ or @height@ keys, or both.
+
+h4. render
+
+The @render@ argument is the size of the view port that the document is rendered into. This is equivalent to the dimensions of the browser window for html rendering.
+
+The default value for @render@ is @[width: 10, height: 10000]@ (i.e. 10 pixels wide by 10000 pixels high).
+
+h4. autosize
+
+The @autosize@ argument specifies whether to adjust the size of the image to exactly be the rendered content. 
+
+The default value for @autosize@ is @[width: true, height: true]@.
+
+h4. scale
+
+The @scale@ argument specifies  the factor to scale the image by after initial rendering. For example, the value @[width: 0.5, height: 0.5]@ produces an image half the size of the original render.
+
+The default value for @autosize@ is null.
+
+h4. resize
+
+The @resize@ argument specifies the adjusted  mage after initial rendering. For example, the value @[width: 200, height: 400]@ will resize the image to 200 pixels X 400 pixels regardless of the original render size.
+
+(note that @resize@ & @scale@ are mutually exclusive with @scale@ taking precedence).
+
+The default value for @resize@ is null.

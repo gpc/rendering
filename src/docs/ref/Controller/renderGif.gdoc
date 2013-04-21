@@ -1,0 +1,21 @@
+
+h1. renderGif
+
+h2. Purpose
+
+
+
+h2. Examples
+
+{code:java}
+foo.renderGif(map)
+{code}
+
+h2. Description
+
+
+
+Arguments:
+
+[* @map@
+]
