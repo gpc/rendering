@@ -10,4 +10,5 @@ Or via one of the `render«format»()` methods added to controllers …
 
 Please see the [User Guide](http://gpc.github.com/grails-rendering/ "Grails Rendering Plugin @ GitHub") for more information.
 
-The plugin is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html "Apache License, Version 2.0 - The Apache Software Foundation") and is produced under the [Grails Plugin Collective](http://gpc.github.com/).
+The plugin is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html "Apache License, Version 2.0 - The Apache Software Foundation") and is produced under the [Grails Plugin Collective](http://gpc.github.com/). 
+However, it does [LGPL](http://www.gnu.org/licenses/lgpl.html) libraries: [XhtmlRenderer](https://code.google.com/p/flying-saucer/) and [iText](http://sourceforge.net/projects/itext/).
