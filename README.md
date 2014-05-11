@@ -1,3 +1,8 @@
+[![Build Status](https://travis-ci.org/gpc/grails-rendering.svg?branch=master)](https://travis-ci.org/gpc/grails-rendering)
+
+Rendering Grails Plugin
+=======================
+
 This plugin adds PDF, GIF, PNG and JPEG rendering facilities to Grails applications via the [XHTML Renderer](https://xhtmlrenderer.dev.java.net/) library.
 
 Rendering is either done directly via one of the `«format»RenderingService` services …
