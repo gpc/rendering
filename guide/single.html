@@ -1,0 +1,252 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+    <head>
+        <title>Grails Rendering Plugin 1.0.0-SNAPSHOT</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8" />
+        <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8" />
+    <script type="text/javascript">
+function addJsClass(el) {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+    </head>
+
+    <body class="body" onload="addJsClass();">
+        <div id="navigation">
+            <ul>
+                <li>
+                    <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                        <a href="../guide/index.html" class="button">Table of contents</a>
+                        <div id="nav-summary-childs" style="display:none;">
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#1.%20Introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#2.%20GSP%20Considerations"><strong>2</strong><span>GSP Considerations</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#3.%20Rendering"><strong>3</strong><span>Rendering</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#4.%20Sizing"><strong>4</strong><span>Sizing</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#5.%20Rendering%20To%20The%20Response"><strong>5</strong><span>Rendering To The Response</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#6.%20Caching%20And%20Performance"><strong>6</strong><span>Caching And Performance</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#7.%20Inline%20Images"><strong>7</strong><span>Inline Images</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0"><a href="#8.%20Exotic%20Characters"><strong>8</strong><span>Exotic Characters</span></a></div>
+                            
+                        </div>
+                    </div>
+                </li>
+                <li class="separator selected">
+                    <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+                </li>
+            </ul>
+        </div>
+        <div id="header">
+            <div class="images clearfix">
+                
+                
+            </div>
+            <p>Render GSPs as PDFs, JPEGs, GIFs and PNGs</p>
+        </div>
+
+
+        <table id="colset" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td id="col1">
+                    <div id="main" class="corner-all">
+
+                        <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                        <div class="project">
+                            <h1>Grails Rendering Plugin - Reference Documentation</h1>
+                            <p><strong>Authors:</strong> Grails Plugin Collective</p>
+                            <p><strong>Version:</strong> 1.0.0-SNAPSHOT</p>
+                            
+                        </div>
+
+                        
+                        <div id="table-of-content">
+                            <h2>Table of Contents</h2>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#1.%20Introduction"><strong>1</strong><span>Introduction</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#2.%20GSP%20Considerations"><strong>2</strong><span>GSP Considerations</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#3.%20Rendering"><strong>3</strong><span>Rendering</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#4.%20Sizing"><strong>4</strong><span>Sizing</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#5.%20Rendering%20To%20The%20Response"><strong>5</strong><span>Rendering To The Response</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#6.%20Caching%20And%20Performance"><strong>6</strong><span>Caching And Performance</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#7.%20Inline%20Images"><strong>7</strong><span>Inline Images</span></a></div>
+                            
+                            <div class="toc-item" style="margin-left:0px"><a href="#8.%20Exotic%20Characters"><strong>8</strong><span>Exotic Characters</span></a></div>
+                            
+                            <div style="clear:both" ></div>
+                        </div>
+                        
+                        
+
+<h1 id="1. Introduction">1 Introduction</h1>
+This plugin adds additional rendering capabilities to Grails applications via the <a href="https://xhtmlrenderer.dev.java.net/" target="blank">XHTML Renderer</a> library.<p class="paragraph"/>Rendering is either done directly via <code>«format»RenderingService</code> services ...<p class="paragraph"/><div class="code"><pre>ByteArrayOutputStream bytes = pdfRenderingService.render(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;data: data&#93;)</pre></div><p class="paragraph"/>Or via the <code>render«format»()</code> methods added to controllers ...<p class="paragraph"/><div class="code"><pre>renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)</pre></div><p class="paragraph"/>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="blank">Apache License 2.0</a> license and is produced under the <a href="http://gpc.github.com/" target="blank">Grails Plugin Collective</a> .
+
+
+<h1 id="2. GSP Considerations">2 GSP Considerations</h1>
+There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.<p class="paragraph"/><h3>Link resources must be resolvable</h3><p class="paragraph"/>All links to resources (e.g. images, css) must be  <em class="italic">accessible by the application</em>  . This is due to the linked resources being accessed by  <em class="italic">application</em>  and not a browser. Depending on your network config in production, this may require some special consideration.<p class="paragraph"/>The rendering engine resolves all relative links relative to the <code>grails.serverURL</code> config property.<p class="paragraph"/><h3>Must be well formed</h3><p class="paragraph"/>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugin.rendering.document.XmlParseException</code> will be thrown.<p class="paragraph"/><h3>Must declare DOCTYPE</h3><p class="paragraph"/>Without a doctype, you are likely to get parse failures due to unresolvable entity references (e.g. <code>&#38;nbsp;</code>). Be sure to declare the XHTML doctype at the start of your GSP like so ...<p class="paragraph"/><div class="code"><pre>&#60;!DOCTYPE html PUBLIC <span class="java&#45;quote">"&#45;//W3C//DTD XHTML 1.0 Strict//EN"</span>
+ <span class="java&#45;quote">"http://www.w3.org/TR/xhtml1/DTD/xhtml1&#45;strict.dtd"</span>&#62;</pre></div>
+
+
+<h1 id="3. Rendering">3 Rendering</h1>
+There are four services available for rendering:
+<ul class="star">
+<li>pdfRenderingService</li>
+<li>gifRenderingService</li>
+<li>pngRenderingService</li>
+<li>jpegRenderingService</li>
+</ul><p class="paragraph"/>All services have the same method…<p class="paragraph"/><div class="code"><pre>OutputStream render(Map args, OutputStream destination = <span class="java&#45;keyword">new</span> ByteArrayOutputStream())</pre></div><p class="paragraph"/>The <code>args</code> define the render operation, with the bytes written to the given output stream. The given output stream is returned from the method. If no <code>destination</code> is provided, the render will write to a <code>ByteArrayOutputStream</code> that is returned.<p class="paragraph"/>Here are some examples:<p class="paragraph"/><div class="code"><pre>// Get the bytes
+def bytes = gifRenderingService.render(template: '/images/coupon', model: &#91;serial: 12345&#93;)<p class="paragraph"/>// Render to a file
+<span class="java&#45;keyword">new</span> File(<span class="java&#45;quote">"coupon.jpg"</span>).withOutputStream &#123; outputStream &#45;&#62;
+    jpegRenderingService.render(&#91;template: '/images/coupon', model: &#91;serial: 12345&#93;&#93;, outputStream)
+&#125;</pre></div><p class="paragraph"/>For information on rendering to the HTTP response, see <a href="../guide/single.html#5.%20Rendering%20To%20The%20Response" class="guide">Rendering To The Response</a>.<p class="paragraph"/><h3>Basic Render Arguments</h3><p class="paragraph"/>All rendering methods take a <code>Map</code> argument that specifies which template to render and the model to use (in most cases).<p class="paragraph"/>The following map arguments are common to all rendering methods:
+<ul class="star">
+<li><code>template</code> (required) - The template to render</li>
+<li><code>model</code> (optional) - The model to use</li>
+<li><code>plugin</code> (optional) - The plug-in containing the template</li>
+<li><code>controller</code> (optional) - The controller  <em class="italic">instance</em>  or  <em class="italic">name</em>  to resolve the template against (set automatically in provided <code>render«format»</code> methods on controllers).</li>
+</ul><p class="paragraph"/><h3>Template Resolution</h3><p class="paragraph"/>The plugin uses the same resolution strategy as the <code>render()</code> method in Grails controllers and taglibs.<p class="paragraph"/>That is,
+<ul class="star">
+<li>template files must start with an underscore (<code>_template.gsp</code>)</li>
+<li>template paths starting with "/" are resolved relative to the <code>views</code> directory</li>
+<li>template paths NOT starting with "/" are resolved relative to the <code>views/«controller»</code> directory</li>
+</ul><p class="paragraph"/>If the <code>template</code> argument does not start with a "/", the <code>controller</code> argument must be provided. The methods added to controllers (e.g. <code>renderPdf()</code>) automatically pass the <code>controller</code> param for you.
+
+
+<h1 id="4. Sizing">4 Sizing</h1>
+<h3>Documents</h3><p class="paragraph"/>When rendering PDF documents, you can specify the page size via CSS…<p class="paragraph"/><div class="code"><pre>&#60;style  type=<span class="java&#45;quote">"text/css"</span>&#62;
+  @page &#123;
+    size: 210mm 297mm;
+  &#125;
+&#60;/style&#62;</pre></div><p class="paragraph"/><h3>Images</h3><p class="paragraph"/>The image rendering methods take extra arguments to control the size of the rendered image. The extra arguments are maps containing <code>width</code> or <code>height</code> keys, or both.<p class="paragraph"/><h4>render</h4><p class="paragraph"/>The <code>render</code> argument is the size of the view port that the document is rendered into. This is equivalent to the dimensions of the browser window for html rendering.<p class="paragraph"/>The default value for <code>render</code> is <code>width: 10, height: 10000</code> (i.e. 10 pixels wide by 10000 pixels high).<p class="paragraph"/><h4>autosize</h4><p class="paragraph"/>The <code>autosize</code> argument specifies whether to adjust the size of the image to exactly be the rendered content.<p class="paragraph"/>The default value for <code>autosize</code> is <code>width: true, height: true</code>.<p class="paragraph"/><h4>scale</h4><p class="paragraph"/>The <code>scale</code> argument specifies  the factor to scale the image by after initial rendering. For example, the value <code>width: 0.5, height: 0.5</code> produces an image half the size of the original render.<p class="paragraph"/>The default value for <code>autosize</code> is null.<p class="paragraph"/><h4>resize</h4><p class="paragraph"/>The <code>resize</code> argument specifies the adjusted  mage after initial rendering. For example, the value <code>width: 200, height: 400</code> will resize the image to 200 pixels X 400 pixels regardless of the original render size.<p class="paragraph"/>(note that <code>resize</code> &#38; <code>scale</code> are mutually exclusive with <code>scale</code> taking precedence).<p class="paragraph"/>The default value for <code>resize</code> is null.
+
+
+
+<h1 id="5. Rendering To The Response">5 Rendering To The Response</h1>
+There are four methods added to all controllers for rendering:
+<ul class="star">
+<li>renderPdf(Map args)</li>
+<li>renderGif(Map args)</li>
+<li>renderPng(Map args)</li>
+<li>renderJpeg(Map args)</li>
+</ul><p class="paragraph"/>Each of the methods is equivalent to…<p class="paragraph"/><div class="code"><pre>«format»RenderingService.render(args + &#91;controller: <span class="java&#45;keyword">this</span>&#93;, response)</pre></div><p class="paragraph"/>All methods take all of the arguments that their respective service's <code>render()</code> method take, plus some extras.<p class="paragraph"/><h3>Extra Render Arguments</h3><p class="paragraph"/>All rendering methods take a <code>Map</code> argument that specifies which template to render and the model to use (in most cases).<p class="paragraph"/>The following map arguments are common to all rendering methods:
+<ul class="star">
+<li><code>filename</code> (option) - sets the <code>Content-Disposition</code> header with <code>attachment; filename="$filename";</code> (asking the browser to download the file with the given filename)</li>
+<li><code>contentType</code> (optional) - the <code>Content-Type</code> header value (see Content Type Defaults below)</li>
+</ul><p class="paragraph"/><h3>Default Content Types</h3><p class="paragraph"/>The default content types are…
+<ul class="star">
+<li>application/pdf</li>
+<li>image/gif</li>
+<li>image/png</li>
+<li>image/jpeg</li>
+</ul><p class="paragraph"/><h3>Large Files/Renders</h3><p class="paragraph"/>See the section on <a href="../guide/single.html#6.%20Caching%20And%20Performance" class="guide">caching and performance</a> for some other arguments that can help with large renders.
+
+
+<h1 id="6. Caching And Performance">6 Caching And Performance</h1>
+<h3>Caching</h3><p class="paragraph"/>Rendering can be an expensive operation so you may need to implement caching (using the excellent <a href="spring-cache:http://grails.org/plugin/springcache" target="blank"></a> plugin)<p class="paragraph"/><h4>Document Caching</h4><p class="paragraph"/>Rendering works internally by creating a <code>org.w3c.dom.Document</code> instance from the GSP page via the <code>xhtmlDocumentService</code>. If you plan to render the same GSP as different output formats, you may want to cache the document.<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> grails.plugin.springcache.annotations.Cacheable<p class="paragraph"/>class CouponDocumentService &#123;
+    def xhmlDocumentService<p class="paragraph"/>    <code>Cacheable('couponDocumentCache')</code>
+    class getDocument(serial) &#123;
+        xhmlDocumentService.createDocument(template: '/coupon', model: &#91;serial: serial&#93;)
+    &#125;
+&#125;</pre></div><p class="paragraph"/>All of the render methods can take a <code>document</code> parameter instead of the usual <code>template</code>/<code>model</code> properties.<p class="paragraph"/><div class="code"><pre>class CouponController &#123;<p class="paragraph"/>    def couponDocumentService<p class="paragraph"/>    def gif = &#123;
+        def serial = params.id
+        def document = couponDocumentService.getDocument(serial)<p class="paragraph"/>        renderGif(filename: <span class="java&#45;quote">"$&#123;serial&#125;.gif"</span>, document)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h4>Byte Caching</h4><p class="paragraph"/>You can take things further and actually cache the rendered bytes.<p class="paragraph"/><div class="code"><pre><span class="java&#45;keyword">import</span> grails.plugin.springcache.annotations.Cacheable<p class="paragraph"/>class CouponGifService &#123;<p class="paragraph"/>    def couponDocumentService
+    def gifRenderingService<p class="paragraph"/>    def getGif(serial) &#123;
+        def document = couponDocumentService.getDocument(serial)
+        def byteArrayOutputStream = gifRenderingService.gif(&#91;:&#93;, document)
+        byteArrayOutputStream.toByteArray()
+    &#125;
+&#125;</pre></div><p class="paragraph"/><div class="code"><pre>class CouponController &#123;<p class="paragraph"/>    def couponGifService<p class="paragraph"/>    def gif = &#123;
+        def serial = params.id
+        def bytes = couponGifService.getGif(serial)<p class="paragraph"/>        renderGif(bytes: bytes, filename: <span class="java&#45;quote">"$&#123;serial&#125;.gif"</span>)
+    &#125;
+&#125;</pre></div><p class="paragraph"/><h3>Avoiding Byte Copying</h3><p class="paragraph"/>When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the <code>Content-Length</code> header set (this also applies when passing the <code>bytes</code> directly).<p class="paragraph"/>This copy can be avoided and the render (or bytes) can be written directly to the response output stream. This means that the <code>Content-Length</code> header will not be set unless you manually specify the length via the <code>contentLength</code> property to the render method.
+
+
+<h1 id="7. Inline Images">7 Inline Images</h1>
+This plugin adds support for inline images via <a href="http://en.wikipedia.org/wiki/Data_URI_scheme." target="blank">data uris</a> This is useful for situations where the images you need to imbed in a rendered PDF or image are generated by the application itself.<p class="paragraph"/>For example, your application may generate barcodes that you don't necessarily want to expose but want to include in your generated PDFs or images. Using inline images, you can include the image bytes in the document to be rendered.<p class="paragraph"/>To make this easier, the plugin provides tags to render byte arrays as common image formats (i.e. gif, png and jpeg).<p class="paragraph"/>The tags are under the namespace <code>rendering</code> and are called <code>inlinePng</code>, <code>inlineGif</code> and <code>inlineJpeg</code>. They all take a single argument, <code>bytes</code>, which is a <code>byte</code> containing the raw bytes of the images. This will result in an <code>img</code> tag with a <code>src</code> attribute of a suitable data uri. Any other parameters passed to the tag will be expressed as attributes of the resultant <code>img</code> tag.<p class="paragraph"/>Here is an example of how this could be used to include a local (i.e. from the filesystem) image in a generated pdf/image.<p class="paragraph"/><div class="code"><pre>class SomeController &#123;<p class="paragraph"/>    def generate = &#123;
+        def file = <span class="java&#45;keyword">new</span> File(<span class="java&#45;quote">"path/to/image.png"</span>)
+        renderPng(template: <span class="java&#45;quote">"thing"</span>, model: &#91;imageBytes: file.bytes&#93;)
+    &#125;<p class="paragraph"/>&#125;</pre></div><p class="paragraph"/>In the view…<p class="paragraph"/><div class="code"><pre>&#60;html&#62;
+    &#60;head&#62;&#60;/head&#62;
+    &#60;body&#62;
+        &#60;p&#62;Below is an inline image&#60;/p&#62;
+        &#60;rendering:inlinePng bytes=<span class="java&#45;quote">"$&#123;imageBytes&#125;"</span> class=<span class="java&#45;quote">"some&#45;class"</span> /&#62;
+    &#60;/body&#62;
+&#60;/html&#62;</pre></div>
+
+
+
+<h1 id="8. Exotic Characters">8 Exotic Characters</h1>
+In most cases, there are no issues with dealing with exotic Unicode characters. However, certain characters will not render in PDF documents without some extra work (the same problem does not exist when rendering images). This is a quirk with the way iText works, which is the library underpinning the PDF generation.<p class="paragraph"/>This <a href="http://www.mail-archive.com/itext-questions@lists.sourceforge.net/msg48788.html" target="blank">thread</a> explains the issue.<p class="paragraph"/>The solution is to register the font to use with a particular encoding. Because we are using XHTMLRenderer we can specify this in CSS as opposed to programatically registering.<p class="paragraph"/><div class="code"><pre>@font&#45;face &#123;
+      src: url(path/to/arial.ttf);
+      &#45;fs&#45;pdf&#45;font&#45;embed: embed;
+      &#45;fs&#45;pdf&#45;font&#45;encoding: cp1250;
+    &#125;
+    body &#123;
+      font&#45;family: <span class="java&#45;quote">"Arial Unicode MS"</span>, Arial, sans&#45;serif;
+    &#125;</pre></div><p class="paragraph"/>See <a href="http://pigeonholdings.com/projects/flyingsaucer/R8/doc/guide/users-guide-R8.html#xil_44" target="blank">this page</a> for details on these CSS directives.
+
+                    </div>
+                </td>
+                <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Controller</h1><div class="menu-sub">
+                        
+                        
+                        <div class="menu-item"><a href="../ref/Controller/renderGif.html">renderGif</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Controller/renderJpeg.html">renderJpeg</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Controller/renderPdf.html">renderPdf</a>
+                        </div>
+                        
+                        <div class="menu-item"><a href="../ref/Controller/renderPng.html">renderPng</a>
+                        </div>
+                        
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+            </tr>
+        </table>
+
+        <div id="footer">
+            Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
+            Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+        </div>
+
+
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+    </body>
+</html>

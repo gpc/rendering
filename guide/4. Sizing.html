@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>4 Sizing 1.0.0-SNAPSHOT</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/2.%20GSP%20Considerations.html"><strong>2</strong><span>GSP Considerations</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/3.%20Rendering.html"><strong>3</strong><span>Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/4.%20Sizing.html"><strong>4</strong><span>Sizing</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/5.%20Rendering%20To%20The%20Response.html"><strong>5</strong><span>Rendering To The Response</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/6.%20Caching%20And%20Performance.html"><strong>6</strong><span>Caching And Performance</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/7.%20Inline%20Images.html"><strong>7</strong><span>Inline Images</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/8.%20Exotic%20Characters.html"><strong>8</strong><span>Exotic Characters</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p>Render GSPs as PDFs, JPEGs, GIFs and PNGs</p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+                    <div class="toc-item prev-left"><a href="../guide/3.%20Rendering.html">&lt;&lt; <strong>3</strong><span>Rendering</span></a></div>
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/5.%20Rendering%20To%20The%20Response.html"><strong>5</strong><span>Rendering To The Response</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>4 Sizing - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> Grails Plugin Collective</p>
+
+                    <p><strong>Version:</strong> 1.0.0-SNAPSHOT</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="4. Sizing">4 Sizing</h1>
+<h3>Documents</h3><p class="paragraph"/>When rendering PDF documents, you can specify the page size via CSS…<p class="paragraph"/><div class="code"><pre>&#60;style  type=<span class="java&#45;quote">"text/css"</span>&#62;
+  @page &#123;
+    size: 210mm 297mm;
+  &#125;
+&#60;/style&#62;</pre></div><p class="paragraph"/><h3>Images</h3><p class="paragraph"/>The image rendering methods take extra arguments to control the size of the rendered image. The extra arguments are maps containing <code>width</code> or <code>height</code> keys, or both.<p class="paragraph"/><h4>render</h4><p class="paragraph"/>The <code>render</code> argument is the size of the view port that the document is rendered into. This is equivalent to the dimensions of the browser window for html rendering.<p class="paragraph"/>The default value for <code>render</code> is <code>width: 10, height: 10000</code> (i.e. 10 pixels wide by 10000 pixels high).<p class="paragraph"/><h4>autosize</h4><p class="paragraph"/>The <code>autosize</code> argument specifies whether to adjust the size of the image to exactly be the rendered content.<p class="paragraph"/>The default value for <code>autosize</code> is <code>width: true, height: true</code>.<p class="paragraph"/><h4>scale</h4><p class="paragraph"/>The <code>scale</code> argument specifies  the factor to scale the image by after initial rendering. For example, the value <code>width: 0.5, height: 0.5</code> produces an image half the size of the original render.<p class="paragraph"/>The default value for <code>autosize</code> is null.<p class="paragraph"/><h4>resize</h4><p class="paragraph"/>The <code>resize</code> argument specifies the adjusted  mage after initial rendering. For example, the value <code>width: 200, height: 400</code> will resize the image to 200 pixels X 400 pixels regardless of the original render size.<p class="paragraph"/>(note that <code>resize</code> &#38; <code>scale</code> are mutually exclusive with <code>scale</code> taking precedence).<p class="paragraph"/>The default value for <code>resize</code> is null.
+
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item prev-left"><a href="../guide/3.%20Rendering.html">&lt;&lt; <strong>3</strong><span>Rendering</span></a></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/5.%20Rendering%20To%20The%20Response.html"><strong>5</strong><span>Rendering To The Response</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Controller</h1><div class="menu-sub">
+                        
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderGif.html">renderGif</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderJpeg.html">renderJpeg</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderPdf.html">renderPdf</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderPng.html">renderPng</a>
+                            </div>
+                            
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    Copies of this document may be made for your own use and for distribution to others, provided that you do not charge any fee for such copies and further provided that each copy contains this Copyright Notice, whether distributed in print or electronically.
+    Developed by the <a href='http://gpc.github.com'>Grails Plugin Collective</a>
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
