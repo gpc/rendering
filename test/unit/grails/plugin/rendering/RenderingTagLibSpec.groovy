@@ -17,19 +17,24 @@
 package grails.plugin.rendering
 
 import grails.plugin.rendering.datauri.DataUri
-import grails.plugin.spock.GroovyPagesSpec
 
 import org.apache.commons.codec.binary.Base64
 
-import spock.lang.Shared
+import grails.test.mixin.web.GroovyPageUnitTestMixin
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
-class RenderingTagLibSpec extends GroovyPagesSpec {
+@TestMixin(GroovyPageUnitTestMixin)
+class RenderingTagLibSpec extends Specification {
 
 	@Shared bytes = [1,2,3] as byte[]
 	@Shared encoded = new String(new Base64().encode(bytes), "UTF-8")
+	
+	@Shared String template
 
 	def setup() {
-		params.bytes = bytes
+		mockTagLib(RenderingTagLib)
 	}
 
 	protected getOutputMimeType() {
@@ -48,6 +53,10 @@ class RenderingTagLibSpec extends GroovyPagesSpec {
 		def m = output =~ /^.+src="(.+?)".+$/
 		assert m
 		m[0][1]
+	}
+
+	protected getOutput() {
+		applyTemplate( template, [bytes:bytes, mimeType:params.mimeType] )
 	}
 
 	def "inline image tag"() {

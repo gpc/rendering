@@ -15,14 +15,15 @@
  */
 package grails.plugin.rendering
 
-import grails.plugin.spock.FunctionalSpec
-
-class ControllerRelativeTemplateSpec extends FunctionalSpec {
+import spock.lang.*
+import grails.plugins.rest.client.RestBuilder
+class ControllerRelativeTemplateSpec extends Specification {
 
 	def accessingControllerRelativeTemplateWorks() {
 		when:
-		get "/rendering/relative"
+			def rest = new RestBuilder()
+			def resp = rest.get("http://localhost:8080/grails-rendering/rendering/relative")
 		then:
-		response.statusCode == 200
+			resp.status == 200
 	}
 }

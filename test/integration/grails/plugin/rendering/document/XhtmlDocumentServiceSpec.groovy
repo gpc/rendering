@@ -15,13 +15,17 @@
  */
 package grails.plugin.rendering.document
 
-import grails.plugin.spock.IntegrationSpec
 
 /**
  * The xhtmlDocumentService is exercised in the rendering
  * service tests. This is here for testing future functionality.
  */
-class XhtmlDocumentServiceSpec extends IntegrationSpec {
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
+
+@TestMixin(IntegrationTestMixin)
+class XhtmlDocumentServiceSpec extends Specification {
 
 	def xhtmlDocumentService
 

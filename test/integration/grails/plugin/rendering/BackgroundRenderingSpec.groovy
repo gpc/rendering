@@ -15,13 +15,17 @@
  */
 package grails.plugin.rendering
 
-import grails.plugin.spock.IntegrationSpec
+
 
 import java.util.concurrent.TimeUnit
 
 import spock.util.concurrent.BlockingVariable
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
 
-class BackgroundRenderingSpec extends IntegrationSpec {
+@TestMixin(IntegrationTestMixin)
+class BackgroundRenderingSpec extends Specification {
 
 	def backgroundRenderingService
 

@@ -16,11 +16,10 @@
 
 package grails.plugin.rendering.datauri
 
-import grails.plugin.spock.UnitSpec
-
 import org.apache.commons.codec.binary.Base64
+import spock.lang.*
 
-class DataUriSpec extends UnitSpec {
+class DataUriSpec extends Specification {
 
 	def "encoding base64 round trip"() {
 		given:

@@ -17,10 +17,11 @@ package grails.plugin.rendering.document
 
 import grails.util.GrailsUtil
 
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+
 import org.w3c.dom.Document
 import org.xhtmlrenderer.resource.XMLResource
 import org.xml.sax.InputSource
+import grails.util.Holders
 
 class XhtmlDocumentService {
 
@@ -109,7 +110,7 @@ class XhtmlDocumentService {
 		def pluginName = args.plugin
 
 		if (pluginName) {
-			def plugin = PluginManagerHolder.pluginManager.getGrailsPlugin(pluginName)
+			def plugin = Holders.pluginManager.getGrailsPlugin(pluginName)
 			if (plugin && !plugin.isBasePlugin()) {
 				contextPath = plugin.pluginPath
 			}

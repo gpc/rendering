@@ -15,14 +15,18 @@
  */
 package grails.plugin.rendering
 
-import grails.plugin.spock.IntegrationSpec
 
 import org.codehaus.groovy.grails.plugins.PluginManagerHolder
 
 import spock.lang.Ignore
 import spock.lang.Unroll
 
-class RenderingGrailsPluginSpec extends IntegrationSpec {
+import spock.lang.*
+import grails.test.mixin.integration.IntegrationTestMixin
+import grails.test.mixin.*
+
+@TestMixin(IntegrationTestMixin)
+class RenderingGrailsPluginSpec extends Specification {
 
 	def grailsApplication
 
