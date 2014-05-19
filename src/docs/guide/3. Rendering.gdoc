@@ -49,3 +49,10 @@ That is,
 * template paths NOT starting with "/" are resolved relative to the @views/«controller»@ directory
 
 If the @template@ argument does not start with a "/", the @controller@ argument must be provided. The methods added to controllers (e.g. @renderPdf()@) automatically pass the @controller@ param for you.
+
+h3. Debuging
+
+To get more visibility about what is going on inside, you can activate the logging within Flying Saucer by providing the system property xr.util-logging.loggingEnabled like so:
+{code}
+grails -Dxr.util-logging.loggingEnabled=true run-app
+{code}
