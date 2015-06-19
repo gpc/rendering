@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering
+package grails.plugins.rendering
 
 import spock.lang.*
 import grails.plugins.rest.client.RestBuilder
@@ -22,7 +22,7 @@ class ControllerRelativeTemplateSpec extends Specification {
 	def accessingControllerRelativeTemplateWorks() {
 		when:
 			def rest = new RestBuilder()
-			def resp = rest.get("http://localhost:8080/grails-rendering/rendering/relative")
+			def resp = rest.get("http://localhost:8080/rendering/relative")
 		then:
 			resp.status == 200
 	}

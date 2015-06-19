@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering.datauri
+package grails.plugins.rendering.datauri
 
 import org.slf4j.LoggerFactory
 import org.xhtmlrenderer.swing.NaiveUserAgent

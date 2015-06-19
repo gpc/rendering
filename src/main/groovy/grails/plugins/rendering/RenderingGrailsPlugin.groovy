@@ -13,14 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RenderingGrailsPlugin {
+package grails.plugins.rendering
+
+import grails.plugins.*
+
+class RenderingGrailsPlugin extends Plugin {
 
 	def version = "1.0.1-SNAPSHOT"
 	def grailsVersion = "1.3.0 > *"
 
 	def pluginExcludes = [
 		"grails-app/views/**",
-		"grails-app/controllers/**",
+		"RenderingController**",
 		"grails-app/services/grails/plugin/rendering/test/**",
 		"src/groovy/grails/plugin/rendering/test/**",
 		"plugins/**",
@@ -41,14 +45,15 @@ class RenderingGrailsPlugin {
 	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPRENDERING']
 	def scm = [url: 'https://github.com/gpc/grails-rendering']
 
-	def doWithDynamicMethods = { ctx ->
-		application.controllerClasses.each {
-			addRenderMethods(ctx, it.clazz)
+	@Override
+	void doWithDynamicMethods() {
+		grailsApplication.controllerClasses.each {
+			addRenderMethods(applicationContext, it.clazz)
 		}
 	}
 
-	def onChange = { event ->
-		if (application.isControllerClass(event.source)) {
+	void onChange(Map<String, Object> event) {
+		if (grailsApplication.isControllerClass(event.source)) {
 			addRenderMethods(event.ctx, event.source)
 		}
 	}

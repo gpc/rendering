@@ -13,15 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering.test
+package grails.plugins.rendering.test
 
-import org.springframework.context.ApplicationEvent
-import org.springframework.context.ApplicationListener
 
-class BackgroundRenderingService implements ApplicationListener<RenderEvent> {
+import org.springframework.context.*
+
+class BackgroundRenderingService implements ApplicationListener<RenderEvent>, ApplicationContextAware {
 
 	static transactional = false
 
+	ApplicationContext applicationContext
 	def pdfRenderingService
 
 	void onApplicationEvent(RenderEvent event) {
@@ -34,7 +35,7 @@ class BackgroundRenderingService implements ApplicationListener<RenderEvent> {
 	}
 
 	def fireEvent(errorHolder) {
-		publishEvent(new RenderEvent(errorHolder))
+		applicationContext.publishEvent(new RenderEvent(errorHolder))
 	}
 }
 

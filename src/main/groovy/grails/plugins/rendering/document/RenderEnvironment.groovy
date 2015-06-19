@@ -1,8 +1,8 @@
-package grails.plugin.rendering.document
+package grails.plugins.rendering.document
 
-import grails.util.GrailsWebUtil
+import grails.util.GrailsWebMockUtil
 
-import org.codehaus.groovy.grails.web.servlet.WrappedResponseHolder
+import org.grails.web.servlet.WrappedResponseHolder
 import org.springframework.context.ApplicationContext
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.servlet.DispatcherServlet
@@ -28,7 +28,7 @@ class RenderEnvironment {
 
 	private init() {
 		originalRequestAttributes = RequestContextHolder.getRequestAttributes()
-		renderRequestAttributes = GrailsWebUtil.bindMockWebRequest(applicationContext)
+		renderRequestAttributes = GrailsWebMockUtil.bindMockWebRequest(applicationContext)
 
 		if (originalRequestAttributes) {
 			renderRequestAttributes.controllerName = originalRequestAttributes.controllerName

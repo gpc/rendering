@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering
+package grails.plugins.rendering
 
 
-import org.codehaus.groovy.grails.plugins.PluginManagerHolder
+import grails.util.Holders
 
 import spock.lang.Ignore
 import spock.lang.Unroll
@@ -39,7 +39,7 @@ class RenderingGrailsPluginSpec extends Specification {
 		then:
 		notThrown(MissingMethodException)
 		when:
-		PluginManagerHolder.pluginManager.informOfClassChange(reloadControllerClass())
+		Holders.pluginManager.informOfClassChange(reloadControllerClass())
 		controller = createController()
 		and:
 		controller."$action"()

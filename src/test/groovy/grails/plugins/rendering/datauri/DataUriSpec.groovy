@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering.datauri
+package grails.plugins.rendering.datauri
 
 import org.apache.commons.codec.binary.Base64
 import spock.lang.*

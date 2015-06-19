@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering
+package grails.plugins.rendering
 
 import org.apache.commons.codec.binary.Base64
 

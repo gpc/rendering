@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering
+package grails.plugins.rendering
 
-import grails.plugin.rendering.document.UnknownTemplateException
-import grails.plugin.rendering.document.XmlParseException
+import grails.plugins.rendering.document.UnknownTemplateException
+import grails.plugins.rendering.document.XmlParseException
 
 
 import org.springframework.mock.web.MockHttpServletResponse
@@ -40,6 +40,7 @@ abstract class RenderingServiceSpec extends Specification {
 		notThrown(Exception)
 	}
 
+	@Ignore
 	def renderTemplateInPlugin() {
 		when:
 		renderer.render(pluginTemplate)

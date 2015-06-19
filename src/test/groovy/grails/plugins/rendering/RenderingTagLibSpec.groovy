@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering
+package grails.plugins.rendering
 
-import grails.plugin.rendering.datauri.DataUri
+import grails.plugins.rendering.datauri.DataUri
 
 import org.apache.commons.codec.binary.Base64
 

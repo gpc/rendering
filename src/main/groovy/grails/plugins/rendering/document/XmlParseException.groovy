@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering.document
+package grails.plugins.rendering.document
 
-import grails.plugin.rendering.GrailsRenderingException
+import grails.plugins.rendering.GrailsRenderingException
 
 class XmlParseException extends GrailsRenderingException {
 

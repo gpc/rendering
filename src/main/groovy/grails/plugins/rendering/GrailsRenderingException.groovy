@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package grails.plugin.rendering
+package grails.plugins.rendering
 
 class GrailsRenderingException extends RuntimeException {
 

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering.pdf
+package grails.plugins.rendering.pdf
 
-import grails.plugin.rendering.RenderingService
-import grails.plugin.rendering.datauri.DataUriAwareITextUserAgent
+import grails.plugins.rendering.RenderingService
+import grails.plugins.rendering.datauri.DataUriAwareITextUserAgent
 
 import org.springframework.util.ReflectionUtils
 import org.w3c.dom.Document

@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering.pdf
+package grails.plugins.rendering.pdf
 
-import grails.plugin.rendering.RenderingServiceSpec
+import grails.plugins.rendering.RenderingServiceSpec
 
 import org.apache.pdfbox.pdfparser.PDFParser
 import org.apache.pdfbox.pdmodel.PDDocument

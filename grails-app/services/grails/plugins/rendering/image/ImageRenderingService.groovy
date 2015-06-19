@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugin.rendering.image
+package grails.plugins.rendering.image
 
-import grails.plugin.rendering.RenderingService
-import grails.plugin.rendering.datauri.DataUriAwareNaiveUserAgent
+import grails.plugins.rendering.RenderingService
+import grails.plugins.rendering.datauri.DataUriAwareNaiveUserAgent
 
 import java.awt.Dimension
 import java.awt.RenderingHints
