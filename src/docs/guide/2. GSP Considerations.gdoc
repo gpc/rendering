@@ -8,7 +8,7 @@ The rendering engine resolves all relative links relative to the @grails.serverU
 
 h3. Must be well formed
 
-The GSP must render to well formed, valid, XHTML. If it does not, a @grails.plugin.rendering.document.XmlParseException@ will be thrown.
+The GSP must render to well formed, valid, XHTML. If it does not, a @grails.plugins.rendering.document.XmlParseException@ will be thrown.
 
 h3. Must declare DOCTYPE
 

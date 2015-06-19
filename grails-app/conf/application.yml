@@ -1,0 +1,8 @@
+grails:
+    profile: web-plugin
+    codegen:
+        defaultPackage: grails.plugins.rendering
+spring:
+    groovy:
+        template:
+            check-template-location: false
