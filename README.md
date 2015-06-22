@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/gpc/grails-rendering.svg?branch=master)](https://travis-ci.org/gpc/grails-rendering)
+[![Build Status](https://travis-ci.org/gpc/rendering.svg?branch=master)](https://travis-ci.org/gpc/rendering)
 
 Rendering Grails Plugin
 =======================

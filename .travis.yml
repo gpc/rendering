@@ -1,6 +1,6 @@
 language: groovy
 jdk:
-- openjdk6
+- openjdk7
 before_script:
 - rm -rf target
 script: ./travis-build.sh
@@ -11,3 +11,5 @@ env:
   - secure: VM10fTdemW2j1jDVnZ5QaMgDg5cqY6X7yiEKf5kVpTMrMjYURrZyzwtAxWaM7bvoaN3EjpMS9qHr2ETEMlF6kXKX8ZdPm5t/8w6bpFBzLYMVlHT6focZbGkVL8Rl7bJbH3ljOTID9Ko4QdoLhuWU5PuEZTwKxco1kSHIMVlJlWc=
   - secure: kfZ39NpxKgVN0emfYis6fNAUOqXkis9Z/T7M3nVI6JpKjuwSb1LR7Xt5Rlier6kuHQq9RePVBfOGYvVVj/rVBoPLw7azblETNlKZX627ZDw+4+up9D9z8NRU7/6recfeRxhvkbq0flDGGQHaWudwNzKNQAZgXddlApuapWqgjis=
   - secure: qutwo7+0pfBh2fo2NrTdMdhK6Z7jGAGmfQUUms5IewycAEcO/XYD61uM9Om8y03puBXeo2aoN9YUtF5C+iou6KaGnLIMNDE6E5h9f36fTUk3RebwwV7cgsyzn4Zzma+EYYw6S2KF0Kj+JHPNDnlEdYLdmVJ1eq4KXVA17t5F8Eg=
+  - secure: G5bnlZc73YxAy9acnFuHpsEQ/JeKIawwT4pzv9S8ZIshVYdELWqBZiiDmiDiS1x4WhT1J9THWWy3/0Rp6taYA2IxNRgu4f9kPlv6m+Yb4pCl9E3zDfmdd1nnPeKpL7vrxawWQnF3PqqTX6qkY3PPiIdVUXdN1flUQOC0RoBXKBE=
+  - secure: IdiQoWkRWpDrWLNdROmGUgfdKGvccpozSXaicc3KV+Qe/ASyIKq54+oe196yvj5kTzkQqSkcHlt7icHuQfJBNjNCXhwP0TFoE55GoWzNmrJaxmr9jcvXOJzRicWp1ZrzksuoBiLxxyx2mfr3eSR7ByIyBN0aOY8n6Zcda5kE9wY=
