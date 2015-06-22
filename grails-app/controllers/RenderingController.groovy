@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RenderingController {
+class RenderingController implements grails.plugins.rendering.RenderingTrait{
 
 	def pdf = {
 		renderPdf(template)

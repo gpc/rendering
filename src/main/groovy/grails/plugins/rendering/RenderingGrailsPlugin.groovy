@@ -45,32 +45,4 @@ class RenderingGrailsPlugin extends Plugin {
 	def issueManagement = [system: 'JIRA', url: 'http://jira.grails.org/browse/GPRENDERING']
 	def scm = [url: 'https://github.com/gpc/grails-rendering']
 
-	@Override
-	void doWithDynamicMethods() {
-		grailsApplication.controllerClasses.each {
-			addRenderMethods(applicationContext, it.clazz)
-		}
-	}
-
-	void onChange(Map<String, Object> event) {
-		if (grailsApplication.isControllerClass(event.source)) {
-			addRenderMethods(event.ctx, event.source)
-		}
-	}
-
-	private renderMethodTemplate = { ctx, rendererName, Map args ->
-		def adjustedArgs = [controller: delegate]
-		adjustedArgs.putAll(args)
-		ctx[rendererName].render(adjustedArgs, delegate.response)
-		false
-	}
-
-	private addRenderMethods(ctx, clazz) {
-		clazz.metaClass.with {
-			renderPdf = this.renderMethodTemplate.curry(ctx, 'pdfRenderingService')
-			renderJpeg = this.renderMethodTemplate.curry(ctx, 'jpegRenderingService')
-			renderGif = this.renderMethodTemplate.curry(ctx, 'gifRenderingService')
-			renderPng = this.renderMethodTemplate.curry(ctx, 'pngRenderingService')
-		}
-	}
 }
