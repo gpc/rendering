@@ -1,3 +1,7 @@
+sudo: false
+cache:
+  directories:
+    - $HOME/.gradle
 language: groovy
 jdk:
 - openjdk7
@@ -13,3 +17,5 @@ env:
   - secure: IdiQoWkRWpDrWLNdROmGUgfdKGvccpozSXaicc3KV+Qe/ASyIKq54+oe196yvj5kTzkQqSkcHlt7icHuQfJBNjNCXhwP0TFoE55GoWzNmrJaxmr9jcvXOJzRicWp1ZrzksuoBiLxxyx2mfr3eSR7ByIyBN0aOY8n6Zcda5kE9wY=
   - secure: Y9QjAlhmbRnE94ylUkg2dkOZh4u7aBgE9vol06dya/sjo8PpTtcMx1R5MNPPcPglvCiv0mmnNIu5QWPKWnWd+hp7wEI8NdLze8WL1iLaSIETtimrfuaMxRB8etFSsm9cs8B5SLbpNCqc0uCrA86Rts4hSQTrFIYJ416Ft/E8WSE=
   - secure: o+BWtaPb6AldRYXHU15rBN/p/FIvEbar36LahiiXLKZ+2gTanBZAiDG6E/JuXRzVFqEMhOt8qvUXhpXXcxqHRvRVZqF0oqZJ8ratKwNB3W07ajEKMH8axK+Hxt/2P12Bk62ttDGxI/aFeH74RbQtNmFc+gLTS3O1QoLDLpqlVgk=
+  - secure: MBg9I3LeXHMhjhXkf+b8Gyy6afTUHfpsaK5IKXPJr9AycSx8r/CnFQTesdGFcrIhLfDYCmxL7YcA+/Fj9fOhu2bUo9rysG5pOlLmnU7DE56awIeMcdYB7ecty8mWJRSS4MJWsZ8I3kbncIVRORTvfgZfjh5WdmZaCKs11hX9x28=
+  - secure: SQc5o2xCxsuz8tlfBrxue7tDjanQ6NiI5/khYYc+7avECv+lH0W1b2Ho6G5ydk3eHQVxrrlF8LVrOeRlxg11UFcSmGoe6v3FO7KzvIXlZgHpq1CAR2Mojfp0YFXrAwvKetbGpiUOI+bMk5RCgUam8f1SWCkubwhQDXOO/T8I5a4=
