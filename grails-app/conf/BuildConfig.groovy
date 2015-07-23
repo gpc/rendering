@@ -36,7 +36,7 @@ grails.project.dependency.resolution = {
 	def seleniumVersion = "2.32.0"
 
 	dependencies {
-		compile("org.xhtmlrenderer:core-renderer:R8")
+		compile("org.xhtmlrenderer:flying-saucer-pdf-itext5:9.0.7")
 		compile("com.lowagie:itext:2.1.0")
 		test("org.apache.pdfbox:pdfbox:1.0.0") {
 			exclude 'jempbox'
