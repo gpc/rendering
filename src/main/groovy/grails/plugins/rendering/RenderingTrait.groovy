@@ -15,11 +15,13 @@
  */
 package grails.plugins.rendering
 
-import grails.artefact.*
-import groovy.transform.*
-import grails.web.api.*
-import grails.plugins.rendering.pdf.*
-import grails.plugins.rendering.image.*
+import grails.artefact.Enhances
+import grails.plugins.rendering.image.GifRenderingService
+import grails.plugins.rendering.image.JpegRenderingService
+import grails.plugins.rendering.image.PngRenderingService
+import grails.plugins.rendering.pdf.PdfRenderingService
+import grails.web.api.ServletAttributes
+import org.springframework.beans.factory.annotation.Autowired
 
 /**
  * Trait that applies to controllers adding new methods for rendering PDFs, Gif etc.
@@ -34,7 +36,7 @@ trait RenderingTrait extends ServletAttributes{
 	GifRenderingService gifRenderingService
 
 	@Autowired
-	JpegRenderingService JpegRenderingService
+	JpegRenderingService jpegRenderingService
 
 	@Autowired
 	PngRenderingService pngRenderingService

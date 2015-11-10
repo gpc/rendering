@@ -19,8 +19,7 @@ import grails.plugins.*
 
 class RenderingGrailsPlugin extends Plugin {
 
-	def version = "1.0.1-SNAPSHOT"
-	def grailsVersion = "1.3.0 > *"
+	def grailsVersion = "3.0 > *"
 
 	def pluginExcludes = [
 		"grails-app/views/**",
