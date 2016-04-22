@@ -58,6 +58,8 @@ trait RenderingTrait extends ServletAttributes{
 	}	
 
 	private boolean render(RenderingService renderService, Map args) {
+		if(!renderService) throw new IllegalStateException("Bean with rendering service was not injected!")
+
 		def adjustedArgs = [controller: this]
 		adjustedArgs.putAll args
 
