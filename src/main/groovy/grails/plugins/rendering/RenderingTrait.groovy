@@ -29,43 +29,40 @@ import org.springframework.beans.factory.annotation.Autowired
 @Enhances("Controller")
 trait RenderingTrait extends ServletAttributes{
 
-	@Autowired
+	@Autowired(required = false)
 	PdfRenderingService pdfRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	GifRenderingService gifRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	JpegRenderingService jpegRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	PngRenderingService pngRenderingService
 
 	boolean renderPdf(Map args)	{
-		def adjustedArgs = [controller: this]
-		adjustedArgs.putAll args
-		pdfRenderingService.render(adjustedArgs, response)
+		render pdfRenderingService, args
 	}
 
 	boolean renderGif(Map args)	{
-		def adjustedArgs = [controller: this]
-		adjustedArgs.putAll args
-
-		gifRenderingService.render(adjustedArgs, response)
+		render gifRenderingService, args
 	}	
 
 	boolean renderJpeg(Map args)	{
-		def adjustedArgs = [controller: this]
-		adjustedArgs.putAll args
-
-		jpegRenderingService.render(adjustedArgs, response)
+		render jpegRenderingService, args
 	}	
 
 	boolean renderPng(Map args)	{
+		render pngRenderingService, args
+	}	
+
+	private boolean render(RenderingService renderService, Map args) {
+		if(!renderService) throw new IllegalStateException("Bean with rendering service was not injected!")
+
 		def adjustedArgs = [controller: this]
 		adjustedArgs.putAll args
 
-		pngRenderingService.render(adjustedArgs, response)
-	}	
-
+		renderService.render(adjustedArgs, response)
+	}
 }
