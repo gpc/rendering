@@ -29,16 +29,16 @@ import org.springframework.beans.factory.annotation.Autowired
 @Enhances("Controller")
 trait RenderingTrait extends ServletAttributes{
 
-	@Autowired
+	@Autowired(required = false)
 	PdfRenderingService pdfRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	GifRenderingService gifRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	JpegRenderingService jpegRenderingService
 
-	@Autowired
+	@Autowired(required = false)
 	PngRenderingService pngRenderingService
 
 	boolean renderPdf(Map args)	{
