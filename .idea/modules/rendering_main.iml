@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.linked.project.id="rendering:main" external.linked.project.path="$MODULE_DIR$/../.." external.root.project.path="$MODULE_DIR$/../.." external.system.id="GRADLE" external.system.module.group="org.grails.plugins" external.system.module.type="sourceSet" external.system.module.version="2.0.2" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_7" inherit-compiler-output="false">
+    <output url="file://$MODULE_DIR$/../../build/classes/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../grails-app">
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/controllers" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/init" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/services" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/taglib" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/conf" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/i18n" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../grails-app/views" type="java-resource" />
+    </content>
+    <content url="file://$MODULE_DIR$/../../src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/groovy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="rendering_ast" />
+    <orderEntry type="library" name="Gradle: org.xhtmlrenderer:core-renderer:R8" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/com/lowagie/itext/2.1.0/itext-2.1.0.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-logging:1.2.6.RELEASE" level="project" />
+    <orderEntry type="module-library" scope="RUNTIME">
+      <library>
+        <CLASSES>
+          <root url="file://$MODULE_DIR$/../../gsp-classes" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-actuator:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-autoconfigure:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter-tomcat:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-boot:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: javax.servlet:javax.servlet-api:3.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: bouncycastle:bcprov-jdk14:136" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:jcl-over-slf4j:1.7.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:jul-to-slf4j:1.7.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:log4j-over-slf4j:1.7.12" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-classic:1.1.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-starter:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot-actuator:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-core:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework.boot:spring-boot:1.2.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.yaml:snakeyaml:1.14" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-core:8.0.26" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-el:8.0.26" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-logging-juli:8.0.26" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat.embed:tomcat-embed-websocket:8.0.26" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-common:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-bootstrap:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-rest:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-databinding:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-i18n:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-filters:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-gsp:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-services:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-url-mappings:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-interceptors:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-async:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.h2database:h2:1.3.176" level="project" />
+    <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.1.3" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.4.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-core:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-context-support:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-encoder:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-databinding:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-templates:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-gsp:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.2.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-webmvc:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-xml:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-datasource:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-controllers:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: commons-lang:commons-lang:2.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-gsp-taglib:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-logging:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-codecs:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-tx:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-events:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.googlecode.concurrentlinkedhashmap:concurrentlinkedhashmap-lru:1.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-validation:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.4.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.4.6" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aop:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-beans:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-expression:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: commons-logging:commons-logging:1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-spring:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-json:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-web:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-taglib:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: xalan:serializer:2.7.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-url-mappings:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-gsp:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-mvc:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-jsp:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-sitemesh:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-databinding:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-fileupload:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-jdbc:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-jdbc:7.0.55" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-sql:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-validation:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-mimetypes:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-async:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-domain-class:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-plugin-converters:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: org.springframework:spring-aspects:4.1.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.aspectj:aspectjrt:1.8.5" level="project" />
+    <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.6" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor:reactor-bus:2.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor.spring:reactor-spring-context:2.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: commons-validator:commons-validator:1.4.1" level="project" />
+    <orderEntry type="library" name="Gradle: aopalliance:aopalliance:1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-datastore-core:4.0.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-web-taglib:3.0.9" level="project" />
+    <orderEntry type="library" name="Gradle: opensymphony:sitemesh:2.4" level="project" />
+    <orderEntry type="library" name="Gradle: commons-fileupload:commons-fileupload:1.3.1" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.tomcat:tomcat-juli:7.0.55" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.gpars:gpars:1.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor:reactor-stream:2.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor:reactor-core:2.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-datastore-gorm:4.0.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: org.grails:grails-datastore-simple:4.0.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: com.goldmansachs:gs-collections:5.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.jayway.jsonpath:json-path:0.9.0" level="project" />
+    <orderEntry type="library" name="Gradle: io.projectreactor.spring:reactor-spring-core:2.0.6.RELEASE" level="project" />
+    <orderEntry type="library" name="Gradle: commons-collections:commons-collections:3.2.1" level="project" />
+    <orderEntry type="library" name="Gradle: javax.transaction:jta:1.1" level="project" />
+    <orderEntry type="library" name="Gradle: commons-io:commons-io:2.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.jsr166-mirror:jsr166y:1.7.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.goldmansachs:gs-collections-api:5.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.minidev:json-smart:1.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-ant:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.ant:ant:1.9.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.codehaus.groovy:groovy-groovydoc:2.4.5" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.ant:ant-antlr:1.9.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.ant:ant-launcher:1.9.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.ant:ant-junit:1.9.4" level="project" />
+    <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.12" level="project" />
+    <orderEntry type="library" name="Gradle: org.aspectj:aspectjweaver:1.8.6" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/bouncycastle/bcmail-jdk14/136/bcmail-jdk14-136.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MAVEN_REPOSITORY$/org/apache/tomcat/embed/tomcat-embed-logging-log4j/7.0.55/tomcat-embed-logging-log4j-7.0.55.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+  </component>
+</module>
