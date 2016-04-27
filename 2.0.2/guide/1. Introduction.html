@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>1 Introduction 2.0.1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../css/main.css" type="text/css" media="screen, print" title="Style" charset="utf-8"/>
+    <link rel="stylesheet" href="../css/pdf.css" type="text/css" media="print" title="PDF" charset="utf-8"/>
+    <script type="text/javascript">
+function addJsClass() {
+    var classes = document.body.className.split(" ");
+    classes.push("js");
+    document.body.className = classes.join(" ");
+}
+    </script>
+</head>
+
+<body class="body" onload="addJsClass();">
+<div id="navigation">
+    <ul>
+        <li>
+            <div id="nav-summary" onmouseover="toggleNavSummary(false)" onmouseout="toggleNavSummary(true)">
+                <a href="../guide/index.html" class="button">Table of contents</a>
+
+                <div id="nav-summary-childs" style="display:none;">
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/1.%20Introduction.html"><strong>1</strong><span>Introduction</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/2.%20GSP%20Considerations.html"><strong>2</strong><span>GSP Considerations</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/3.%20Rendering.html"><strong>3</strong><span>Rendering</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/4.%20Sizing.html"><strong>4</strong><span>Sizing</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/5.%20Rendering%20To%20The%20Response.html"><strong>5</strong><span>Rendering To The Response</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/6.%20Caching%20And%20Performance.html"><strong>6</strong><span>Caching And Performance</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/7.%20Inline%20Images.html"><strong>7</strong><span>Inline Images</span></a>
+                    </div>
+                    
+                    <div class="toc-item" style="margin-left:0"><a href="../guide/8.%20Exotic%20Characters.html"><strong>8</strong><span>Exotic Characters</span></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </li>
+        <li class="separator selected">
+            <a id="ref-button" onclick="localToggle(); return false;" href="#">Quick Reference</a>
+        </li>
+    </ul>
+</div>
+<div id="header">
+    <div class="images clearfix">
+        
+        
+    </div>
+    <p></p>
+</div>
+
+
+<table id="colset" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td id="col1">
+            <div id="main" class="corner-all">
+
+                
+
+                <span id='toggle-col1' class="toggle">(<a href="#" onclick="localToggle(); return false;">Quick Reference</a>)</span>
+
+                
+                    <div class="toc-item next-right"><a href="../guide/2.%20GSP%20Considerations.html"><strong>2</strong><span>GSP Considerations</span> >></a></div>
+                
+
+
+                <div class="project">
+                    <h1>1 Introduction - Reference Documentation</h1>
+
+                    <p><strong>Authors:</strong> </p>
+
+                    <p><strong>Version:</strong> 2.0.1</p>
+
+                    
+                </div>
+
+                
+
+                
+
+<h1 id="1. Introduction">1 Introduction</h1>
+This plugin adds additional rendering capabilities to Grails applications via the <a href="https://xhtmlrenderer.dev.java.net/" target="blank">XHTML Renderer</a> library.<p class="paragraph"/>Rendering is either done directly via <code>«format»RenderingService</code> services ...<p class="paragraph"/><div class="code"><pre>ByteArrayOutputStream bytes = pdfRenderingService.render(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;data: data&#93;)</pre></div><p class="paragraph"/>Or via the <code>render«format»()</code> methods added to controllers ...<p class="paragraph"/><div class="code"><pre>renderPdf(template: <span class="java&#45;quote">"/pdfs/report"</span>, model: &#91;report: reportObject&#93;, filename: reportObject.name)</pre></div><p class="paragraph"/>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html" target="blank">Apache License 2.0</a> license and is produced under the <a href="http://gpc.github.com/" target="blank">Grails Plugin Collective</a> .
+
+
+                <div style="clear:both;margin-top:15px;"></div>
+                
+                    <div class="toc-item next-right"><a href="../guide/2.%20GSP%20Considerations.html"><strong>2</strong><span>GSP Considerations</span> >></a></div>
+                
+                <div style="clear:both"></div>
+            </div>
+        </td>
+        <td id="col2">
+            <div class="local clearfix">
+                <div class="local-title">
+                    <a href="../guide/index.html" target="mainFrame">Quick Reference</a>
+                    <span class="toggle">(<a href="#" onclick="localToggle(); return false;">hide</a>)</span>
+                </div>
+                <div class="menu">
+                    
+                    <div class="menu-block"><h1 class="menu-title" onclick="toggleRef(this.parentNode.childNodes[1])">Controller</h1><div class="menu-sub">
+                        
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderGif.html">renderGif</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderJpeg.html">renderJpeg</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderPdf.html">renderPdf</a>
+                            </div>
+                            
+                            <div class="menu-item"><a href="../ref/Controller/renderPng.html">renderPng</a>
+                            </div>
+                            
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div id="footer">
+    
+    
+</div>
+
+<script type="text/javascript" src="../js/docs.js"></script>
+
+</body>
+</html>
