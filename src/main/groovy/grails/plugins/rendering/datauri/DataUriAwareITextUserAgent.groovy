@@ -47,17 +47,17 @@ class DataUriAwareITextUserAgent extends ITextUserAgent {
 					def image = Image.getInstance(dataUri.bytes)
 					def factor = sharedContext.dotsPerPixel
 					image.scaleAbsolute((image.plainWidth * factor) as float, (image.plainHeight * factor) as float)
-					resource = new ImageResource(new ITextFSImage(image))
+					resource = new ImageResource(uri, new ITextFSImage(image))
 					_imageCache.put(uri, resource)
 					resource
 				} catch (Exception e) {
 					GrailsUtil.deepSanitize(e)
 					log.error("exception creating image from data uri (will use empty image): $dataUri", e)
-					new ImageResource(null)
+					new ImageResource(uri, null)
 				}
 			} else {
 				log.error("data uri has a non image mime type (will use empty image): $dataUri")
-				new ImageResource(null)
+				new ImageResource(uri, null)
 			}
 		} else {
 			super.getImageResource(uri)
