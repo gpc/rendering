@@ -53,9 +53,13 @@ dependencyManagement {
 }
 
 dependencies {
+    // flying-saucer-pdf declares a profile using openpdf instead of itext, but we cannot declare it in gradle, so we
+    // need to manually exclude itext and add openpdf dependency
+    compile("org.xhtmlrenderer:flying-saucer-pdf:9.1.7") {
+        exclude group: 'com.lowagie', module: 'itext'
+    }
+    compile('com.github.librepdf:openpdf:1.0.3')
 
-    compile("org.xhtmlrenderer:core-renderer:R8")
-    compile("com.lowagie:itext:2.1.0")
     testCompile("org.apache.pdfbox:pdfbox:1.0.0") {
         exclude module:'jempbox'
     }
