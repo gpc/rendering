@@ -8,3 +8,5 @@ docs
 .DS_Store
 grails-rendering-*
 .settings
+.vscode/
+bin/
