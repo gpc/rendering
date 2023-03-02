@@ -46,7 +46,6 @@ repositories {
 dependencyManagement {
     imports {
         mavenBom "org.grails:grails-bom:$grailsVersion"
-        mavenBom 'com.amazonaws:aws-java-sdk-bom:1.12.416'
     }
     applyMavenExclusions false
 }
