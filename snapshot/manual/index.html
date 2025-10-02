@@ -812,9 +812,10 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <div class="listingblock">
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">import grails.plugin.springcache.annotations.Cacheable
+import grails.plugins.rendering.document.XhtmlDocumentService
 
 class CouponDocumentService {
-    def xhmlDocumentService
+    XhtmlDocumentService xhmlDocumentService
 
     @Cacheable('couponDocumentCache')
     class getDocument(serial) {
@@ -830,13 +831,12 @@ class CouponDocumentService {
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">class CouponController {
 
-    def couponDocumentService
+    CouponDocumentService couponDocumentService
 
-    def gif = {
-        def serial = params.id
-        def document = couponDocumentService.getDocument(serial)
+    def gif(String id) {
+        def document = couponDocumentService.getDocument(id)
 
-        renderGif(filename: "${serial}.gif", document)
+        renderGif(filename: "${id}.gif", document)
     }
 }</code></pre>
 </div>
@@ -853,8 +853,8 @@ class CouponDocumentService {
 
 class CouponGifService {
 
-    def couponDocumentService
-    def gifRenderingService
+    CouponDocumentService couponDocumentService
+    GifRenderingService gifRenderingService
 
     def getGif(serial) {
         def document = couponDocumentService.getDocument(serial)
@@ -868,13 +868,12 @@ class CouponGifService {
 <div class="content">
 <pre class="prettyprint highlight"><code data-lang="groovy">class CouponController {
 
-    def couponGifService
+    CouponDocumentService couponDocumentService
 
-    def gif = {
-        def serial = params.id
-        def bytes = couponGifService.getGif(serial)
+    def gif(String id) {
+        def document = couponDocumentService.getDocument(id)
 
-        renderGif(bytes: bytes, filename: "${serial}.gif")
+        renderGif(filename: "${id}.gif", document)
     }
 }</code></pre>
 </div>
@@ -966,7 +965,7 @@ body {
 <div id="footer">
 <div id="footer-text">
 Version 7.0.0-SNAPSHOT<br>
-Last updated 2025-10-02 18:32:56 UTC
+Last updated 2025-10-02 18:45:29 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
