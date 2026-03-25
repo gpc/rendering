@@ -31,7 +31,7 @@ Or via one of the `render«format»()` methods added to controllers …
 
     renderPdf(template: "/pdfs/report", model: [report: reportObject], filename: reportObject.name)
 
-Please see the [User Guide](http://gpc.github.io/rendering/ "Grails Rendering Plugin @ GitHub") for more information.
+Please see the [User Guide](https://gpc.github.io/rendering/latest/) for more information. 
 
 The plugin is released under the [Apache License 2.0](http://www.apache.org/licenses/LICENSE-2.0.html "Apache License, Version 2.0 - The Apache Software Foundation") and is produced under the [Grails Plugin Collective](https://github.com/gpc).
 However, it does include [LGPL](http://www.gnu.org/licenses/lgpl.html) libraries: [XhtmlRenderer](https://github.com/flyingsaucerproject/flyingsaucer)
