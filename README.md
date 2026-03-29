@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/gpc/rendering.svg?branch=master)](https://travis-ci.org/gpc/rendering)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.gpc/rendering)](https://central.sonatype.com/artifact/io.github.gpc/rendering)
+[![CI](https://github.com/gpc/rendering/actions/workflows/gradle.yml/badge.svg?event=push)](https://github.com/gpc/rendering/actions/workflows/gradle.yml)
 
 Rendering Grails Plugin
 =======================
