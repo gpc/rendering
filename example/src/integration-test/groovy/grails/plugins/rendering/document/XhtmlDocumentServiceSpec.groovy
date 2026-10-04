@@ -17,36 +17,17 @@ package grails.plugins.rendering.document
 
 import grails.core.GrailsApplication
 import grails.testing.mixin.integration.Integration
-import grails.util.Environment
 import grails.util.GrailsWebMockUtil
 import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.web.context.request.RequestContextHolder
 import org.w3c.dom.Document
-import spock.lang.Specification
 
 @Integration
-class XhtmlDocumentServiceSpec extends Specification {
+class XhtmlDocumentServiceSpec extends ProductionEnvironmentSpec {
 
 	XhtmlDocumentService xhtmlDocumentService
 	GrailsApplication grailsApplication
-
-	private String previousEnv
-
-	def setup() {
-		previousEnv = System.getProperty(Environment.KEY)
-		System.setProperty(Environment.KEY, Environment.PRODUCTION.name)
-		RequestContextHolder.resetRequestAttributes()
-	}
-
-	def cleanup() {
-		if (previousEnv == null) {
-			System.clearProperty(Environment.KEY)
-		} else {
-			System.setProperty(Environment.KEY, previousEnv)
-		}
-		RequestContextHolder.resetRequestAttributes()
-	}
 
 	def "render a taglib template outside web request"() {
 		when:
@@ -73,6 +54,7 @@ class XhtmlDocumentServiceSpec extends Specification {
 		thread.join(30_000)
 
 		then:
+		!thread.alive
 		error == null
 		hiddenFieldValue(document) == 'from a thread'
 	}

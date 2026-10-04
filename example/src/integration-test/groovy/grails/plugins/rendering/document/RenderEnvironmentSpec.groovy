@@ -2,7 +2,6 @@ package grails.plugins.rendering.document
 
 import grails.core.GrailsApplication
 import grails.testing.mixin.integration.Integration
-import grails.util.Environment
 import grails.util.GrailsWebMockUtil
 import org.grails.web.servlet.WrappedResponseHolder
 import org.grails.web.servlet.mvc.GrailsWebRequest
@@ -15,31 +14,11 @@ import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import org.springframework.web.servlet.support.RequestContextUtils
-import spock.lang.Specification
 
 @Integration
-class RenderEnvironmentSpec extends Specification {
+class RenderEnvironmentSpec extends ProductionEnvironmentSpec {
 
     GrailsApplication grailsApplication
-
-    private String previousEnv
-
-    def setup() {
-        previousEnv = System.getProperty(Environment.KEY)
-        System.setProperty(Environment.KEY, Environment.PRODUCTION.name)
-        RequestContextHolder.resetRequestAttributes()
-        WrappedResponseHolder.wrappedResponse = null
-    }
-
-    def cleanup() {
-        if (previousEnv == null) {
-            System.clearProperty(Environment.KEY)
-        } else {
-            System.setProperty(Environment.KEY, previousEnv)
-        }
-        RequestContextHolder.resetRequestAttributes()
-        WrappedResponseHolder.wrappedResponse = null
-    }
 
     def "bind a web request when one does not exist"() {
         given:
@@ -52,7 +31,6 @@ class RenderEnvironmentSpec extends Specification {
         }
 
         then:
-        Environment.current == Environment.PRODUCTION
         bound != null
         bound.out.is(out)
     }
