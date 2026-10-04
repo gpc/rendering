@@ -15,18 +15,84 @@
  */
 package grails.plugins.rendering.document
 
+import grails.core.GrailsApplication
 import grails.testing.mixin.integration.Integration
+import grails.util.Environment
+import grails.util.GrailsWebMockUtil
+import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.springframework.web.context.request.RequestContextHolder
+import org.w3c.dom.Document
 import spock.lang.Specification
 
-/**
- * The xhtmlDocumentService is exercised in the rendering
- * service tests. This is here for testing future functionality.
- */
 @Integration
 class XhtmlDocumentServiceSpec extends Specification {
 
-	def xhtmlDocumentService
+	XhtmlDocumentService xhtmlDocumentService
+	GrailsApplication grailsApplication
 
-	def emptyScenario() {
+	private String previousEnv
+
+	def setup() {
+		previousEnv = System.getProperty(Environment.KEY)
+		System.setProperty(Environment.KEY, Environment.PRODUCTION.name)
+		RequestContextHolder.resetRequestAttributes()
+	}
+
+	def cleanup() {
+		if (previousEnv == null) {
+			System.clearProperty(Environment.KEY)
+		} else {
+			System.setProperty(Environment.KEY, previousEnv)
+		}
+		RequestContextHolder.resetRequestAttributes()
+	}
+
+	def "render a taglib template outside web request"() {
+		when:
+		Document document = xhtmlDocumentService.createDocument(template: '/taglib', model: [value: 'from a job'])
+
+		then:
+		hiddenFieldValue(document) == 'from a job'
+		RequestContextHolder.requestAttributes == null
+	}
+
+	def "render taglib template on a background thread"() {
+		given:
+		Document document = null
+		Throwable error = null
+
+		when:
+		def thread = Thread.start {
+			try {
+				document = xhtmlDocumentService.createDocument(template: '/taglib', model: [value: 'from a thread'])
+			} catch (Throwable t) {
+				error = t
+			}
+		}
+		thread.join(30_000)
+
+		then:
+		error == null
+		hiddenFieldValue(document) == 'from a thread'
+	}
+
+	def "does not write into current request's output"() {
+		given:
+		GrailsWebRequest original = GrailsWebMockUtil.bindMockWebRequest(grailsApplication.mainContext)
+		def requestOut = new StringWriter()
+		original.out = requestOut
+
+		when:
+		Document document = xhtmlDocumentService.createDocument(template: '/taglib', model: [value: 'in a request'])
+
+		then:
+		hiddenFieldValue(document) == 'in a request'
+		original.out.is(requestOut)
+		requestOut.toString() == ''
+		RequestContextHolder.requestAttributes.is(original)
+	}
+
+	private static String hiddenFieldValue(Document document) {
+		document.getElementsByTagName('input').item(0).getAttribute('value')
 	}
 }
