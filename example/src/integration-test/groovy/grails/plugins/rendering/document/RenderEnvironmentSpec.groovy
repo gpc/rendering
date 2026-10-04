@@ -6,9 +6,12 @@ import grails.util.Environment
 import grails.util.GrailsWebMockUtil
 import org.grails.web.servlet.WrappedResponseHolder
 import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.springframework.context.support.StaticApplicationContext
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
+import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.context.request.ServletRequestAttributes
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import org.springframework.web.servlet.support.RequestContextUtils
@@ -149,5 +152,90 @@ class RenderEnvironmentSpec extends Specification {
         Locale.FRENCH | Locale.GERMAN | Locale.FRENCH
         null          | Locale.GERMAN | Locale.GERMAN
         null          | null          | Locale.default
+    }
+
+    def "expose the application context path outside of a web request"() {
+        given:
+        String contextPath = null
+
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter(), {
+            contextPath = GrailsWebRequest.lookup().contextPath
+        })
+
+        then:
+        contextPath == '/rendering'
+    }
+
+    def "inherit the locale of a plain servlet request"() {
+        given:
+        def request = new MockHttpServletRequest()
+        request.addPreferredLocale(Locale.JAPANESE)
+        def plain = new ServletRequestAttributes(request)
+        RequestContextHolder.requestAttributes = plain
+        Locale seen = null
+
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter(), {
+            seen = RequestContextUtils.getLocale(GrailsWebRequest.lookup().currentRequest)
+        })
+
+        then:
+        seen == Locale.JAPANESE
+        RequestContextHolder.requestAttributes.is(plain)
+    }
+
+    def "run request destruction callbacks registered during the render"() {
+        given:
+        boolean destroyed = false
+
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter(), {
+            GrailsWebRequest.lookup().registerDestructionCallback('probe', { destroyed = true } as Runnable,
+                    RequestAttributes.SCOPE_REQUEST)
+        })
+
+        then:
+        destroyed
+    }
+
+    def "leave the caller's request destruction callbacks alone"() {
+        given:
+        GrailsWebRequest original = GrailsWebMockUtil.bindMockWebRequest(grailsApplication.mainContext)
+        boolean destroyed = false
+        original.registerDestructionCallback('probe', { destroyed = true } as Runnable, RequestAttributes.SCOPE_REQUEST)
+
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter()) {}
+
+        then:
+        !destroyed
+    }
+
+    def "restore state when a destruction callback throws"() {
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter()) {
+            GrailsWebRequest.lookup().registerDestructionCallback('probe', { throw new IllegalStateException('boom') } as Runnable, RequestAttributes.SCOPE_REQUEST)
+        }
+
+        then:
+        thrown(IllegalStateException)
+        RequestContextHolder.requestAttributes == null
+        WrappedResponseHolder.wrappedResponse == null
+    }
+
+    def "bind a web request for a non web application context"() {
+        given:
+        def out = new StringWriter()
+        GrailsWebRequest bound = null
+
+        when:
+        RenderEnvironment.with(new StaticApplicationContext(), out) {
+            bound = GrailsWebRequest.lookup()
+        }
+
+        then:
+        bound.out.is(out)
+        RequestContextHolder.requestAttributes == null
     }
 }
