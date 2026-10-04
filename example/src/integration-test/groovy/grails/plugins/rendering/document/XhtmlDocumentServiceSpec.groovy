@@ -20,6 +20,7 @@ import grails.testing.mixin.integration.Integration
 import grails.util.Environment
 import grails.util.GrailsWebMockUtil
 import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.web.context.request.RequestContextHolder
 import org.w3c.dom.Document
 import spock.lang.Specification
@@ -92,7 +93,30 @@ class XhtmlDocumentServiceSpec extends Specification {
 		RequestContextHolder.requestAttributes.is(original)
 	}
 
+	def "renders template that reads caller's request state"() {
+		given:
+		GrailsWebRequest original = GrailsWebMockUtil.bindMockWebRequest(grailsApplication.mainContext)
+		MockHttpServletRequest request = original.currentRequest as MockHttpServletRequest
+		request.setAttribute('foo', 'bar')
+		request.addParameter('q', 'query')
+		request.session.setAttribute('user', 'alice')
+		original.params.id = '42'
+
+		when:
+		Document document = xhtmlDocumentService.createDocument(template: '/requestState')
+
+		then:
+		paragraphs(document) == ['bar', 'query', '42', 'alice']
+		original.currentResponse.contentType == null
+		RequestContextHolder.requestAttributes.is(original)
+	}
+
 	private static String hiddenFieldValue(Document document) {
 		document.getElementsByTagName('input').item(0).getAttribute('value')
+	}
+
+	private static List<String> paragraphs(Document document) {
+		def nodes = document.getElementsByTagName('p')
+		(0..<nodes.length).collect { nodes.item(it).textContent }
 	}
 }

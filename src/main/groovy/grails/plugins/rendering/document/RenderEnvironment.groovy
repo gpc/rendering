@@ -3,9 +3,11 @@ package grails.plugins.rendering.document
 import grails.gsp.PageRenderer
 import groovy.transform.CompileStatic
 import jakarta.servlet.ServletContext
+import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.grails.web.servlet.WrappedResponseHolder
 import org.grails.web.servlet.mvc.GrailsWebRequest
+import org.grails.web.util.GrailsApplicationAttributes
 import org.springframework.context.ApplicationContext
 import org.springframework.web.context.WebApplicationContext
 import org.springframework.web.context.request.RequestAttributes
@@ -24,6 +26,9 @@ class RenderEnvironment {
     private RequestAttributes originalRequestAttributes
     private GrailsWebRequest renderRequestAttributes
     private HttpServletResponse originalWrappedResponse
+    private boolean ownsRenderRequest
+    private Object originalOut
+    private Object originalLocaleResolver
 
     RenderEnvironment(ApplicationContext applicationContext, Writer out, Locale locale = null) {
         this.out = out
@@ -34,27 +39,39 @@ class RenderEnvironment {
     private void init() {
         originalRequestAttributes = RequestContextHolder.getRequestAttributes()
         originalWrappedResponse = WrappedResponseHolder.wrappedResponse
-        GrailsWebRequest originalWebRequest = originalRequestAttributes instanceof GrailsWebRequest ?
-                (GrailsWebRequest) originalRequestAttributes : null
+        Locale renderLocale = locale ?: callerLocale()
+        HttpServletResponse response = PageRenderer.PageRenderResponseCreator.createInstance(new PrintWriter(out), renderLocale)
 
-        Locale renderLocale = locale ?: (originalWebRequest ? RequestContextUtils.getLocale(originalWebRequest.currentRequest) : Locale.default)
+        if (originalRequestAttributes instanceof GrailsWebRequest) {
+            renderRequestAttributes = (GrailsWebRequest) originalRequestAttributes
+            originalOut = renderRequestAttributes.currentRequest.getAttribute(GrailsApplicationAttributes.OUT)
+            originalLocaleResolver = renderRequestAttributes.currentRequest.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE)
+        } else {
+            ownsRenderRequest = true
+            HttpServletRequest request = PageRenderer.PageRenderRequestCreator.createInstance('/', renderLocale)
+            renderRequestAttributes = new GrailsWebRequest(request, response, servletContext, applicationContext)
+            RequestContextHolder.setRequestAttributes(renderRequestAttributes)
+        }
 
-        def request = PageRenderer.PageRenderRequestCreator.createInstance('/', renderLocale)
-        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(renderLocale))
-        def response = PageRenderer.PageRenderResponseCreator.createInstance(
-                out instanceof PrintWriter ? (PrintWriter) out : new PrintWriter(out), renderLocale)
-
-        renderRequestAttributes = new GrailsWebRequest(request, response, servletContext, applicationContext)
-        renderRequestAttributes.controllerName = originalWebRequest?.controllerName
+        renderRequestAttributes.currentRequest.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(renderLocale))
         renderRequestAttributes.out = out
-
-        RequestContextHolder.setRequestAttributes(renderRequestAttributes)
         WrappedResponseHolder.wrappedResponse = response
     }
 
     private void close() {
-        RequestContextHolder.setRequestAttributes(originalRequestAttributes)
+        if (ownsRenderRequest) {
+            RequestContextHolder.setRequestAttributes(originalRequestAttributes)
+        } else {
+            HttpServletRequest request = renderRequestAttributes.currentRequest
+            request.setAttribute(GrailsApplicationAttributes.OUT, originalOut)
+            request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, originalLocaleResolver)
+        }
         WrappedResponseHolder.wrappedResponse = originalWrappedResponse
+    }
+
+    private Locale callerLocale() {
+        originalRequestAttributes instanceof GrailsWebRequest ?
+                RequestContextUtils.getLocale(((GrailsWebRequest) originalRequestAttributes).currentRequest) : Locale.default
     }
 
     private ServletContext getServletContext() {

@@ -9,6 +9,8 @@ import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.springframework.mock.web.MockHttpServletRequest
 import org.springframework.mock.web.MockHttpServletResponse
 import org.springframework.web.context.request.RequestContextHolder
+import org.springframework.web.servlet.DispatcherServlet
+import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import org.springframework.web.servlet.support.RequestContextUtils
 import spock.lang.Specification
 
@@ -61,31 +63,43 @@ class RenderEnvironmentSpec extends Specification {
         WrappedResponseHolder.wrappedResponse == null
     }
 
-    def "restore the callers request"() {
+    def "reuse the callers request and restore it afterwards"() {
         given:
         GrailsWebRequest original = GrailsWebMockUtil.bindMockWebRequest(grailsApplication.mainContext)
         original.controllerName = 'book'
+        def callerOut = new StringWriter()
+        original.out = callerOut
+        def callerLocaleResolver = new FixedLocaleResolver(Locale.ITALIAN)
+        original.currentRequest.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, callerLocaleResolver)
         def layoutBufferingResponse = new MockHttpServletResponse()
         WrappedResponseHolder.wrappedResponse = layoutBufferingResponse
+        def renderOut = new StringWriter()
         GrailsWebRequest bound = null
+        Writer boundOut = null
         String controllerName = null
 
         when:
-        RenderEnvironment.with(grailsApplication.mainContext, new StringWriter()) { RenderEnvironment env ->
+        RenderEnvironment.with(grailsApplication.mainContext, renderOut) { RenderEnvironment env ->
             bound = GrailsWebRequest.lookup()
+            boundOut = bound.out
             controllerName = env.controllerName
         }
 
         then:
-        !bound.is(original)
+        bound.is(original)
+        boundOut.is(renderOut)
         controllerName == 'book'
         RequestContextHolder.requestAttributes.is(original)
+        original.out.is(callerOut)
+        original.currentRequest.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE).is(callerLocaleResolver)
         WrappedResponseHolder.wrappedResponse.is(layoutBufferingResponse)
     }
 
     def "restore state when the block throws"() {
         given:
+        def callerOut = new StringWriter()
         GrailsWebRequest original = GrailsWebMockUtil.bindMockWebRequest(grailsApplication.mainContext)
+        original.out = callerOut
 
         when:
         RenderEnvironment.with(grailsApplication.mainContext, new StringWriter()) {
@@ -95,6 +109,23 @@ class RenderEnvironmentSpec extends Specification {
         then:
         thrown(IllegalStateException)
         RequestContextHolder.requestAttributes.is(original)
+        original.out.is(callerOut)
+    }
+
+    def "restore the outer renders writer after a nested render"() {
+        given:
+        def outerOut = new StringWriter()
+        Writer afterInner = null
+
+        when:
+        RenderEnvironment.with(grailsApplication.mainContext, outerOut) {
+            RenderEnvironment.with(grailsApplication.mainContext, new StringWriter()) {}
+            afterInner = GrailsWebRequest.lookup().out
+        }
+
+        then:
+        afterInner.is(outerOut)
+        RequestContextHolder.requestAttributes == null
     }
 
     def "render locale is #expected when explicit=#explicit and request=#requestLocale"() {
