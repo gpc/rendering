@@ -1,24 +1,29 @@
 package grails.plugins.rendering.document
 
-import grails.util.Environment
-import grails.util.GrailsWebMockUtil
+import grails.gsp.PageRenderer
+import groovy.transform.CompileStatic
+import jakarta.servlet.ServletContext
+import jakarta.servlet.http.HttpServletResponse
 import org.grails.web.servlet.WrappedResponseHolder
+import org.grails.web.servlet.mvc.GrailsWebRequest
 import org.springframework.context.ApplicationContext
+import org.springframework.web.context.WebApplicationContext
+import org.springframework.web.context.request.RequestAttributes
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.servlet.DispatcherServlet
 import org.springframework.web.servlet.i18n.FixedLocaleResolver
 import org.springframework.web.servlet.support.RequestContextUtils
 
+@CompileStatic
 class RenderEnvironment {
 
     final Writer out
     final Locale locale
     final ApplicationContext applicationContext
 
-    private originalRequestAttributes
-    private renderRequestAttributes
-
-    private originalOut
+    private RequestAttributes originalRequestAttributes
+    private GrailsWebRequest renderRequestAttributes
+    private HttpServletResponse originalWrappedResponse
 
     RenderEnvironment(ApplicationContext applicationContext, Writer out, Locale locale = null) {
         this.out = out
@@ -26,37 +31,35 @@ class RenderEnvironment {
         this.applicationContext = applicationContext
     }
 
-    private init() {
-        if (Environment.current == Environment.TEST) {
-            originalRequestAttributes = RequestContextHolder.getRequestAttributes()
-            renderRequestAttributes = GrailsWebMockUtil.bindMockWebRequest(applicationContext)
+    private void init() {
+        originalRequestAttributes = RequestContextHolder.getRequestAttributes()
+        originalWrappedResponse = WrappedResponseHolder.wrappedResponse
+        GrailsWebRequest originalWebRequest = originalRequestAttributes instanceof GrailsWebRequest ?
+                (GrailsWebRequest) originalRequestAttributes : null
 
-            if (originalRequestAttributes) {
-                renderRequestAttributes.controllerName = originalRequestAttributes.controllerName
-            }
+        Locale renderLocale = locale ?: (originalWebRequest ? RequestContextUtils.getLocale(originalWebRequest.currentRequest) : Locale.default)
 
-            def renderLocale
-            if (locale) {
-                renderLocale = locale
-            } else if (originalRequestAttributes) {
-                renderLocale = RequestContextUtils.getLocale(originalRequestAttributes.request)
-            }
+        def request = PageRenderer.PageRenderRequestCreator.createInstance('/', renderLocale)
+        request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(renderLocale))
+        def response = PageRenderer.PageRenderResponseCreator.createInstance(
+                out instanceof PrintWriter ? (PrintWriter) out : new PrintWriter(out), renderLocale)
 
-            renderRequestAttributes.request.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE,
-                    new FixedLocaleResolver(defaultLocale: renderLocale))
+        renderRequestAttributes = new GrailsWebRequest(request, response, servletContext, applicationContext)
+        renderRequestAttributes.controllerName = originalWebRequest?.controllerName
+        renderRequestAttributes.out = out
 
-            renderRequestAttributes.setOut(out)
-            WrappedResponseHolder.wrappedResponse = renderRequestAttributes.currentResponse
-
-        }
-
+        RequestContextHolder.setRequestAttributes(renderRequestAttributes)
+        WrappedResponseHolder.wrappedResponse = response
     }
 
-    private close() {
-        if (originalRequestAttributes) {
-            RequestContextHolder.setRequestAttributes(originalRequestAttributes) // null ok
-            WrappedResponseHolder.wrappedResponse = originalRequestAttributes?.currentResponse
-        }
+    private void close() {
+        RequestContextHolder.setRequestAttributes(originalRequestAttributes)
+        WrappedResponseHolder.wrappedResponse = originalWrappedResponse
+    }
+
+    private ServletContext getServletContext() {
+        applicationContext instanceof WebApplicationContext ?
+                ((WebApplicationContext) applicationContext).servletContext : null
     }
 
     /**
