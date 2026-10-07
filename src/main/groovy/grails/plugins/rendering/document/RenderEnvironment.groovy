@@ -44,18 +44,20 @@ class RenderEnvironment {
         HttpServletResponse response = PageRenderer.PageRenderResponseCreator.createInstance(new PrintWriter(out), renderLocale)
 
         if (originalRequestAttributes instanceof GrailsWebRequest) {
-            renderRequestAttributes = (GrailsWebRequest) originalRequestAttributes
-            originalOut = renderRequestAttributes.currentRequest.getAttribute(GrailsApplicationAttributes.OUT)
-            originalLocaleResolver = renderRequestAttributes.currentRequest.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE)
+            GrailsWebRequest callerRequest = (GrailsWebRequest) originalRequestAttributes
+            originalOut = callerRequest.currentRequest.getAttribute(GrailsApplicationAttributes.OUT)
+            originalLocaleResolver = callerRequest.currentRequest.getAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE)
+            renderRequestAttributes = callerRequest
         } else {
-            ownsRenderRequest = true
             ServletContext context = servletContext
             HttpServletRequest request = PageRenderer.PageRenderRequestCreator.createInstance('/', renderLocale)
             if (context) {
                 request.setAttribute(GrailsApplicationAttributes.APP_URI_ATTRIBUTE, context.contextPath)
             }
-            renderRequestAttributes = new GrailsWebRequest(request, response, context, applicationContext)
-            RequestContextHolder.setRequestAttributes(renderRequestAttributes)
+            GrailsWebRequest ownRequest = new GrailsWebRequest(request, response, context, applicationContext)
+            RequestContextHolder.setRequestAttributes(ownRequest)
+            renderRequestAttributes = ownRequest
+            ownsRenderRequest = true
         }
 
         renderRequestAttributes.currentRequest.setAttribute(DispatcherServlet.LOCALE_RESOLVER_ATTRIBUTE, new FixedLocaleResolver(renderLocale))
@@ -64,6 +66,9 @@ class RenderEnvironment {
     }
 
     private void close() {
+        if (renderRequestAttributes == null) {
+            return
+        }
         try {
             if (ownsRenderRequest) {
                 renderRequestAttributes.requestCompleted()
@@ -106,8 +111,8 @@ class RenderEnvironment {
      */
     static with(ApplicationContext applicationContext, Writer out, Locale locale, Closure block) {
         def env = new RenderEnvironment(applicationContext, out, locale)
-        env.init()
         try {
+            env.init()
             block(env)
         } finally {
             env.close()
