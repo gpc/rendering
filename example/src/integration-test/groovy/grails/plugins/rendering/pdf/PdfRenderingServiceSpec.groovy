@@ -16,9 +16,9 @@
 package grails.plugins.rendering.pdf
 
 import grails.plugins.rendering.RenderingServiceSpec
-
-import org.apache.pdfbox.pdfparser.PDFParser
+import org.apache.pdfbox.Loader
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
 import org.apache.pdfbox.text.PDFTextStripper
 
 class PdfRenderingServiceSpec extends RenderingServiceSpec {
@@ -29,31 +29,48 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 		pdfRenderingService
 	}
 
-	protected extractTextLines(Map renderArgs) {
-		extractTextLines(createPdf(renderArgs))
+	def "pdf contains rendered template text"() {
+		when:
+		def lines = extractTextLines(simpleTemplate)
+
+		then:
+		lines*.trim().containsAll(['This is a PDF!', '1'])
 	}
 
-	protected extractTextLines(byte[] bytes) {
-		extractTextLines(createPdf(new ByteArrayInputStream(bytes)))
+	def "data url image is embedded in pdf"() {
+		when:
+		def image = loadPdf(dataUriTemplate).withCloseable { PDDocument pdf ->
+			def resources = pdf.getPage(0).resources
+			resources.XObjectNames
+					.collect { resources.getXObject(it) }
+					.findAll { it instanceof PDImageXObject }
+					.collect { PDImageXObject img -> [img.width, img.height] }
+		}
+
+		then:
+		image == [[5, 5]]
 	}
 
-	protected extractTextLines(PDDocument pdf) {
-		def lines = new PDFTextStripper().getText(pdf).readLines()
-		pdf.close()
-		lines
+	def "encoding pdf keeps polish characters"() {
+		when:
+		def text = extractTextLines(template: '/encoding-test', base: "http://localhost:${serverPort}/rendering").join('\n')
+
+		then:
+		text.contains('łłłłłasdfasdfłłł')
+		text.contains('Płeć')
 	}
 
-	protected createPdf(Map renderArgs) {
-		def inStream = new PipedInputStream()
-		def outStream = new PipedOutputStream(inStream)
-		pdfRenderingService.render(renderArgs, outStream)
-		outStream.close()
-		createPdf(inStream)
+	protected byte[] renderPdfBytes(Map renderArgs) {
+		(pdfRenderingService.render(renderArgs) as ByteArrayOutputStream).toByteArray()
 	}
 
-	protected createPdf(InputStream inputStream) {
-		def parser = new PDFParser(inputStream)
-		parser.parse()
-		parser.getPDDocument()
+	protected PDDocument loadPdf(Map renderArgs) {
+		Loader.loadPDF(renderPdfBytes(renderArgs))
+	}
+
+	protected List<String> extractTextLines(Map renderArgs) {
+		loadPdf(renderArgs).withCloseable { PDDocument pdf ->
+			new PDFTextStripper().getText(pdf).readLines()
+		}
 	}
 }
