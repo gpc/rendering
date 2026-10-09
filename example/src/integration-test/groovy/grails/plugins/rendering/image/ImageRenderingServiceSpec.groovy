@@ -72,8 +72,6 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		[width: 4, height: 2] | 800 | 400
 	}
 
-
-
 	def "data url stylesheet is applied"() {
 		when:
 		def pixel = new Color(image(template: '/dataUrl-css', render: [width: 100]).getRGB(5, 5))

@@ -39,7 +39,7 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 
 	def "data url image is embedded in pdf"() {
 		when:
-		def image = loadPdf(dataUriTemplate).withCloseable { PDDocument pdf ->
+		def imageSizes = loadPdf(dataUriTemplate).withCloseable { PDDocument pdf ->
 			def resources = pdf.getPage(0).resources
 			resources.XObjectNames
 					.collect { resources.getXObject(it) }
@@ -48,7 +48,7 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 		}
 
 		then:
-		image == [[5, 5]]
+		imageSizes == [[5, 5]]
 	}
 
 	def "encoding pdf keeps polish characters"() {
