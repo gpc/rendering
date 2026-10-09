@@ -18,6 +18,7 @@ package grails.plugins.rendering.image
 import grails.plugins.rendering.RenderingServiceSpec
 
 import javax.imageio.ImageIO
+import java.awt.Color
 
 abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 
@@ -69,6 +70,18 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		[width: 2] | 400 | 400
 		[height: 2] | 400 | 400
 		[width: 4, height: 2] | 800 | 400
+	}
+
+
+
+	def "data url stylesheet is applied"() {
+		when:
+		def pixel = new Color(image(template: '/dataUrl-css', render: [width: 100]).getRGB(5, 5))
+
+		then:
+		pixel.red > 200
+		pixel.green < 60
+		pixel.blue < 60
 	}
 
 /*	// Excercises the normal non http response code as well
