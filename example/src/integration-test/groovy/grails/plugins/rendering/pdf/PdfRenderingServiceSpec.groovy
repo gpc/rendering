@@ -60,6 +60,24 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 		text.contains('Płeć')
 	}
 
+	def "encoding pdf embeds the custom font"() {
+		when:
+		def embeddedFontNames = loadPdf( encodingTemplate).withCloseable { PDDocument pdf ->
+			def resources = pdf.getPage(0).resources
+			resources.fontNames
+					.collect { resources.getFont(it) }
+					.findAll { it.embedded }
+					*.name
+		}
+
+		then:
+		embeddedFontNames.any { it.endsWith('ArialUnicodeMS') }
+	}
+
+	protected Map getEncodingTemplate() {
+		[template: '/encoding-test', base: "http://localhost:${serverPort}/rendering"]
+	}
+
 	protected byte[] renderPdfBytes(Map renderArgs) {
 		(pdfRenderingService.render(renderArgs) as ByteArrayOutputStream).toByteArray()
 	}
