@@ -14,7 +14,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        java: [ 17, 21 ]
+        java: [ 21, 25 ]
     steps:
       - name: "📥 Checkout repository"
         uses: actions/checkout@v4
@@ -43,7 +43,7 @@ jobs:
       - name: "☕️ Setup JDK"
         uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: 21
           distribution: liberica
       - name: "🐘 Setup Gradle"
         uses: gradle/actions/setup-gradle@v4

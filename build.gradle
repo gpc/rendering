@@ -69,8 +69,6 @@ dependencies {
 
 }
 
-compileJava.options.release = 17
-
 jar {
   exclude "RenderingController**"
   exclude "application.groovy"
@@ -110,6 +108,11 @@ grailsPublish {
             halfbaked   : "Eamonn O'Connell",
             codeconsole : "Scott Murphy",
     ]
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 compileJava.options.release = javaVersion.toInteger()

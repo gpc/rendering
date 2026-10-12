@@ -73,7 +73,12 @@ dependencies {
 
 }
 
-compileJava.options.release = 17
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+compileJava.options.release = javaVersion.toInteger()
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()
