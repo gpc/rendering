@@ -80,3 +80,7 @@ server:
     context-path: /rendering
 grails:
   serverURL: http://localhost:8080/rendering
+
+logging:
+  level:
+    root: ERROR
