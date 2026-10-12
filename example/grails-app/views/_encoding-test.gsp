@@ -6,7 +6,7 @@
     <title> Osobowość </title>
     <style type="text/css" >
     @font-face {
-      src: url('${asset.link(src: 'arial.ttf')}');
+      src: url('${asset.assetPath(src: 'arial.ttf')}');
       -fs-pdf-font-embed: embed;
       -fs-pdf-font-encoding: cp1250;
     }
