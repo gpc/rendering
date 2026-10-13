@@ -21,11 +21,11 @@ See https://flyingsaucerproject.github.io/flyingsaucer/r8/guide/users-guide-R8.h
 
 == Formatting time in Java 21
 
-Since Java 20, formatted time put a narrow no-break space (`U+202F`) before AM/PM. In PDFs, the character is silently dropped unless the font has a glyph for it, so `10:30 AM` renders as `10:30AM`. The default PDF fonts and Ariel Unicode MS have no such glyph. Image rendering is not affected.
+Since Java 20, formatted time puts a narrow no-break space (`U+202F`) before AM/PM. In PDFs, the character is silently dropped unless the font has a glyph for it, so `10:30 AM` renders as `10:30AM`. The default PDF fonts and Arial Unicode MS have no such glyph. Image rendering is not affected.
 
 Replace the character with a normal space before rendering:
 
-[source:groovy]
+[source,groovy]
 ----
 String time = formatter.format(value).replace('\u202F', ' ')
 ----

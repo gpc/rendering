@@ -61,7 +61,8 @@ class RenderingTagLib {
 		out << ';base64,'
 		out << new String(Base64.encoder.encode(bytes as byte[]), 'UTF-8')
 		out << '" '
-		attrs.each { k,v -> out << "$k=\"${v ? codecLookup.lookupEncoder('HTML').encode(v) : ''}\" " }
+		def html = codecLookup.lookupEncoder('HTML')
+		attrs.each { k,v -> out << "$k=\"${v ? html.encode(v) : ''}\" " }
 		out << ' />'
 	}
 }

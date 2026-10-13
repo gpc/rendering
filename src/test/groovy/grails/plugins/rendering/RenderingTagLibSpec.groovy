@@ -101,7 +101,7 @@ class RenderingTagLibSpec extends Specification implements TagLibUnitTest<Render
 
 	def "extra attributes are copied onto the img"() {
 		given:
-		template = '<rendering:inlinePng bytes="${bytes}" alt="logo" class="thumb" />'
+		template = '<rendering:inlineImage mimeType="image/png" bytes="${bytes}" alt="logo" class="thumb" />'
 
 		expect:
 		output.contains('alt="logo"')
