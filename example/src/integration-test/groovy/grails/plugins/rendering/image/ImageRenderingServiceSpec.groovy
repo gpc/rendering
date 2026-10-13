@@ -82,6 +82,16 @@ abstract class ImageRenderingServiceSpec extends RenderingServiceSpec {
 		pixel.blue < 60
 	}
 
+	def "relative url in inline style resolves against base"() {
+		when:
+		def pixel = new Color(image(template: '/relative-css', base: "http://localhost:${serverPort}/rendering", render: [width: 100]).getRGB(5, 5))
+
+		then:
+		pixel.red > 200
+		pixel.green < 60
+		pixel.blue < 60
+	}
+
 /*	// Excercises the normal non http response code as well
 	@Unroll("render #type to http response")
 	def renderImagesToHttpResponse() {

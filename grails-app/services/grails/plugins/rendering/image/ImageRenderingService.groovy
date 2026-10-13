@@ -65,9 +65,9 @@ abstract class ImageRenderingService extends RenderingService {
         boolean autosizeWidth = args.autosize?.width == null || args.autosize?.width == true
         boolean autosizeHeight = args.autosize?.height == null || args.autosize?.height == true
 
-        def renderer = new Graphics2DRenderer()
+        def renderer = new Graphics2DRenderer(document, args.base as String)
         configureRenderer(renderer)
-        renderer.setDocument(document, args.base as String)
+        renderer.panel.setDocument(document, args.base as String)
 
         int imageWidth = renderWidth
         Integer imageHeight = renderHeight
