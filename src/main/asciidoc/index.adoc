@@ -5,11 +5,12 @@
 :numbered:
 :imagesdir: ./images
 
-include::1. Introduction.adoc[leveloffset=2]
-include::2. GSP Considerations.adoc[leveloffset=2]
-include::3. Rendering.adoc[leveloffset=2]
-include::4. Sizing.adoc[leveloffset=2]
-include::5. Rendering To The Response.adoc[leveloffset=2]
-include::6. Caching And Performance.adoc[leveloffset=2]
-include::7. Inline Images.adoc[leveloffset=2]
-include::8. Exotic Characters.adoc[leveloffset=2]
+include::1. Introduction.adoc[leveloffset=+1]
+include::2. Upgrading.adoc[leveloffset=+1]
+include::3. GSP Considerations.adoc[leveloffset=+1]
+include::4. Rendering.adoc[leveloffset=+1]
+include::5. Sizing.adoc[leveloffset=+1]
+include::6. Rendering To The Response.adoc[leveloffset=+1]
+include::7. Caching And Performance.adoc[leveloffset=+1]
+include::8. Inline Images.adoc[leveloffset=+1]
+include::9. Exotic Characters.adoc[leveloffset=+1]

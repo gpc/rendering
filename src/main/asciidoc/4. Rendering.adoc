@@ -32,7 +32,7 @@ new File("coupon.jpg").withOutputStream { outputStream ->
 
 For information on rendering to the HTTP response, see <<rendering-to-the-response,Rendering To The Response>>.
 
-=== Basic Render Arguments
+== Basic Render Arguments
 
 All rendering methods take a `Map` argument that specifies which template to render and the model to use (in most cases).
 
@@ -43,7 +43,7 @@ The following map arguments are common to all rendering methods:
 * `plugin` (optional) - The plug-in containing the template
 * `controller` (optional) - The controller _instance_ or _name_ to resolve the template against (set automatically in provided `render«format»` methods on controllers).
 
-=== Template Resolution
+== Template Resolution
 
 The plugin uses the same resolution strategy as the `render()` method in Grails controllers and taglibs.
 
@@ -55,7 +55,7 @@ That is,
 
 If the `template` argument does not start with a `/`, the `controller` argument must be provided. The methods added to controllers (e.g. `renderPdf()`) automatically pass the `controller` param for you.
 
-=== Debugging
+== Debugging
 
 To get more visibility about what is going on inside, you can activate the logging within Flying Saucer by providing the system property `xr.util-logging.loggingEnabled` like so:
 
