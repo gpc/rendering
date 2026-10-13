@@ -15,19 +15,42 @@
  */
 
 package grails.plugins.rendering
-/**
- * @todo need tests for this.
- */
+
+import groovy.transform.CompileStatic
+import org.grails.encoder.CodecLookup
+
+@CompileStatic
 class RenderingTagLib {
 
 	static namespace = "rendering"
 
-	def inlineImage = { attrs ->
+	CodecLookup codecLookup
+
+	def inlineImage(Map attrs) {
 		def mimeType = attrs.remove('mimeType')
 		if (mimeType == null) {
 			throwTagError("'mimeType' is required")
 		}
 
+		writeImage(mimeType as String, attrs)
+	}
+
+	def inlineGif(Map attrs) {
+		attrs.remove('mimeType')
+		writeImage('image/gif', attrs)
+	}
+
+	def inlinePng(Map attrs) {
+		attrs.remove('mimeType')
+		writeImage('image/png', attrs)
+	}
+
+	def inlineJpeg(Map attrs) {
+		attrs.remove('mimeType')
+		writeImage('image/jpeg', attrs)
+	}
+
+	private void writeImage(String mimeType, Map attrs) {
 		def bytes = attrs.remove('bytes')
 		if (bytes == null) {
 			throwTagError("'bytes' is required")
@@ -36,24 +59,9 @@ class RenderingTagLib {
 		out << '<img src="data:'
 		out << mimeType
 		out << ';base64,'
-        out << new String(Base64.encoder.encode(bytes), 'UTF-8')
+		out << new String(Base64.encoder.encode(bytes as byte[]), 'UTF-8')
 		out << '" '
-		attrs.each { k,v -> out << "$k=\"${v ? v.encodeAsHTML() : ''}\" " }
+		attrs.each { k,v -> out << "$k=\"${v ? codecLookup.lookupEncoder('HTML').encode(v) : ''}\" " }
 		out << ' />'
-	}
-
-	def inlineGif = { attrs ->
-		attrs.mimeType = "image/gif"
-		out << inlineImage(attrs)
-	}
-
-	def inlinePng = { attrs ->
-		attrs.mimeType = "image/png"
-		out << inlineImage(attrs)
-	}
-
-	def inlineJpeg = { attrs ->
-		attrs.mimeType = "image/jpeg"
-		out << inlineImage(attrs)
 	}
 }

@@ -25,7 +25,6 @@ import spock.lang.Specification
 class RenderingTagLibSpec extends Specification implements TagLibUnitTest<RenderingTagLib> {
 
 	@Shared bytes = [1,2,3] as byte[]
-	@Shared encoded = new String(Base64.encoder.encode(bytes), 'UTF-8')
 	
 	@Shared String template
 
@@ -87,5 +86,26 @@ class RenderingTagLibSpec extends Specification implements TagLibUnitTest<Render
 		expect:
 		outputMimeType == "image/jpeg"
 		outputBytes == bytes
+	}
+
+	def "#tag renders exactly one img"() {
+		given:
+		template = "<rendering:${tag} bytes=\"\${bytes}\" />"
+
+		expect:
+		output.findAll('<img').size() == 1
+
+		where:
+		tag << ['inlineGif', 'inlinePng', 'inlineJpeg']
+	}
+
+	def "extra attributes are copied onto the img"() {
+		given:
+		template = '<rendering:inlinePng bytes="${bytes}" alt="logo" class="thumb" />'
+
+		expect:
+		output.contains('alt="logo"')
+		output.contains('class="thumb"')
+		!output.contains('mimeType')
 	}
 }
