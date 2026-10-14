@@ -38,17 +38,13 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 	}
 
 	def "data url image is embedded in pdf"() {
-		when:
-		def imageSizes = loadPdf(dataUriTemplate).withCloseable { PDDocument pdf ->
-			def resources = pdf.getPage(0).resources
-			resources.XObjectNames
-					.collect { resources.getXObject(it) }
-					.findAll { it instanceof PDImageXObject }
-					.collect { PDImageXObject img -> [img.width, img.height] }
-		}
+		expect:
+		embeddedImageSizes(dataUriTemplate) == [[5, 5]]
+	}
 
-		then:
-		imageSizes == [[5, 5]]
+	def "relative url in inline style resolves against base"() {
+		expect:
+		embeddedImageSizes(template: '/relative-css', base: "http://localhost:${serverPort}/rendering") == [[1, 1]]
 	}
 
 	def "encoding pdf keeps polish characters"() {
@@ -89,6 +85,16 @@ class PdfRenderingServiceSpec extends RenderingServiceSpec {
 	protected List<String> extractTextLines(Map renderArgs) {
 		loadPdf(renderArgs).withCloseable { PDDocument pdf ->
 			new PDFTextStripper().getText(pdf).readLines()
+		}
+	}
+
+	protected List<List<Integer>> embeddedImageSizes(Map renderArgs) {
+		loadPdf(renderArgs).withCloseable { PDDocument pdf ->
+			def resources = pdf.getPage(0).resources
+			resources.XObjectNames
+					.collect { resources.getXObject(it) }
+					.findAll { it instanceof PDImageXObject }
+					.collect { PDImageXObject img -> [img.width, img.height] }
 		}
 	}
 }
