@@ -144,4 +144,15 @@ class RenderingTagLibSpec extends Specification implements TagLibUnitTest<Render
 		output.contains('alt="&quot;&gt;&lt;script&gt;x&lt;/script&gt;"')
 		!output.contains('<script>')
 	}
+
+	def "falsey attribute values are kept and null is blank"() {
+		when:
+		def output = applyTemplate('<rendering:inlinePng bytes="${bytes}" width="${width}" hidden="${hidden}" alt="${alt}" />',
+				[bytes: bytes, width: 0, hidden: false, alt: null])
+
+		then:
+		output.contains('width="0"')
+		output.contains('hidden="false"')
+		output.contains('alt=""')
+	}
 }
