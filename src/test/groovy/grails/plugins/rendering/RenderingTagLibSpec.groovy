@@ -18,8 +18,8 @@ package grails.plugins.rendering
 
 import grails.plugins.rendering.datauri.DataUri
 import grails.testing.web.taglib.TagLibUnitTest
+import org.grails.taglib.GrailsTagException
 import spock.lang.Shared
-
 import spock.lang.Specification
 
 class RenderingTagLibSpec extends Specification implements TagLibUnitTest<RenderingTagLib> {
@@ -107,5 +107,41 @@ class RenderingTagLibSpec extends Specification implements TagLibUnitTest<Render
 		output.contains('alt="logo"')
 		output.contains('class="thumb"')
 		!output.contains('mimeType')
+	}
+
+	def "inlineImage without mimeType fails"() {
+		when:
+		applyTemplate('<rendering:inlineImage bytes="${bytes}" />', [bytes: bytes])
+
+		then:
+		def e = thrown(GrailsTagException)
+		e.message.contains("'mimeType' is required")
+	}
+
+	def "#template fails without bytes"() {
+		when:
+		applyTemplate(template)
+
+		then:
+		def e = thrown(GrailsTagException)
+		e.message.contains("'bytes' is required")
+
+		where:
+		template << [
+				'<rendering:inlineImage mimeType="image/png" />',
+				'<rendering:inlinePng />',
+				'<rendering:inlineGif />',
+				'<rendering:inlineJpeg />'
+		]
+	}
+
+	def "attribute values are html escaped"() {
+		when:
+		def output = applyTemplate('<rendering:inlinePng bytes="${bytes}" alt="${alt}" />',
+				[bytes: bytes, alt: '"><script>x</script>'])
+
+		then:
+		output.contains('alt="&quot;&gt;&lt;script&gt;x&lt;/script&gt;"')
+		!output.contains('<script>')
 	}
 }
