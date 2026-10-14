@@ -7,6 +7,6 @@ Version 8 of the plugin targets Grails 8 and requires Java 21.
 It upgrades Flying Saucer from 9.9.5 to 10.6.0. If your application uses Flying Saucer or OpenPDF classes directly:
 
 * OpenPDF classes moved from `com.lowagie.*` to `org.openpdf.*`. For example, catch `org.openpdf.text.DocumentException` instead of `com.lowagie.text.DocumentException`.
-* `org.xhtmlrenderer.simple.Graphics2DRenderer` is now `final` and takes the document in its constructor. Subclasses of an image rendering service that override `configureRenderer(Graphics2DRenderer)` keep working; the plugin reloads the document after calling it.
+* `org.xhtmlrenderer.simple.Graphics2DRenderer` is now `final` and takes the document in its constructor. Subclasses of an image rendering service that override `configureRenderer(Graphics2DRenderer)` keep working; the plugin loads the document after calling it.
 
 Java 21 also changes how times are formatted, which can affect PDFs, see <<Exotic Characters>>.
