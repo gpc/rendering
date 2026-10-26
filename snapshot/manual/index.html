@@ -445,25 +445,68 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h1>Grails Render</h1>
 <div class="details">
 <span id="author" class="author">Grails Plugin Collective (GPC)</span><br>
-<span id="revnumber">version 7.0.4-SNAPSHOT</span>
+<span id="revnumber">version 8.0.0-SNAPSHOT</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#introduction">1. Introduction</a>
 <ul class="sectlevel2">
-<li><a href="#introduction">1. Introduction</a></li>
-<li><a href="#gsp-considerations">2. GSP Considerations</a></li>
-<li><a href="#rendering">3. Rendering</a></li>
-<li><a href="#sizing">4. Sizing</a></li>
-<li><a href="#rendering-to-the-response">5. Rendering To The Response</a></li>
-<li><a href="#caching_and_performance">6. Caching And Performance</a></li>
-<li><a href="#inline-images">7. Inline Images</a></li>
-<li><a href="#exotic-characters">8. Exotic Characters</a></li>
+<li><a href="#your-plugin-dependency">1.1. Your plugin dependency</a></li>
+</ul>
+</li>
+<li><a href="#upgrading">2. Upgrading</a>
+<ul class="sectlevel2">
+<li><a href="#from-7-x-to-8-x">2.1. From 7.x to 8.x</a></li>
+</ul>
+</li>
+<li><a href="#gsp-considerations">3. GSP Considerations</a>
+<ul class="sectlevel2">
+<li><a href="#link-resources-must-be-resolvable">3.1. Link resources must be resolvable</a></li>
+<li><a href="#must-be-well-formed">3.2. Must be well formed</a></li>
+<li><a href="#must-declare-doctype">3.3. Must declare DOCTYPE</a></li>
+</ul>
+</li>
+<li><a href="#rendering">4. Rendering</a>
+<ul class="sectlevel2">
+<li><a href="#basic-render-arguments">4.1. Basic Render Arguments</a></li>
+<li><a href="#template-resolution">4.2. Template Resolution</a></li>
+<li><a href="#debugging">4.3. Debugging</a></li>
+</ul>
+</li>
+<li><a href="#sizing">5. Sizing</a>
+<ul class="sectlevel2">
+<li><a href="#documents">5.1. Documents</a></li>
+<li><a href="#images">5.2. Images</a></li>
+</ul>
+</li>
+<li><a href="#rendering-to-the-response">6. Rendering To The Response</a>
+<ul class="sectlevel2">
+<li><a href="#methods-in-renderingtrait">6.1. Methods in <code>RenderingTrait</code></a></li>
+<li><a href="#extra-render-arguments">6.2. Extra Render Arguments</a></li>
+<li><a href="#default-content-types">6.3. Default Content Types</a></li>
+<li><a href="#large-filesrenders">6.4. Large Files/Renders</a></li>
+</ul>
+</li>
+<li><a href="#caching_and_performance">7. Caching And Performance</a>
+<ul class="sectlevel2">
+<li><a href="#caching">7.1. Caching</a></li>
+<li><a href="#avoiding-byte-copying">7.2. Avoiding Byte Copying</a></li>
+</ul>
+</li>
+<li><a href="#inline-images">8. Inline Images</a></li>
+<li><a href="#exotic-characters">9. Exotic Characters</a>
+<ul class="sectlevel2">
+<li><a href="#formatting-time-on-java-20-and-later">9.1. Formatting time on Java 20 and later</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div class="sect2">
-<h3 id="introduction">1. Introduction</h3>
+<div class="sect1">
+<h2 id="introduction">1. Introduction</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This plugin adds additional rendering capabilities to Grails applications via the <a href="https://github.com/flyingsaucerproject/flyingsaucer">XHTML Renderer</a> library.</p>
 </div>
@@ -486,25 +529,54 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="paragraph">
 <p>The plugin is released under the <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License 2.0</a> license and is produced under the <a href="http://github.com/gpc">Grails Plugin Collective</a>.</p>
 </div>
-<div class="sect3">
-<h4 id="your-plugin-dependency">1.1. Your plugin dependency</h4>
+<div class="sect2">
+<h3 id="your-plugin-dependency">1.1. Your plugin dependency</h3>
 <div class="paragraph">
 <p>Add the following to your dependencies:</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.gpc:rendering:7.0.4-SNAPSHOT'</code></pre>
+<pre class="prettyprint highlight"><code data-lang="groovy">implementation 'io.github.gpc:rendering:8.0.0-SNAPSHOT'</code></pre>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="upgrading">2. Upgrading</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="gsp-considerations">2. GSP Considerations</h3>
+<h3 id="from-7-x-to-8-x">2.1. From 7.x to 8.x</h3>
+<div class="paragraph">
+<p>Version 8 of the plugin targets Grails 8 and requires Java 21.</p>
+</div>
+<div class="paragraph">
+<p>It upgrades Flying Saucer from 9.9.5 to 10.6.0. If your application uses Flying Saucer or OpenPDF classes directly:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>OpenPDF classes moved from <code>com.lowagie.<strong></code> to <code>org.openpdf.</strong></code>. For example, catch <code>org.openpdf.text.DocumentException</code> instead of <code>com.lowagie.text.DocumentException</code>.</p>
+</li>
+<li>
+<p><code>org.xhtmlrenderer.simple.Graphics2DRenderer</code> is now <code>final</code> and takes the document in its constructor. Subclasses of an image rendering service that override <code>configureRenderer(Graphics2DRenderer)</code> keep working; the plugin loads the document after calling it.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Java 21 also changes how times are formatted, which can affect PDFs, see <a href="#exotic-characters">Exotic Characters</a>.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="gsp-considerations">3. GSP Considerations</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>There are a few things that you do need to be aware of when writing GSPs to be rendered via this plugin.</p>
 </div>
-<div class="sect3">
-<h4 id="link-resources-must-be-resolvable">2.1. Link resources must be resolvable</h4>
+<div class="sect2">
+<h3 id="link-resources-must-be-resolvable">3.1. Link resources must be resolvable</h3>
 <div class="paragraph">
 <p>All links to resources (e.g. images, css) must be <em>accessible by the application</em>. This is due to the linked resources being accessed by <em>application</em> and not a browser. Depending on your network setup, ensure resources are available.</p>
 </div>
@@ -512,14 +584,14 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <p>The rendering engine resolves all relative links relative to the <code>grails.serverURL</code> config property.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="must-be-well-formed">2.2. Must be well formed</h4>
+<div class="sect2">
+<h3 id="must-be-well-formed">3.2. Must be well formed</h3>
 <div class="paragraph">
 <p>The GSP must render to well formed, valid, XHTML. If it does not, a <code>grails.plugins.rendering.document.XmlParseException</code> will be thrown.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="must-declare-doctype">2.3. Must declare DOCTYPE</h4>
+<div class="sect2">
+<h3 id="must-declare-doctype">3.3. Must declare DOCTYPE</h3>
 <div class="paragraph">
 <p>Without a doctype, you are likely to get parse failures due to unresolvable entity references (e.g. <code>&nbsp;</code>). Be sure to declare the XHTML doctype at the start of your GSP like so:</p>
 </div>
@@ -531,8 +603,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="rendering">3. Rendering</h3>
+</div>
+<div class="sect1">
+<h2 id="rendering">4. Rendering</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>There are four services available for rendering:</p>
 </div>
@@ -580,8 +654,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <div class="paragraph">
 <p>For information on rendering to the HTTP response, see <a href="#rendering-to-the-response">Rendering To The Response</a>.</p>
 </div>
-<div class="sect4">
-<h5 id="basic-render-arguments">Basic Render Arguments</h5>
+<div class="sect2">
+<h3 id="basic-render-arguments">4.1. Basic Render Arguments</h3>
 <div class="paragraph">
 <p>All rendering methods take a <code>Map</code> argument that specifies which template to render and the model to use (in most cases).</p>
 </div>
@@ -605,8 +679,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </ul>
 </div>
 </div>
-<div class="sect4">
-<h5 id="template-resolution">Template Resolution</h5>
+<div class="sect2">
+<h3 id="template-resolution">4.2. Template Resolution</h3>
 <div class="paragraph">
 <p>The plugin uses the same resolution strategy as the <code>render()</code> method in Grails controllers and taglibs.</p>
 </div>
@@ -630,8 +704,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <p>If the <code>template</code> argument does not start with a <code>/</code>, the <code>controller</code> argument must be provided. The methods added to controllers (e.g. <code>renderPdf()</code>) automatically pass the <code>controller</code> param for you.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="debugging">Debugging</h5>
+<div class="sect2">
+<h3 id="debugging">4.3. Debugging</h3>
 <div class="paragraph">
 <p>To get more visibility about what is going on inside, you can activate the logging within Flying Saucer by providing the system property <code>xr.util-logging.loggingEnabled</code> like so:</p>
 </div>
@@ -642,10 +716,12 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="sizing">5. Sizing</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="sizing">4. Sizing</h3>
-<div class="sect3">
-<h4 id="documents">4.1. Documents</h4>
+<h3 id="documents">5.1. Documents</h3>
 <div class="paragraph">
 <p>When rendering PDF documents, you can specify the page size via CSS:</p>
 </div>
@@ -659,13 +735,13 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="images">4.2. Images</h4>
+<div class="sect2">
+<h3 id="images">5.2. Images</h3>
 <div class="paragraph">
 <p>The image rendering methods take extra arguments to control the size of the rendered image. The extra arguments are maps containing <code>width</code> or <code>height</code> keys, or both.</p>
 </div>
-<div class="sect4">
-<h5 id="render">render</h5>
+<div class="sect3">
+<h4 id="render">5.2.1. render</h4>
 <div class="paragraph">
 <p>The <code>render</code> argument is the size of the view port that the document is rendered into. This is equivalent to the dimensions of the browser window for html rendering.</p>
 </div>
@@ -673,8 +749,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <p>The default value for <code>render</code> is <code>[width: 10, height: 10000]</code> (i.e. 10 pixels wide by 10000 pixels high).</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="autosize">autosize</h5>
+<div class="sect3">
+<h4 id="autosize">5.2.2. autosize</h4>
 <div class="paragraph">
 <p>The <code>autosize</code> argument specifies whether to adjust the size of the image to exactly be the rendered content.</p>
 </div>
@@ -682,8 +758,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <p>The default value for <code>autosize</code> is <code>[width: true, height: true]</code>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="scale">scale</h5>
+<div class="sect3">
+<h4 id="scale">5.2.3. scale</h4>
 <div class="paragraph">
 <p>The <code>scale</code> argument specifies the factor to scale the image by after initial rendering. For example, the value <code>[width: 0.5, height: 0.5]</code> produces an image half the size of the original render.</p>
 </div>
@@ -691,8 +767,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <p>The default value for <code>scale</code> is <code>null</code>.</p>
 </div>
 </div>
-<div class="sect4">
-<h5 id="resize">resize</h5>
+<div class="sect3">
+<h4 id="resize">5.2.4. resize</h4>
 <div class="paragraph">
 <p>The <code>resize</code> argument specifies the adjusted image after initial rendering. For example, the value <code>[width: 200, height: 400]</code> will resize the image to 200 pixels x 400 pixels regardless of the original size.</p>
 </div>
@@ -705,8 +781,10 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="rendering-to-the-response">5. Rendering To The Response</h3>
+</div>
+<div class="sect1">
+<h2 id="rendering-to-the-response">6. Rendering To The Response</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>Rendering is available via the <code>RenderingTrait</code> that is automatically applied to Controllers</p>
 </div>
@@ -719,8 +797,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 }</code></pre>
 </div>
 </div>
-<div class="sect3">
-<h4 id="methods-in-renderingtrait">5.1. Methods in <code>RenderingTrait</code></h4>
+<div class="sect2">
+<h3 id="methods-in-renderingtrait">6.1. Methods in <code>RenderingTrait</code></h3>
 <div class="ulist">
 <ul>
 <li>
@@ -749,8 +827,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 <p>All methods take all the arguments that their respective service&#8217;s <code>render()</code> method take, plus some extras.</p>
 </div>
 </div>
-<div class="sect3">
-<h4 id="extra-render-arguments">5.2. Extra Render Arguments</h4>
+<div class="sect2">
+<h3 id="extra-render-arguments">6.2. Extra Render Arguments</h3>
 <div class="paragraph">
 <p>All rendering methods take a <code>Map</code> argument that specifies which template to render and the model to use (in most cases).</p>
 </div>
@@ -768,8 +846,8 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="default-content-types">5.3. Default Content Types</h4>
+<div class="sect2">
+<h3 id="default-content-types">6.3. Default Content Types</h3>
 <div class="paragraph">
 <p>The default content types are:</p>
 </div>
@@ -790,22 +868,24 @@ new File("coupon.jpg").withOutputStream { outputStream -&gt;
 </ul>
 </div>
 </div>
-<div class="sect3">
-<h4 id="large-filesrenders">5.4. Large Files/Renders</h4>
+<div class="sect2">
+<h3 id="large-filesrenders">6.4. Large Files/Renders</h3>
 <div class="paragraph">
 <p>See the section on <a href="#caching_and_performance">caching and performance</a> for some other arguments that can help with large renders.</p>
 </div>
 </div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="caching_and_performance">7. Caching And Performance</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="caching_and_performance">6. Caching And Performance</h3>
-<div class="sect3">
-<h4 id="caching">6.1. Caching</h4>
+<h3 id="caching">7.1. Caching</h3>
 <div class="paragraph">
 <p>Rendering can be an expensive operation so you may need to implement caching (using the excellent <a href="https://github.com/apache/grails-core/tree/7.0.x/grails-cache">grails-cache</a> plugin).</p>
 </div>
-<div class="sect4">
-<h5 id="document-caching">Document Caching</h5>
+<div class="sect3">
+<h4 id="document-caching">7.1.1. Document Caching</h4>
 <div class="paragraph">
 <p>Rendering works internally by creating a <code>org.w3c.dom.Document</code> instance from the GSP page via the <code>xhtmlDocumentService</code>. If you plan to render the same GSP as different output formats, you may want to cache the created Document.</p>
 </div>
@@ -842,8 +922,8 @@ class CouponDocumentService {
 </div>
 </div>
 </div>
-<div class="sect4">
-<h5 id="byte-caching">Byte Caching</h5>
+<div class="sect3">
+<h4 id="byte-caching">7.1.2. Byte Caching</h4>
 <div class="paragraph">
 <p>You can take things further and actually cache the rendered bytes.</p>
 </div>
@@ -880,8 +960,8 @@ class CouponGifService {
 </div>
 </div>
 </div>
-<div class="sect3">
-<h4 id="avoiding-byte-copying">6.2. Avoiding Byte Copying</h4>
+<div class="sect2">
+<h3 id="avoiding-byte-copying">7.2. Avoiding Byte Copying</h3>
 <div class="paragraph">
 <p>When rendering to the response, the content is first written to a temp buffer before being written to the response. This is so the number of bytes can be determined and the <code>Content-Length</code> header can be set.</p>
 </div>
@@ -890,8 +970,10 @@ class CouponGifService {
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="inline-images">7. Inline Images</h3>
+</div>
+<div class="sect1">
+<h2 id="inline-images">8. Inline Images</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>This plugin adds support for inline images via <a href="http://en.wikipedia.org/wiki/Data_URI_scheme">data URIs</a>. This is useful for situations where the images you need to embed in a rendered PDF or image are not accessible via a URL.</p>
 </div>
@@ -934,8 +1016,10 @@ class CouponGifService {
 </div>
 </div>
 </div>
-<div class="sect2">
-<h3 id="exotic-characters">8. Exotic Characters</h3>
+</div>
+<div class="sect1">
+<h2 id="exotic-characters">9. Exotic Characters</h2>
+<div class="sectionbody">
 <div class="paragraph">
 <p>In most cases, there are no issues with dealing with exotic Unicode characters. However, certain characters will not render in PDF documents without some extra work (the same problem does not exist with image rendering).</p>
 </div>
@@ -960,12 +1044,27 @@ body {
 <div class="paragraph">
 <p>See <a href="https://flyingsaucerproject.github.io/flyingsaucer/r8/guide/users-guide-R8.html#xil_43">this page</a> for details on these CSS directives.</p>
 </div>
+<div class="sect2">
+<h3 id="formatting-time-on-java-20-and-later">9.1. Formatting time on Java 20 and later</h3>
+<div class="paragraph">
+<p>Since Java 20, localized time formats (for example <code>DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)</code> or <code>DateFormat.getTimeInstance()</code> in an English locale) put a narrow no-break space (<code>U+202F</code>) before AM/PM. Patterns you write yourself, such as <code>h:mm a</code>, are not affected. In PDFs, the character is silently dropped unless the font has a glyph for it, so <code>10:30 AM</code> renders as <code>10:30AM</code>. The default PDF fonts and Arial Unicode MS have no such glyph. Image rendering is not affected.</p>
+</div>
+<div class="paragraph">
+<p>Replace the character with a normal space before rendering:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code data-lang="groovy">String time = formatter.format(value).replace('\u202F', ' ')</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 7.0.4-SNAPSHOT<br>
-Last updated 2026-10-26 14:02:57 UTC
+Version 8.0.0-SNAPSHOT<br>
+Last updated 2026-10-26 14:05:58 UTC
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/run_prettify.min.js"></script>
