@@ -18,14 +18,13 @@ package grails.plugins.rendering
 
 import grails.plugins.rendering.datauri.DataUri
 import grails.testing.web.taglib.TagLibUnitTest
+import org.grails.taglib.GrailsTagException
 import spock.lang.Shared
-
 import spock.lang.Specification
 
 class RenderingTagLibSpec extends Specification implements TagLibUnitTest<RenderingTagLib> {
 
 	@Shared bytes = [1,2,3] as byte[]
-	@Shared encoded = new String(Base64.encoder.encode(bytes), 'UTF-8')
 	
 	@Shared String template
 
@@ -87,5 +86,73 @@ class RenderingTagLibSpec extends Specification implements TagLibUnitTest<Render
 		expect:
 		outputMimeType == "image/jpeg"
 		outputBytes == bytes
+	}
+
+	def "#tag renders exactly one img"() {
+		given:
+		template = "<rendering:${tag} bytes=\"\${bytes}\" />"
+
+		expect:
+		output.findAll('<img').size() == 1
+
+		where:
+		tag << ['inlineGif', 'inlinePng', 'inlineJpeg']
+	}
+
+	def "extra attributes are copied onto the img"() {
+		given:
+		template = '<rendering:inlineImage mimeType="image/png" bytes="${bytes}" alt="logo" class="thumb" />'
+
+		expect:
+		output.contains('alt="logo"')
+		output.contains('class="thumb"')
+		!output.contains('mimeType')
+	}
+
+	def "inlineImage without mimeType fails"() {
+		when:
+		applyTemplate('<rendering:inlineImage bytes="${bytes}" />', [bytes: bytes])
+
+		then:
+		def e = thrown(GrailsTagException)
+		e.message.contains("'mimeType' is required")
+	}
+
+	def "#template fails without bytes"() {
+		when:
+		applyTemplate(template)
+
+		then:
+		def e = thrown(GrailsTagException)
+		e.message.contains("'bytes' is required")
+
+		where:
+		template << [
+				'<rendering:inlineImage mimeType="image/png" />',
+				'<rendering:inlinePng />',
+				'<rendering:inlineGif />',
+				'<rendering:inlineJpeg />'
+		]
+	}
+
+	def "attribute values are html escaped"() {
+		when:
+		def output = applyTemplate('<rendering:inlinePng bytes="${bytes}" alt="${alt}" />',
+				[bytes: bytes, alt: '"><script>x</script>'])
+
+		then:
+		output.contains('alt="&quot;&gt;&lt;script&gt;x&lt;/script&gt;"')
+		!output.contains('<script>')
+	}
+
+	def "falsey attribute values are kept and null is blank"() {
+		when:
+		def output = applyTemplate('<rendering:inlinePng bytes="${bytes}" width="${width}" hidden="${hidden}" alt="${alt}" />',
+				[bytes: bytes, width: 0, hidden: false, alt: null])
+
+		then:
+		output.contains('width="0"')
+		output.contains('hidden="false"')
+		output.contains('alt=""')
 	}
 }

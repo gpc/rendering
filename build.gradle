@@ -8,7 +8,7 @@ buildscript {
     }
     repositories {
         mavenCentral()
-        maven { url "https://repo.grails.org/grails/restricted" }
+        maven { url = "https://repo.grails.org/grails/restricted" }
         maven {
             url = 'https://repository.apache.org/content/groups/snapshots'
             content {
@@ -44,7 +44,7 @@ ext {
 
 repositories {
     mavenCentral()
-    maven { url "https://repo.grails.org/grails/restricted" }
+    maven { url = "https://repo.grails.org/grails/restricted" }
     maven {
         url = 'https://repository.apache.org/content/groups/snapshots'
         content {
@@ -58,7 +58,7 @@ dependencies {
     compileOnly platform("org.apache.grails:grails-bom:$grailsVersion")
     compileOnly 'org.apache.grails:grails-dependencies-starter-web'
 
-    api('org.xhtmlrenderer:flying-saucer-pdf:9.9.5')
+    api('org.xhtmlrenderer:flying-saucer-pdf:10.6.0')
     api("org.apache.pdfbox:pdfbox:3.0.8")
 
     testImplementation platform("org.apache.grails:grails-bom:$grailsVersion")
@@ -68,8 +68,6 @@ dependencies {
 
 
 }
-
-compileJava.options.release = 17
 
 jar {
   exclude "RenderingController**"
@@ -110,6 +108,11 @@ grailsPublish {
             halfbaked   : "Eamonn O'Connell",
             codeconsole : "Scott Murphy",
     ]
+}
+
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
 }
 
 compileJava.options.release = javaVersion.toInteger()

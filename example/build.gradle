@@ -63,8 +63,8 @@ dependencies {
     runtimeOnly "cloud.wondrify:asset-pipeline-grails"
     runtimeOnly "com.h2database:h2"
     runtimeOnly "com.zaxxer:HikariCP"
-    runtimeOnly "org.fusesource.jansi:jansi"
     integrationTestImplementation testFixtures("org.apache.grails:grails-geb")
+    integrationTestImplementation testFixtures("org.apache.grails.web:grails-web-common")
     testImplementation "org.apache.grails:grails-testing-support-datamapping"
     testImplementation "org.apache.grails:grails-testing-support-web"
     testImplementation "org.spockframework:spock-core"
@@ -73,7 +73,12 @@ dependencies {
 
 }
 
-compileJava.options.release = 17
+java {
+    sourceCompatibility = JavaVersion.toVersion(javaVersion)
+    targetCompatibility = JavaVersion.toVersion(javaVersion)
+}
+
+compileJava.options.release = javaVersion.toInteger()
 
 tasks.withType(Test).configureEach {
     useJUnitPlatform()

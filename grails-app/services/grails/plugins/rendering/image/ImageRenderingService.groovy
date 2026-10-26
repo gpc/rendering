@@ -24,6 +24,7 @@ import org.w3c.dom.Document
 import org.xhtmlrenderer.simple.Graphics2DRenderer
 
 import javax.imageio.ImageIO
+import javax.xml.parsers.DocumentBuilderFactory
 import java.awt.*
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
@@ -65,9 +66,9 @@ abstract class ImageRenderingService extends RenderingService {
         boolean autosizeWidth = args.autosize?.width == null || args.autosize?.width == true
         boolean autosizeHeight = args.autosize?.height == null || args.autosize?.height == true
 
-        def renderer = new Graphics2DRenderer()
+        def renderer = new Graphics2DRenderer(emptyDocument(), args.base as String)
         configureRenderer(renderer)
-        renderer.setDocument(document, args.base as String)
+        renderer.panel.setDocument(document, args.base as String)
 
         int imageWidth = renderWidth
         Integer imageHeight = renderHeight
@@ -167,5 +168,11 @@ abstract class ImageRenderingService extends RenderingService {
         graphics.dispose()
 
         scaled
+    }
+
+    private static Document emptyDocument() {
+        def document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument()
+        document.appendChild(document.createElementNS('http://www.w3.org/1999/xhtml', 'html'))
+        document
     }
 }

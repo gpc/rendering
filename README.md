@@ -11,6 +11,11 @@ Install
 
 To install just add to the dependency block in the `build.gradle`
 
+For Grails 8.x (Java 21+)
+```groovy
+implementation 'io.github.gpc:rendering:8.0.0'
+```
+
 For Grails 7.x
 ```groovy
 implementation 'io.github.gpc:rendering:7.0.1'

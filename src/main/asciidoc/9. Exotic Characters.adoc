@@ -18,3 +18,14 @@ body {
 }
 ----
 See https://flyingsaucerproject.github.io/flyingsaucer/r8/guide/users-guide-R8.html#xil_43[this page] for details on these CSS directives.
+
+== Formatting time on Java 20 and later
+
+Since Java 20, localized time formats (for example `DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT)` or `DateFormat.getTimeInstance()` in an English locale) put a narrow no-break space (`U+202F`) before AM/PM. Patterns you write yourself, such as `h:mm a`, are not affected. In PDFs, the character is silently dropped unless the font has a glyph for it, so `10:30 AM` renders as `10:30AM`. The default PDF fonts and Arial Unicode MS have no such glyph. Image rendering is not affected.
+
+Replace the character with a normal space before rendering:
+
+[source,groovy]
+----
+String time = formatter.format(value).replace('\u202F', ' ')
+----

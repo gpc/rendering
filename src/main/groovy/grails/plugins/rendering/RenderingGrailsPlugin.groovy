@@ -22,7 +22,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class RenderingGrailsPlugin extends Plugin {
 
-    def grailsVersion = "7.0 > *"
+    def grailsVersion = "8.0 > *"
 
     def pluginExcludes = [
             "grails-app/views/**",
